@@ -16,10 +16,16 @@ export default RootLayout;
 const RootLayoutContainer = styled.div`
   width: 390px;
   height: 844px;
-  background-color: black;
+  background-color: white;
 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  // 700px 까지는 가득 차도 될 것 같음.
+  @media (max-width: 700px) {
+    width: 100vw;
+    height: 100vh;
+  }
 `;

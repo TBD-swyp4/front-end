@@ -21,8 +21,8 @@ const ErrorPage = () => {
 export default ErrorPage;
 
 const ErrorContainer = styled.div`
-  width: 390px;
-  height: 844px;
+  width: 100vw;
+  height: 100vh;
   //background-color: black;
 
   display: flex;

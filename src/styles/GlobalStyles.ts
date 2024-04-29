@@ -88,7 +88,9 @@ const GlobalStyles = createGlobalStyle`
     justify-content: center;
     width: 100vw;
     height: 100vh;
+    overflow: hidden; // 모바일 화면에서 세로, 가로 스크롤 방지
   }
+
 `;
 
 export default GlobalStyles;
