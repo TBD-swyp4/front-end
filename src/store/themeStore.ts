@@ -7,7 +7,7 @@ import { ThemeStoreType } from '../types/themeType';
 export const useThemeStore = create(
   persist<ThemeStoreType>(
     (set) => ({
-      isDarkMode: true,
+      isDarkMode: false,
       toggleTheme: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
     }),
     {
