@@ -5,10 +5,21 @@ import 'styled-components';
 declare module 'styled-components' {
   export type DefaultTheme = {
     bgImage: string;
-    fontColor: string;
-    modalBox: string;
-    stateModal: string;
-    footerArea: string;
-    button: string;
+    colors: {
+      font: string;
+      background: string;
+      modalBox: string;
+      stateModal: string;
+      footerArea: string;
+      button: string;
+      navFont: string;
+      navBackground: string;
+      contentBox: string;
+    };
+    shadows: {
+      on: string;
+      under: string;
+      around: string;
+    };
   };
 }

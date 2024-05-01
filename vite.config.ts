@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@stores': path.resolve(__dirname, 'src/stores'),
+      '@layout': path.resolve(__dirname, 'src/components/layout'),
     },
   },
 });

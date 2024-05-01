@@ -25,7 +25,8 @@
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/assets/*"],
-      "@stores/*": ["src/stores/*"]
+      "@stores/*": ["src/stores/*"],
+      "@layout/*": ["src/components/layout/*"]
     }
   },
   "include": ["src", "svg.d.ts"],
