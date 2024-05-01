@@ -1,4 +1,4 @@
-import { useThemeStore } from '../../store/themeStore';
+import { useThemeStore } from '@stores/themeStore';
 import styled from 'styled-components';
 
 // #20240429.syjang, 환경설정 테스트 페이지입니다. 추후 테마 변경 시 아래와 같이 가져다 쓰면 됩니다.

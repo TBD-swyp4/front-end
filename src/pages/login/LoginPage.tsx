@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 import NaverLogin from './naverLogin/NaverLogin';
+import { useAuthStore } from '@stores/authStore';
+import { Navigate } from 'react-router-dom';
+
 const LoginPage = () => {
+  // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <LoginWrapper>
       <BrandWrapper></BrandWrapper>

@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import { useAuthStore } from './../../../store/authStore';
+import { useAuthStore } from '@stores/authStore';
 import { useNavigate } from 'react-router-dom';
 
 const NaverLogin = () => {
   const navigator = useNavigate();
-  return (
-    <Button
-      onClick={() => {
-        useAuthStore.getState().setLoginState();
-        navigator('/');
-      }}></Button>
-  );
+  const { setLoginState } = useAuthStore((state) => {
+    return { setLoginState: state.setLoginState };
+  });
+  const handleClickLogin = () => {
+    setLoginState();
+    navigator('/');
+  };
+  return <Button onClick={handleClickLogin}></Button>;
 };
 
 export default NaverLogin;
