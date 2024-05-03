@@ -3,14 +3,24 @@ import { useThemeStore } from '@stores/themeStore';
 import styled from 'styled-components';
 import type { NavLayoutProps } from '../../types/navigationTypes';
 
+import { useNavigate } from 'react-router-dom';
+
 const NavigationLayout = ({ children }: NavLayoutProps) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
             centerContent={<div>환경설정</div>}
-            rightContent={TopNavigation.TopBar.CloseButton}
+            rightContent={
+              <TopNavigation.TopBar.CloseButton
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+            }
           />
         }></TopNavigation>
       {children}

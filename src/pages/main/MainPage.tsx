@@ -5,15 +5,23 @@ import Modal from '@components/modal';
 
 import type { NavLayoutProps } from '../../types/navigationTypes';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
+  const navigate = useNavigate();
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
             centerContent={<div>메인</div>}
-            rightContent={TopNavigation.TopBar.SettingButton}
+            rightContent={
+              <TopNavigation.TopBar.SettingButton
+                onClick={() => {
+                  navigate('/setting');
+                }}
+              />
+            }
           />
         }
         _Extension={<div style={{ width: '100%', height: '30px' }}>대충 날짜 선택</div>}

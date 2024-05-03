@@ -1,10 +1,7 @@
-import styled, { css } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-// 상단 바에서 쓰일 아이콘들 선언
-import SettingIcon from '@assets/images/icon/settingIcon.svg?react';
-import PrevIcon from '@assets/images/icon/prevButton.svg?react';
-import CloseIcon from '@assets/images/icon/closeButton.svg?react';
+import styled from 'styled-components';
 import LogoIcon from '@assets/images/icon/logo.svg?react';
+
+import { CloseBtn, PrevBtn, SettingBtn } from '@components/button';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -40,70 +37,10 @@ const Item = styled.div<{ type: string }>`
   margin: 10px;
 `;
 
-const buttonStyle = css`
-  color: #292d32; // svg 파일에 fill 이 속성으로 정의되어 있는 경우 사용 가능. (fill="currentColor")
-  stroke: currentColor; // 현재 컬러를 stroke 색상으로 사용
-  stroke-width: 3; // svg 파일에 stroke 이 속성으로 정의되어 있는 경우 사용 가능. (fill="currentColor")
-  transition:
-    color 0.2s,
-    transform 0.2s,
-    stroke-width 0.2s; // 트랜지션 추가
-  cursor: pointer;
-  &:hover {
-    color: #555; // 마우스 호버 시 색상 변경
-    transform: scale(1.1); // 10% 크기 증가
-    stroke-width: 10;
-  }
-`;
-
-const CloseBtnWrapper = styled(CloseIcon)`
-  ${buttonStyle}
-  width: 20px;
-  height: 20px;
-  justify-content: flex-end;
-`;
-
-// 어떤 이벤트가 발생할지 모르는 버튼, 스타일 컴포넌트로 돌려주기
-const PrevBtn = styled(PrevIcon)`
-  ${buttonStyle}
-  width: 20px;
-  height: 20px;
-`;
-
-const SettingBtnWrapper = styled(SettingIcon)`
-  ${buttonStyle}
-  width: 24px;
-  height: 24px;
-`;
-
-// 기능이 확실히 고정된 버튼
-const SettingBtn = () => {
-  const navigate = useNavigate();
-  return (
-    <SettingBtnWrapper
-      onClick={() => {
-        navigate('/setting');
-      }}
-    />
-  );
-};
-
-const CloseBtn = () => {
-  const navigate = useNavigate();
-  return (
-    <CloseBtnWrapper
-      onClick={() => {
-        navigate(-1);
-      }}
-    />
-  );
-};
-
-// 이것 역시 가져다 쓰는 곳에서 topnavigation->topbar->closebutton으로 접근 가능해
-// import 구문이 필요 없다.
+// 이것 역시 가져다 쓰는 곳에서 topnavigation->topbar->closebutton으로 접근 가능해 import 구문이 필요 없다.
 TopBar.PrevButton = PrevBtn;
-TopBar.Logo = LogoIcon; // 로고는 좀 모양이 달라질 수 있음.
-TopBar.SettingButton = <SettingBtn />;
-TopBar.CloseButton = <CloseBtn />;
+TopBar.SettingButton = SettingBtn;
+TopBar.CloseButton = CloseBtn;
+TopBar.Logo = LogoIcon;
 
 export default TopBar;

@@ -3,14 +3,23 @@ import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
 import type { NavLayoutProps } from '../../types/navigationTypes';
 
+import { useNavigate } from 'react-router-dom';
+
 const NavigationLayout = ({ children }: NavLayoutProps) => {
+  const navigate = useNavigate();
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
             centerContent={<div>소비 내역 리스트</div>}
-            rightContent={TopNavigation.TopBar.SettingButton}
+            rightContent={
+              <TopNavigation.TopBar.SettingButton
+                onClick={() => {
+                  navigate('/setting');
+                }}
+              />
+            }
           />
         }></TopNavigation>
       {children}

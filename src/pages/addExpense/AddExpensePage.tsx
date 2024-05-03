@@ -3,15 +3,30 @@ import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 import type { NavLayoutProps } from '../../types/navigationTypes';
 
+import { useNavigate } from 'react-router-dom';
+
 const NavigationLayout = ({ children }: NavLayoutProps) => {
+  const navigate = useNavigate();
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            leftContent={<TopNavigation.TopBar.PrevButton />}
+            leftContent={
+              <TopNavigation.TopBar.PrevButton
+                onClick={() => {
+                  alert('Click Prev');
+                }}
+              />
+            }
             centerContent={<div>소비 입력</div>}
-            rightContent={TopNavigation.TopBar.CloseButton}
+            rightContent={
+              <TopNavigation.TopBar.CloseButton
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+            }
           />
         }></TopNavigation>
       {children}
