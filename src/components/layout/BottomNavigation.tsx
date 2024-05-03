@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const MainNavigator = () => {
+const BottomNavigation = () => {
   const navigator = useNavigate();
   return (
-    <NavContainer>
+    <Wrapper>
       <NavItem
         onClick={() => {
           navigator('/');
@@ -21,35 +21,36 @@ const MainNavigator = () => {
       </NavItem>
       <NavItem
         onClick={() => {
-          navigator('/list');
+          navigator('/expense');
         }}>
         <NavIcon></NavIcon>
         <NavTitle>조회</NavTitle>
       </NavItem>
       <NavItem
         onClick={() => {
-          navigator('/write');
+          navigator('/add');
         }}>
         <NavIcon></NavIcon>
         <NavTitle>입력</NavTitle>
       </NavItem>
       <NavItem
         onClick={() => {
-          navigator('/setting');
+          navigator('/statistics');
         }}>
         <NavIcon></NavIcon>
-        <NavTitle>환경설정</NavTitle>
+        <NavTitle>둘러보기</NavTitle>
       </NavItem>
-    </NavContainer>
+    </Wrapper>
   );
 };
 
-export default MainNavigator;
+export default BottomNavigation;
 
-const NavContainer = styled.nav`
+const Wrapper = styled.nav`
   display: flex;
   width: 100%;
-  height: 80px;
+  height: 80px; // 하단 네비게이션 바 높이
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   background-color: ${(props) => props.theme.colors.navBackground};

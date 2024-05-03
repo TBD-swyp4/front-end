@@ -1,37 +1,58 @@
 import styled from 'styled-components';
-import MainLayout from '@layout/MainLayout';
+import TopNavigation from '@layout/TopNavigation';
+import BottomNavigation from '@layout/BottomNavigation';
+import Modal from '@components/modal';
 
-const MainPage = () => {
+import type { NavLayoutProps } from '../../types/navigationTypes';
+import { useState } from 'react';
+
+const NavigationLayout = ({ children }: NavLayoutProps) => {
   return (
     <>
-      <MainLayout>
-        <BudgetContainer>예산영역</BudgetContainer>
-        <CalendarWrapper>달력영역</CalendarWrapper>
-        <DayListContainer>하루 소비 영역</DayListContainer>
-      </MainLayout>
+      <TopNavigation
+        _TopBar={
+          <TopNavigation.TopBar
+            centerContent={<div>메인</div>}
+            rightContent={TopNavigation.TopBar.SettingButton}
+          />
+        }
+        _Extension={<div style={{ width: '100%', height: '30px' }}>대충 날짜 선택</div>}
+      />
+      {children}
+      <BottomNavigation />
+    </>
+  );
+};
+
+const MainPage = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
+  return (
+    <>
+      <NavigationLayout>
+        <MainContainer>
+          <div>메인apdla</div>
+          <button onClick={toggleModal}>모달을 띄워봅시다</button>
+        </MainContainer>
+        {showModal && (
+          <Modal onClose={toggleModal}>
+            <div>모달 내용이 되는건가</div>
+          </Modal>
+        )}
+      </NavigationLayout>
     </>
   );
 };
 
 export default MainPage;
 
-const Section = styled.section`
-  background-color: ${(props) => props.theme.colors.contentBox};
-  border-radius: 6px;
-  box-shadow: ${(props) => props.theme.shadows.under};
-`;
+const MainContainer = styled.div`
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
 
-const BudgetContainer = styled(Section)`
-  height: 30%;
-  width: 100%;
-  margin-bottom: 10px;
-`;
-const CalendarWrapper = styled(Section)`
-  height: 50%;
-  width: 100%;
-  margin-bottom: 10px;
-`;
-const DayListContainer = styled(Section)`
-  height: 20%;
-  width: 100%;
+  overflow: auto;
 `;
