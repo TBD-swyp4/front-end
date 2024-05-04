@@ -6,7 +6,7 @@ type ProtectedRouteProps = {
   children: ReactNode;
 };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // #20240429.syjang, '체험하기' 상태 분기 추가 필요
   // 1. 로그인 상태 가져오기
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);

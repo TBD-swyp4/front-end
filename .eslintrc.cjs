@@ -22,7 +22,6 @@ module.exports = {
   plugins: ['react-refresh', 'prettier', '@typescript-eslint'],
   rules: {
     'react/jsx-no-target-blank': 'off',
-    'react/prop-types': 'off', // #20240429.syjang, React.FC<ProtectedRouteProps> 형태의 타입 선언으로 충분하도록 설정 추가
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },
 };
