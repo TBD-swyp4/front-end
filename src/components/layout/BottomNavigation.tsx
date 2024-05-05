@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+import { flexColumnCenter } from '@styles/CommonStyles';
 const BottomNavigation = () => {
   const navigator = useNavigate();
   return (
@@ -48,11 +48,13 @@ export default BottomNavigation;
 
 const Wrapper = styled.nav`
   display: flex;
-  width: 100%;
-  height: 80px; // 하단 네비게이션 바 높이
-  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 80px; // 하단 네비게이션 바 높이
+
   background-color: ${(props) => props.theme.colors.navBackground};
   box-shadow: ${(props) => props.theme.shadows.on};
   padding-left: 20px;
@@ -62,10 +64,7 @@ const Wrapper = styled.nav`
 const NavItem = styled.div`
   width: 50px;
   height: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${flexColumnCenter}
 `;
 
 const NavIcon = styled.a`

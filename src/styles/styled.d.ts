@@ -6,15 +6,16 @@ declare module 'styled-components' {
   export type DefaultTheme = {
     bgImage: string;
     colors: {
+      main: string;
       font: string;
       background: string;
-      modalBox: string;
-      stateModal: string;
+      mainBackground: string;
       footerArea: string;
       button: string;
       navFont: string;
       navBackground: string;
       contentBox: string;
+      minus: string;
     };
     shadows: {
       on: string;

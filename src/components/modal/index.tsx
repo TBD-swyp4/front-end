@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useRef } from 'react';
-// import useOutSideClick from '@shared/hooks/useOutsideClick';
 import ModalPortal from '@utils/ui/ModalPortal';
 import useOutSideClick from '@hooks/useOutsideClick';
 

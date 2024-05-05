@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { CloseBtn, PrevBtn, SettingBtn, LogoBtn } from '@components/button';
+import { CloseBtn, PrevBtn, SettingBtn, LogoBtn, LogoWhiteBtn } from '@components/button';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -41,5 +41,6 @@ TopBar.PrevButton = PrevBtn;
 TopBar.SettingButton = SettingBtn;
 TopBar.CloseButton = CloseBtn;
 TopBar.LogoButton = LogoBtn;
+TopBar.LogoWhiteButton = LogoWhiteBtn;
 
 export default TopBar;
