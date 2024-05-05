@@ -38,14 +38,14 @@ const Wrapper = styled.div`
   justify-content: space-between;
   font-size: 15px;
   font-weight: 500;
-  width: 218px;
+  width: 220px;
 `;
 const BtnWrapper = styled.div`
   display: flex;
   height: 100%;
   align-items: center;
   justify-content: center;
-  padding-bottom: 2px;
+  padding-top: 3px;
   margin-left: 8px;
   margin-right: 8px;
 `;
