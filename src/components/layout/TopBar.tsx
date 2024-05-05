@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import LogoIcon from '@assets/images/icon/logo.svg?react';
 
-import { CloseBtn, PrevBtn, SettingBtn } from '@components/button';
+import { CloseBtn, PrevBtn, SettingBtn, LogoBtn } from '@components/button';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -41,6 +40,6 @@ const Item = styled.div<{ type: string }>`
 TopBar.PrevButton = PrevBtn;
 TopBar.SettingButton = SettingBtn;
 TopBar.CloseButton = CloseBtn;
-TopBar.Logo = LogoIcon;
+TopBar.LogoButton = LogoBtn;
 
 export default TopBar;

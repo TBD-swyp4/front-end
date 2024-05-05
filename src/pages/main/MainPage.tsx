@@ -7,13 +7,26 @@ import type { NavLayoutProps } from '../../types/navigationTypes';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const NavigationLayout = ({ children }: NavLayoutProps) => {
+import useMonthNavigator from '@hooks/useMonthNavigator';
+import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
+
+type MainNavProps = NavLayoutProps & {
+  monthNav: {
+    currentDate: Date;
+    handlePrevMonth: () => void;
+    handleNextMonth: () => void;
+  };
+};
+
+const NavigationLayout = ({ children, monthNav }: MainNavProps) => {
   const navigate = useNavigate();
+
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
+            leftContent={<TopNavigation.TopBar.LogoButton />}
             centerContent={<div>메인</div>}
             rightContent={
               <TopNavigation.TopBar.SettingButton
@@ -24,7 +37,11 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
             }
           />
         }
-        _Extension={<div style={{ width: '100%', height: '30px' }}>대충 날짜 선택</div>}
+        _Extension={
+          <MonthNavWrapper>
+            <MonthNavigatorBtn {...monthNav} />
+          </MonthNavWrapper>
+        }
       />
       {children}
       <BottomNavigation />
@@ -32,15 +49,25 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
   );
 };
 
+const MonthNavWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 40px;
+`;
+
 const MainPage = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
+
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
   return (
     <>
-      <NavigationLayout>
+      <NavigationLayout monthNav={monthNav}>
         <MainContainer>
           <div>메인apdla</div>
           <button onClick={toggleModal}>모달을 띄워봅시다</button>

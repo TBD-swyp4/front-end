@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import SettingIcon from '@assets/images/icon/settingIcon.svg?react';
 import PrevIcon from '@assets/images/icon/prevButton.svg?react';
 import CloseIcon from '@assets/images/icon/closeButton.svg?react';
+import LogoIcon from '@assets/images/icon/logo.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -41,4 +42,10 @@ export const SettingBtn = styled(SettingIcon)`
   color: #767676;
   width: 24px;
   height: 24px;
+`;
+
+export const LogoBtn = styled(LogoIcon)`
+  width: 110px;
+  height: 26px;
+  filter: drop-shadow(1px 3px 4px rgba(0, 0, 0, 0.2));
 `;
