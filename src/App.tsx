@@ -9,14 +9,13 @@ import { useThemeStore } from '@stores/themeStore';
 
 const App = () => {
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
   return (
-    <>
-      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <GlobalFonts />
-        <Outlet />
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <GlobalStyles />
+      <GlobalFonts />
+      <Outlet />
+    </ThemeProvider>
   );
 };
 

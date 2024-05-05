@@ -91,6 +91,10 @@ const GlobalStyles = createGlobalStyle`
     overflow: hidden; // 모바일 화면에서 세로, 가로 스크롤 방지
   }
 
+  #root {
+    overflow: hidden;
+  }
+
 `;
 
 export default GlobalStyles;
