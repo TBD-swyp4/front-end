@@ -1,18 +1,18 @@
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import styled from 'styled-components';
 import { PrevBtn } from '@components/button';
-import { flexCenter } from '@styles/CommonStyles';
+import { flexBetween, flexCenter } from '@styles/CommonStyles';
 
 type MonthNavigatorBtnProps = {
   currentDate: Date;
-  handlePrevMonth: () => void;
-  handleNextMonth: () => void;
+  previousMonth: () => void;
+  nextMonth: () => void;
   color?: string;
 };
 const MonthNavigatorBtn = ({
   currentDate,
-  handlePrevMonth,
-  handleNextMonth,
+  previousMonth,
+  nextMonth,
   color = 'black',
 }: MonthNavigatorBtnProps) => {
   const startDate: Date = startOfMonth(currentDate);
@@ -23,11 +23,11 @@ const MonthNavigatorBtn = ({
   return (
     <Wrapper color={color}>
       <BtnWrapper>
-        <NavBtn color={color} onClick={handlePrevMonth} />
+        <NavBtn color={color} onClick={previousMonth} />
       </BtnWrapper>
       <Text>{`${formatDate(startDate)} - ${formatDate(endDate)}`}</Text>
       <BtnWrapper>
-        <NavBtn className="rotate-180" color={color} onClick={handleNextMonth} />
+        <NavBtn className="rotate-180" color={color} onClick={nextMonth} />
       </BtnWrapper>
     </Wrapper>
   );
@@ -36,9 +36,7 @@ const MonthNavigatorBtn = ({
 export default MonthNavigatorBtn;
 
 const Wrapper = styled.div<{ color: string }>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flexBetween}
   font-size: 14px;
   font-weight: 700;
   width: 220px;

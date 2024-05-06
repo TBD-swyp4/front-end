@@ -1,18 +1,23 @@
-import { absoluteCenter, flexCenter } from '@styles/CommonStyles';
+import { absoluteCenter, flexBetween, flexCenter } from '@styles/CommonStyles';
 import { useEffect, useRef, useState } from 'react';
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
 import { SpeechBubbleBtn } from '@components/button';
 import styled from 'styled-components';
 
-const SatisfactionRange = () => {
+type SatisfactionRangeProps = {
+  satisfaction: number;
+  isEdit?: boolean;
+};
+
+const SatisfactionRange = ({ satisfaction, isEdit = false }: SatisfactionRangeProps) => {
   const max = 5;
   const min = 1;
 
-  const rangeRadius = 6;
-  const rangeThumb = 16;
-  const rangeHeight = 10;
+  const radius = 6;
+  const thumb = 16;
+  const height = 10;
   const [rangeWidth, setRangeWidth] = useState<number>(212);
-  const [value, setValue] = useState<number>(3.5); // props로 넘겨받게될듯
+  const [value, setValue] = useState<number>(satisfaction); // props로 넘겨받게될듯
   const rangeRef = useRef<HTMLDivElement>(null);
   // const followSah
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +26,7 @@ const SatisfactionRange = () => {
 
   const getNomalized = (val: number): number => (val - min) / (max - min);
   const calculateLeft = (val: number) => {
-    return getNomalized(val) * (rangeWidth - rangeThumb) + rangeThumb / 2;
+    return getNomalized(val) * (rangeWidth - thumb) + thumb / 2;
   };
   const handleResize = () => {
     if (rangeRef.current) {
@@ -38,17 +43,15 @@ const SatisfactionRange = () => {
 
   return (
     <Wrapper>
-      <RangeBackgroundBar rangeRadius={rangeRadius} />
-      <Left></Left>
+      <RangeBackgroundBar radius={radius} />
+      <Left>
+        <EmotionIcon />
+      </Left>
       <Right>
         <RangeSection ref={rangeRef}>
           <FollowText style={{ left: calculateLeft(value) }}>{value}</FollowText>
           <FollowShape style={{ left: calculateLeft(value) }} />
-          <RangeCustomRail
-            rangeHeight={rangeHeight}
-            rangeRadius={rangeRadius}
-            fill={getNomalized(value) * 100}
-          />
+          <RangeCustomRail height={height} radius={radius} fill={getNomalized(value) * 100} />
           <RangeInput
             type="range"
             value={value}
@@ -56,8 +59,9 @@ const SatisfactionRange = () => {
             max={max}
             step={0.1}
             onChange={handleChange}
-            rangeHeight={rangeHeight}
-            rangeThumb={rangeThumb}
+            height={height}
+            thumb={thumb}
+            disabled={!isEdit}
           />
           <RangeButtonContainer>
             {[1, 2, 3, 4, 5].map((x, i) => (
@@ -87,12 +91,20 @@ const Wrapper = styled.div`
 `;
 
 const Left = styled.div`
+  ${flexCenter}
   width: 50px;
   height: 50px;
   background-color: #f3f3f3;
   flex-shrink: 0;
   border-radius: 50%;
   z-index: 2;
+`;
+
+const EmotionIcon = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fc4873;
 `;
 
 const Right = styled.div`
@@ -109,22 +121,22 @@ const RangeSection = styled.div`
   background-color: transparent;
 `;
 
-const RangeCustomRail = styled.div<{ rangeHeight: number; rangeRadius: number; fill: number }>`
+const RangeCustomRail = styled.div<{ height: number; radius: number; fill: number }>`
   ${absoluteCenter}
   width: 100%;
-  height: ${(props) => props.rangeHeight}px;
-  border-radius: ${(props) => props.rangeRadius}px;
+  height: ${(props) => props.height}px;
+  border-radius: ${(props) => props.radius}px;
   background: linear-gradient(
     90deg,
     #bcbcbc ${(props) => props.fill}%,
     #f2f2f2 ${(props) => props.fill}%
   );
 `;
-const RangeInput = styled.input<{ rangeHeight: number; rangeThumb: number }>`
+const RangeInput = styled.input<{ height: number; thumb: number }>`
   ${absoluteCenter}
 
   width: 100%;
-  height: ${(props) => props.rangeHeight}px; //20px;
+  height: ${(props) => props.height}px; //20px;
 
   background: transparent;
 
@@ -135,8 +147,8 @@ const RangeInput = styled.input<{ rangeHeight: number; rangeThumb: number }>`
   &::-webkit-slider-thumb {
     appearance: none;
     background: white;
-    width: ${(props) => props.rangeThumb}px; //16px;
-    height: ${(props) => props.rangeThumb}px; //16px;
+    width: ${(props) => props.thumb}px; //16px;
+    height: ${(props) => props.thumb}px; //16px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0px 1px 3px 1px #5252521a;
@@ -168,35 +180,31 @@ const FollowText = styled.div`
   font-weight: 600;
 `;
 
-const RangeBackgroundBar = styled.div<{ rangeRadius: number }>`
+const RangeBackgroundBar = styled.div<{ radius: number }>`
   ${absoluteCenter}
   width: 95%;
   height: 10px;
 
-  border-radius: ${(props) => props.rangeRadius}px;
+  border-radius: ${(props) => props.radius}px;
 
   background: linear-gradient(90deg, #bcbcbc 50%, #f2f2f2 50%);
 `;
 
 const RangeButtonContainer = styled.div`
+  ${flexBetween}
+
   position: absolute;
   width: 100%;
   height: 20px;
 
   bottom: -3px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const RangeButton = styled.div`
+  ${flexCenter}
   cursor: pointer;
   width: 15px;
   height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: #333331;
   font-size: 12px;
   font-weight: 400;

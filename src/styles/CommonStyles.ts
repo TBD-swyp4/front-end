@@ -14,6 +14,19 @@ export const flexColumnCenter = css`
   flex-direction: column;
 `;
 
+export const flexBetween = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const flexColumnBetween = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+`;
+
 export const buttonReset = css`
   background: none;
   border: none;

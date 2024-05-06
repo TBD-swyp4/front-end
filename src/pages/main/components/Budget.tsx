@@ -1,4 +1,4 @@
-import { flexCenter, flexColumnCenter, absoluteCenter } from '@styles/CommonStyles';
+import { flexCenter, flexColumnCenter, absoluteCenter, flexBetween } from '@styles/CommonStyles';
 import styled, { keyframes } from 'styled-components';
 import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
@@ -175,15 +175,14 @@ const Info = styled.div`
 `;
 
 const InfoItem = styled.div`
-  ${flexCenter}
-  justify-content: space-between;
+  ${flexBetween}
   width: 100%;
   flex: 1;
 
   & span.info-text {
     font-size: 14px;
     color: #9f9f9f;
-    font-weight: 400;
+    font-weight: 300;
   }
 
   & span.info-price {

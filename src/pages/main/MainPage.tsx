@@ -11,25 +11,22 @@ import { useNavigate } from 'react-router-dom';
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 
-import { flexColumnCenter, mainSection, overflowWithoutScroll } from '@styles/CommonStyles';
+import { flexColumnBetween, mainSection, overflowWithoutScroll } from '@styles/CommonStyles';
 
 import Budget from './components/Budget';
-// import DayExpenseList from './components/DayExpenseList';
-
-import SatisfactionRange from '@components/expense/SatisfactionRange';
+import DayExpenseListTop2 from './components/DayExpenseTop2';
+import Calendar from './components/Calendar';
 
 type MainNavProps = NavLayoutProps & {
-  monthNav: {
-    currentDate: Date;
-    handlePrevMonth: () => void;
-    handleNextMonth: () => void;
-  };
+  currentDate: Date;
+  previousMonth: () => void;
+  nextMonth: () => void;
 };
 
-const NavigationLayout = ({ children, monthNav }: MainNavProps) => {
+const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
   const navigate = useNavigate();
   const mainColor = { color: 'white' };
-  const monthNavProps = { ...monthNav, ...mainColor };
+  const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
   return (
     <>
       <TopNavigation
@@ -79,22 +76,22 @@ const MainPage = () => {
   }, []);
 
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
-
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
   return (
     <>
-      <NavigationLayout monthNav={monthNav}>
+      <NavigationLayout {...monthNav}>
         <MainContainer>
           <BudgetContainer>
             <Budget />
           </BudgetContainer>
-          <CalendarWrapper>달력영역</CalendarWrapper>
+          <CalendarWrapper>
+            <Calendar {...monthNav} />
+          </CalendarWrapper>
           <DayListContainer>
-            {/* <DayExpenseList /> */}
-            <SatisfactionRange />
+            <DayExpenseListTop2 />
           </DayListContainer>
           {/* <button onClick={toggleModal}>모달을 띄워봅시다</button> */}
         </MainContainer>
@@ -122,15 +119,14 @@ const MainContainer = styled.div`
 
 const BudgetContainer = styled.section`
   ${mainSection}
-  ${flexColumnCenter}
-  justify-content: space-between;
+  ${flexColumnBetween}
   height: 250px;
   width: 100%;
   margin-bottom: 10px;
 `;
 const CalendarWrapper = styled.section`
   ${mainSection}
-  height: 150px;
+  min-height: 150px;
   width: 100%;
   margin-bottom: 2px;
 `;

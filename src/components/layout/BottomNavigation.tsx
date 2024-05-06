@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { flexColumnCenter } from '@styles/CommonStyles';
+import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
 const BottomNavigation = () => {
   const navigator = useNavigate();
   return (
@@ -47,9 +47,7 @@ const BottomNavigation = () => {
 export default BottomNavigation;
 
 const Wrapper = styled.nav`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flexBetween}
   flex-shrink: 0;
 
   width: 100%;

@@ -1,21 +1,33 @@
 import { useState } from 'react';
-import { addMonths } from 'date-fns';
+import { startOfMonth, addMonths, subMonths } from 'date-fns';
 
 const useMonthNavigator = () => {
   // 현재 날짜 상태를 useState로 관리
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   // 이전 달로 이동
-  const handlePrevMonth = (): void => {
-    setCurrentDate((prevDate) => addMonths(prevDate, -1));
+  const previousMonth = () => {
+    const newCurrentDate = subMonths(currentDate, 1);
+    setCurrentDate(newCurrentDate);
+    setSelectedDate(startOfMonth(newCurrentDate));
   };
 
   // 다음 달로 이동
-  const handleNextMonth = (): void => {
-    setCurrentDate((prevDate) => addMonths(prevDate, 1));
+  const nextMonth = () => {
+    const newCurrentDate = addMonths(currentDate, 1);
+    setCurrentDate(newCurrentDate);
+    setSelectedDate(startOfMonth(newCurrentDate));
   };
 
-  return { currentDate, handlePrevMonth, handleNextMonth };
+  return {
+    currentDate,
+    setCurrentDate,
+    selectedDate,
+    setSelectedDate,
+    previousMonth,
+    nextMonth,
+  };
 };
 
 export default useMonthNavigator;
