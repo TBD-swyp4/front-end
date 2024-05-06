@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
-import Modal from '@components/modal';
 import Background from '@components/background';
 
 import type { NavLayoutProps } from '../../types/navigationTypes';
@@ -65,7 +64,6 @@ const MonthNavWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [showBackground, setShowBackground] = useState<boolean>(false);
 
   useEffect(() => {
@@ -76,9 +74,6 @@ const MainPage = () => {
   }, []);
 
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
-  const toggleModal = () => {
-    setShowModal((prev) => !prev);
-  };
 
   return (
     <>
@@ -93,13 +88,7 @@ const MainPage = () => {
           <DayListContainer>
             <DayExpenseListTop2 />
           </DayListContainer>
-          {/* <button onClick={toggleModal}>모달을 띄워봅시다</button> */}
         </MainContainer>
-        {showModal && (
-          <Modal onClose={toggleModal}>
-            <div>모달 내용이 되는건가</div>
-          </Modal>
-        )}
         {showBackground && <Background height="36%" color="#47CFB0" />}
       </NavigationLayout>
     </>

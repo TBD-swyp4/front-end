@@ -85,11 +85,11 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate }: CalendarProps)
         {daysToShow.map((day, index) => (
           <CalendarDay
             key={index}
-            className={`calendar-day ${
-              !isSameMonth(day, currentMonth) && 'faded'
-            } ${isToday(day) && 'bold'} ${
-              selectedDate.toDateString() === day.toDateString() && 'selected'
-            } ${[1, 2, 3, 20, 5, 10, 15].includes(day.getDate()) ? 'special' : ''}`}
+            className={`calendar-day 
+            ${!isSameMonth(day, currentMonth) && 'faded'} 
+            ${isToday(day) && 'bold'}
+            ${selectedDate.toDateString() === day.toDateString() && 'selected'} 
+            ${[1, 2, 3, 20, 5, 10, 15].includes(day.getDate()) && isSameMonth(day, currentMonth) ? 'special' : ''}`}
             onClick={() => handleDayClick(day)}>
             {format(day, 'd')}
           </CalendarDay>

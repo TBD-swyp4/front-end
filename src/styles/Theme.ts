@@ -6,7 +6,7 @@ export const lightTheme: DefaultTheme = {
   bgImage: '/src/assets/images/background/backGroundLight.png',
   colors: {
     main: '#47CFB0',
-    font: '#000',
+    font: '#333331',
     background: '#f4f4f4',
     mainBackground: '#47CFB0',
     footerArea: '#fff',
