@@ -40,7 +40,7 @@ const Wrapper = styled.div<{ color: string }>`
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
   width: 220px;
 
   color: ${(props) => props.color};
@@ -48,7 +48,7 @@ const Wrapper = styled.div<{ color: string }>`
 const BtnWrapper = styled.div`
   ${flexCenter}
   height: 100%;
-  padding-top: 3px;
+  /* padding-top: 3px; */
   margin-left: 8px;
   margin-right: 8px;
 `;

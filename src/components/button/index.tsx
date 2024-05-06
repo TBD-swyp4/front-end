@@ -5,6 +5,8 @@ import PrevIcon from '@assets/images/icon/prevButton.svg?react';
 import CloseIcon from '@assets/images/icon/closeButton.svg?react';
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
 import LogoWhiteIcon from '@assets/images/icon/logoWhite.svg?react';
+import SpeechBubbleIcon from '@assets/images/icon/speechBubble.svg?react';
+
 // SVG 아이콘 스타일
 const buttonStyle = css`
   color: #767676; // svg 파일에 fill 이 속성으로 정의되어 있는 경우 사용 가능. (fill="currentColor")
@@ -53,4 +55,9 @@ export const LogoBtn = styled(LogoIcon)`
 export const LogoWhiteBtn = styled(LogoWhiteIcon)`
   width: 110px;
   height: 26px;
+`;
+
+export const SpeechBubbleBtn = styled(SpeechBubbleIcon)`
+  width: 54px;
+  height: 36px;
 `;

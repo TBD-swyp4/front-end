@@ -14,6 +14,9 @@ import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import { flexColumnCenter, mainSection, overflowWithoutScroll } from '@styles/CommonStyles';
 
 import Budget from './components/Budget';
+// import DayExpenseList from './components/DayExpenseList';
+
+import SatisfactionRange from '@components/expense/SatisfactionRange';
 
 type MainNavProps = NavLayoutProps & {
   monthNav: {
@@ -89,7 +92,10 @@ const MainPage = () => {
             <Budget />
           </BudgetContainer>
           <CalendarWrapper>달력영역</CalendarWrapper>
-          <DayListContainer>하루 소비 영역</DayListContainer>
+          <DayListContainer>
+            {/* <DayExpenseList /> */}
+            <SatisfactionRange />
+          </DayListContainer>
           {/* <button onClick={toggleModal}>모달을 띄워봅시다</button> */}
         </MainContainer>
         {showModal && (

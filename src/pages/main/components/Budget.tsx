@@ -65,14 +65,17 @@ const RemainDetail = styled.div`
   & span.remain-month {
     color: #575755;
     font-size: 14px;
+    font-weight: 500;
   }
   & span.remain-price {
+    color: #333331;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 700;
   }
   & span.remain-recommend {
     color: #9f9f9f;
     font-size: 12px;
+    font-weight: 400;
   }
 `;
 
@@ -156,6 +159,8 @@ const BarDetail = styled.div<{ percent: string }>`
     top: 0;
     right: 10px;
     font-size: 12px;
+    font-weight: 400;
+    color: #767676;
   }
 `;
 
@@ -177,13 +182,14 @@ const InfoItem = styled.div`
 
   & span.info-text {
     font-size: 14px;
-    color: gray;
-    font-weight: 300;
+    color: #9f9f9f;
+    font-weight: 400;
   }
 
   & span.info-price {
+    color: #333331;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   & span.minus {

@@ -76,7 +76,7 @@ const ExperienceButton = styled.button`
   height: 80px;
   background-color: ${(props) => props.theme.colors.button};
   font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 500;
+  font-weight: medium;
   font-size: 18px;
   color: white;
 `;

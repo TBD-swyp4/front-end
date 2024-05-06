@@ -78,7 +78,7 @@ const NavIcon = styled.a`
 `;
 const NavTitle = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
   color: ${(props) => props.theme.colors.navFont};
 `;
