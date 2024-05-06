@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useRef } from 'react';
-// import useOutSideClick from '@shared/hooks/useOutsideClick';
 import ModalPortal from '@utils/ui/ModalPortal';
 import useOutSideClick from '@hooks/useOutsideClick';
+import { flexCenter } from '@styles/CommonStyles';
 
 type ModalProps = {
   onClose: () => void; // 모달창 닫기 함수를 넘겨받는다.
@@ -40,12 +40,25 @@ const Overlay = styled.div`
   z-index: 9999;
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const ModalWrap = styled.div`
-  max-width: 600px;
-  height: fit-content;
-  border-radius: 15px;
+  ${flexCenter}
+
+  height: 100%;
+  width: 100%;
+
   position: absolute; // fixed 인 부모 요소 기준으로 위치
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  animation: ${fadeIn} 0.3s ease-out;
 `;

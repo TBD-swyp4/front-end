@@ -1,16 +1,19 @@
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import styled from 'styled-components';
 import { PrevBtn } from '@components/button';
+import { flexBetween, flexCenter } from '@styles/CommonStyles';
 
 type MonthNavigatorBtnProps = {
   currentDate: Date;
-  handlePrevMonth: () => void;
-  handleNextMonth: () => void;
+  previousMonth: () => void;
+  nextMonth: () => void;
+  color?: string;
 };
 const MonthNavigatorBtn = ({
   currentDate,
-  handlePrevMonth,
-  handleNextMonth,
+  previousMonth,
+  nextMonth,
+  color = 'black',
 }: MonthNavigatorBtnProps) => {
   const startDate: Date = startOfMonth(currentDate);
   const endDate: Date = endOfMonth(currentDate);
@@ -18,13 +21,13 @@ const MonthNavigatorBtn = ({
   const formatDate = (date: Date): string => format(date, 'yyyy.MM.dd');
 
   return (
-    <Wrapper>
+    <Wrapper color={color}>
       <BtnWrapper>
-        <NavBtn onClick={handlePrevMonth} />
+        <NavBtn color={color} onClick={previousMonth} />
       </BtnWrapper>
       <Text>{`${formatDate(startDate)} - ${formatDate(endDate)}`}</Text>
       <BtnWrapper>
-        <NavBtn style={{ transform: 'rotate(180deg)' }} onClick={handleNextMonth} />
+        <NavBtn className="rotate-180" color={color} onClick={nextMonth} />
       </BtnWrapper>
     </Wrapper>
   );
@@ -32,38 +35,41 @@ const MonthNavigatorBtn = ({
 
 export default MonthNavigatorBtn;
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 15px;
-  font-weight: 500;
-  width: 218px;
+const Wrapper = styled.div<{ color: string }>`
+  ${flexBetween}
+  font-size: 14px;
+  font-weight: 700;
+  width: 220px;
+
+  color: ${(props) => props.color};
 `;
 const BtnWrapper = styled.div`
-  display: flex;
+  ${flexCenter}
   height: 100%;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 2px;
+  /* padding-top: 3px; */
   margin-left: 8px;
   margin-right: 8px;
 `;
-const NavBtn = styled(PrevBtn)`
+const NavBtn = styled(PrevBtn)<{ color: string }>`
   width: 10px;
   height: 10px;
-  color: black;
+  color: ${(props) => props.color};
   stroke-width: 3;
 
   &:hover {
-    color: black;
-    transform: scale(1.2); // 10% 크기 증가
+    color: ${(props) => props.color};
+    transform: scale(1.2);
     stroke-width: 4;
+  }
+
+  &.rotate-180 {
+    transform: rotate(180deg);
+  }
+  &.rotate-180:hover {
+    transform: scale(1.2) rotate(180deg);
   }
 `;
 
 const Text = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter}
 `;

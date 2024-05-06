@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import NaverLogin from './naverLogin/NaverLogin';
 import { useAuthStore } from '@stores/authStore';
 import { Navigate } from 'react-router-dom';
-import LogoIcon from '@assets/images/icon/logo.svg?react';
+
+import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
+
+import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 const LoginPage = () => {
   // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
@@ -32,10 +35,8 @@ const LoginPage = () => {
 export default LoginPage;
 
 const LoginContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+  ${flexColumnCenter}
+
   color: ${(props) => props.theme.colors.font};
 
   background-color: ${(props) => props.theme.colors.background};
@@ -47,11 +48,9 @@ const LoginContainer = styled.div`
 `;
 
 const LogoWrapper = styled.div`
+  ${flexCenter}
   width: 100%;
   height: 45%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Logo = styled(LogoIcon)`
@@ -60,14 +59,10 @@ const Logo = styled(LogoIcon)`
 `;
 
 const LoginButtonContainer = styled.div`
+  ${flexColumnCenter}
   background-color: transparent;
   width: 100%;
   height: 35%;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 `;
 const ExperienceWrapper = styled.div`
   background-color: transparent;
@@ -81,7 +76,7 @@ const ExperienceButton = styled.button`
   height: 80px;
   background-color: ${(props) => props.theme.colors.button};
   font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 500;
+  font-weight: medium;
   font-size: 18px;
   color: white;
 `;

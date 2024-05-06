@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { CloseBtn, PrevBtn, SettingBtn, LogoBtn } from '@components/button';
+import { CloseBtn, PrevBtn, SettingBtn, LogoBtn, LogoWhiteBtn } from '@components/button';
+import { flexBetween } from '@styles/CommonStyles';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -19,11 +20,9 @@ const TopBar = ({ leftContent, centerContent, rightContent }: TopBarProps) => {
 };
 
 const Wrapper = styled.div`
+  ${flexBetween}
   width: 100%;
   height: 50px; // 최상단 바 높이
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 // 각각 1/3 비율씩 갖도록..
@@ -41,5 +40,6 @@ TopBar.PrevButton = PrevBtn;
 TopBar.SettingButton = SettingBtn;
 TopBar.CloseButton = CloseBtn;
 TopBar.LogoButton = LogoBtn;
+TopBar.LogoWhiteButton = LogoWhiteBtn;
 
 export default TopBar;

@@ -1,35 +1,41 @@
 import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
-import Modal from '@components/modal';
+import Background from '@components/background';
 
 import type { NavLayoutProps } from '../../types/navigationTypes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 
+import { flexColumnBetween, mainSection, overflowWithoutScroll } from '@styles/CommonStyles';
+
+import Budget from './components/Budget';
+import DayExpenseListTop2 from './components/DayExpenseTop2';
+import Calendar from './components/Calendar';
+
 type MainNavProps = NavLayoutProps & {
-  monthNav: {
-    currentDate: Date;
-    handlePrevMonth: () => void;
-    handleNextMonth: () => void;
-  };
+  currentDate: Date;
+  previousMonth: () => void;
+  nextMonth: () => void;
 };
 
-const NavigationLayout = ({ children, monthNav }: MainNavProps) => {
+const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
   const navigate = useNavigate();
-
+  const mainColor = { color: 'white' };
+  const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            leftContent={<TopNavigation.TopBar.LogoButton />}
-            centerContent={<div>메인</div>}
+            leftContent={<TopNavigation.TopBar.LogoWhiteButton />}
+            // centerContent={<div>메인</div>}
             rightContent={
               <TopNavigation.TopBar.SettingButton
+                style={mainColor}
                 onClick={() => {
                   navigate('/setting');
                 }}
@@ -39,7 +45,7 @@ const NavigationLayout = ({ children, monthNav }: MainNavProps) => {
         }
         _Extension={
           <MonthNavWrapper>
-            <MonthNavigatorBtn {...monthNav} />
+            <MonthNavigatorBtn {...monthNavProps} />
           </MonthNavWrapper>
         }
       />
@@ -58,25 +64,32 @@ const MonthNavWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
+  const [showBackground, setShowBackground] = useState<boolean>(false);
 
-  const toggleModal = () => {
-    setShowModal((prev) => !prev);
-  };
+  useEffect(() => {
+    setShowBackground(true);
+    return () => {
+      setShowBackground(false);
+    };
+  }, []);
+
+  const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
 
   return (
     <>
-      <NavigationLayout monthNav={monthNav}>
+      <NavigationLayout {...monthNav}>
         <MainContainer>
-          <div>메인apdla</div>
-          <button onClick={toggleModal}>모달을 띄워봅시다</button>
+          <BudgetContainer>
+            <Budget />
+          </BudgetContainer>
+          <CalendarWrapper>
+            <Calendar {...monthNav} />
+          </CalendarWrapper>
+          <DayListContainer>
+            <DayExpenseListTop2 />
+          </DayListContainer>
         </MainContainer>
-        {showModal && (
-          <Modal onClose={toggleModal}>
-            <div>모달 내용이 되는건가</div>
-          </Modal>
-        )}
+        {showBackground && <Background height="36%" color="#47CFB0" />}
       </NavigationLayout>
     </>
   );
@@ -88,6 +101,26 @@ const MainContainer = styled.div`
   background-color: transparent;
   width: 100%;
   height: 100%;
+  padding: 15px;
 
-  overflow: auto;
+  ${overflowWithoutScroll}
+`;
+
+const BudgetContainer = styled.section`
+  ${mainSection}
+  ${flexColumnBetween}
+  height: 250px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+const CalendarWrapper = styled.section`
+  ${mainSection}
+  min-height: 150px;
+  width: 100%;
+  margin-bottom: 2px;
+`;
+const DayListContainer = styled.section`
+  ${mainSection}
+  min-height: 240px;
+  width: 100%;
 `;

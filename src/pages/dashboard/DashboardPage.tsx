@@ -9,15 +9,19 @@ import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 
 type DashboardNavProps = NavLayoutProps & {
-  monthNav: {
-    currentDate: Date;
-    handlePrevMonth: () => void;
-    handleNextMonth: () => void;
-  };
+  currentDate: Date;
+  previousMonth: () => void;
+  nextMonth: () => void;
 };
 
-const NavigationLayout = ({ children, monthNav }: DashboardNavProps) => {
+const NavigationLayout = ({
+  children,
+  currentDate,
+  previousMonth,
+  nextMonth,
+}: DashboardNavProps) => {
   const navigate = useNavigate();
+  const monthNavProps = { currentDate, previousMonth, nextMonth };
 
   return (
     <>
@@ -36,7 +40,7 @@ const NavigationLayout = ({ children, monthNav }: DashboardNavProps) => {
         }
         _Extension={
           <MonthNavWrapper>
-            <MonthNavigatorBtn {...monthNav} />
+            <MonthNavigatorBtn {...monthNavProps} />
           </MonthNavWrapper>
         }
       />
@@ -58,7 +62,7 @@ const DashboardPage = () => {
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
 
   return (
-    <NavigationLayout monthNav={monthNav}>
+    <NavigationLayout {...monthNav}>
       <DashboardContainer>대시보드</DashboardContainer>
     </NavigationLayout>
   );
