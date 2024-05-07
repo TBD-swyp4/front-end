@@ -3,8 +3,9 @@ import { useAuthStore } from '@stores/authStore';
 import { Navigate } from 'react-router-dom';
 
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
+import LogoIconTitle from '@assets/images/icon/logoTitle.svg?react';
 
-import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+import { flexColumnCenter } from '@styles/CommonStyles';
 import SocialLogin from './components/socialLogin';
 
 const LoginPage = () => {
@@ -19,6 +20,7 @@ const LoginPage = () => {
     <LoginContainer>
       <LogoWrapper>
         <Logo />
+        <LogoTitle />
       </LogoWrapper>
       <LoginButtonContainer>
         <SocialLogin provider={'kakao'} />
@@ -48,7 +50,7 @@ const LoginContainer = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  ${flexCenter}
+  ${flexColumnCenter}
   width: 100%;
   height: 45%;
 `;
@@ -56,6 +58,11 @@ const LogoWrapper = styled.div`
 const Logo = styled(LogoIcon)`
   width: 100px;
   height: 100px;
+`;
+
+const LogoTitle = styled(LogoIconTitle)`
+  width: 86px;
+  height: 24px;
 `;
 
 const LoginButtonContainer = styled.div`

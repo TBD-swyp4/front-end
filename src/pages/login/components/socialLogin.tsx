@@ -1,5 +1,7 @@
+// import axios from 'axios';
 import styled from 'styled-components';
 import { useAuthStore } from '@stores/authStore';
+import { useNavigate } from 'react-router-dom';
 
 type ProviderName = 'naver' | 'kakao'; //| 'google'
 
@@ -13,15 +15,16 @@ type SocialLoginProps = {
 
 const SocialLogin = ({ provider }: SocialLoginProps) => {
   //   const AUTH_URL = `${import.meta.env.VITE_SPINLOG_SERVER_URL}/oauth2/authorization/${provider}`; // api 서버 돌아가면 변경할 것
-  const AUTH_URL = `${import.meta.env.VITE_NGROK_URL}/oauth2/authorization/${provider}`;
-
+  // const AUTH_URL = `${import.meta.env.VITE_NGROK_URL}/oauth2/authorization/${provider}`;
+  const navigate = useNavigate();
   const { setLoginState } = useAuthStore((state) => {
     return { setLoginState: state.setLoginState };
   });
 
   const handleClickLogin = () => {
-    location.replace(`${AUTH_URL}`);
+    // axios.get(AUTH_URL).then(() => {}); // 백쪽 서버 살아나는대로 변경할 것
     setLoginState();
+    navigate('/');
   };
 
   return <Button provider={provider} onClick={handleClickLogin} />;
