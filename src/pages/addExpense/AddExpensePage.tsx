@@ -73,7 +73,7 @@ const AddExpensePage = () => {
   const titleArr = ['지출/절약 입력', '감정 입력', '만족도 입력'];
 
   // 입력 스탭
-  const [currStep, setCurrStep] = useState<number>(1);
+  const [currStep, setCurrStep] = useState<number>(0);
 
   // 다음 단계 (유효성 체크)
   const handleNextStep = async () => {

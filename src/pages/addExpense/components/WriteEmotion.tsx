@@ -10,9 +10,11 @@ import { useFormContext } from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import VoiceMultiText from '@components/input/VoiceMultiText';
 import { addCommasToNumber } from '@utils/index';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@components/modal';
 import EmotionPopup from './EmotionPopup';
+import { getEmotionText, getEmotionColor } from '../../../types/emotionType';
+
 // 사건, 생각, 감정
 const WriteEmotion = () => {
   const { register, getValues, setValue } = useFormContext();
@@ -21,6 +23,8 @@ const WriteEmotion = () => {
   const summaryText = `${prevValue[3]} 에 '${prevValue[1]}'로 ${addCommasToNumber(prevValue[2])}원을 
   ${prevValue[0] == 'spend' ? '지출' : '절약'}했어요.`;
 
+  const emotionKey = getValues('emotion');
+
   const [isSelectEmotion, setIsSelectEmotion] = useState<boolean>(false);
   const [emotionColor, setEmotionColor] = useState<string>('#4F4F4F');
   const [emotionText, setEmotionText] = useState<string>('없음');
@@ -28,13 +32,24 @@ const WriteEmotion = () => {
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
-  const selectEmotion = (emotion: string, color: string, text: string) => {
-    setIsSelectEmotion(true);
-    setEmotionColor(color);
-    setEmotionText(text);
+  const selectEmotion = (emotion: string) => {
     setValue('emotion', emotion, { shouldValidate: true });
+    updateEmotionState(emotion);
     toggleModal();
   };
+
+  const updateEmotionState = (key: string) => {
+    setIsSelectEmotion(true);
+    setEmotionColor(getEmotionColor(key));
+    setEmotionText(getEmotionText(key));
+  };
+
+  useEffect(() => {
+    if (emotionKey) {
+      updateEmotionState(emotionKey);
+    }
+  }, [emotionKey]);
+
   return (
     <>
       <Container>
