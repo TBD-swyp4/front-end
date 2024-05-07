@@ -5,39 +5,20 @@ import { DefaultTheme } from 'styled-components';
 export const lightTheme: DefaultTheme = {
   bgImage: '/src/assets/images/background/backGroundLight.png',
   colors: {
-    font: '#000',
+    main: '#47CFB0',
+    font: '#333331',
     background: '#f4f4f4',
-    modalBox: '#fff',
-    stateModal: '#fff',
+    mainBackground: '#47CFB0',
     footerArea: '#fff',
     button: '#47CFB0',
     navFont: '#18D19E',
     navBackground: '#fff',
     contentBox: '#fff',
+    minus: '#fc4873',
   },
   shadows: {
     on: '0px -5px 10px -10px gray',
     under: '0px 5px 10px -10px gray',
-    around: '',
-  },
-};
-
-export const darkTheme: DefaultTheme = {
-  bgImage: '/src/assets/images/background/backGroundDark.png',
-  colors: {
-    font: '#fff',
-    background: '#f4f4f4',
-    modalBox: '#121212',
-    stateModal: '#121212',
-    footerArea: '#2f4768',
-    button: '#fff',
-    navFont: '#18D19E',
-    navBackground: '#000',
-    contentBox: '#fff',
-  },
-  shadows: {
-    on: '0px -5px 10px -10px white',
-    under: '',
     around: '',
   },
 };

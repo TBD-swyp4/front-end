@@ -1,42 +1,83 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import App from '../App';
-import RootLayout from '../components/layout/RootLayout';
+import Layout from '../components/layout/Layout';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
 
-import LoginPage from '../pages/login/LoginPage';
-import MainPage from '../pages/main/MainPage';
-import SettingPage from '../pages/setting/SettingPage';
-import ErrorPage from '../pages/error/ErrorPage';
+import * as P from '../pages';
 
 export const router = createBrowserRouter([
   {
     element: <App />,
-    errorElement: <ErrorPage />,
+
     children: [
       {
         path: '/',
-        element: <RootLayout />,
+        element: <Layout />,
         children: [
           {
             index: true, // 하위에 다른 경로가 안붙을 때 보여줄 컴포넌트
             element: (
               <ProtectedRoute>
-                <MainPage />
+                <P.MainPage />
               </ProtectedRoute>
             ),
           },
           {
             path: '/login',
-            element: <LoginPage />,
+            element: <P.LoginPage />,
+          },
+          {
+            path: '/dashboard',
+            element: (
+              <ProtectedRoute>
+                <P.DashboardPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: '/add',
+            element: (
+              <ProtectedRoute>
+                <P.AddExpensePage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: '/expense',
+            element: (
+              <ProtectedRoute>
+                <P.ExpenseListViewPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: '/expense/:id',
+            element: (
+              <ProtectedRoute>
+                <P.ExpenseDetailViewPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: '/statistics',
+            element: (
+              <ProtectedRoute>
+                <P.StatisticsPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: '/setting',
             element: (
               <ProtectedRoute>
-                <SettingPage />
+                <P.SettingPage />
               </ProtectedRoute>
             ),
+          },
+          {
+            path: '*',
+            element: <P.ErrorPage />,
           },
         ],
       },

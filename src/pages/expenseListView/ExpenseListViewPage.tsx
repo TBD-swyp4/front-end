@@ -1,44 +1,44 @@
-import TopNavigation from '@layout/TopNavigation';
 import styled from 'styled-components';
+import TopNavigation from '@layout/TopNavigation';
+import BottomNavigation from '@layout/BottomNavigation';
 import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
-
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={<div>환경설정</div>}
+            centerContent={<div>소비 내역 리스트</div>}
             rightContent={
-              <TopNavigation.TopBar.CloseButton
+              <TopNavigation.TopBar.SettingButton
                 onClick={() => {
-                  navigate(-1);
+                  navigate('/setting');
                 }}
               />
             }
           />
         }></TopNavigation>
       {children}
+      <BottomNavigation />
     </>
   );
 };
 
-// #20240429.syjang, 환경설정 테스트 페이지입니다. 추후 테마 변경 시 아래와 같이 가져다 쓰면 됩니다.
-const SettingPage = () => {
+const ExpenseListViewPage = () => {
   return (
     <NavigationLayout>
-      <SettingContainer></SettingContainer>
+      <ExpenseListViewContainer>소비 리스트</ExpenseListViewContainer>
     </NavigationLayout>
   );
 };
 
-export default SettingPage;
+export default ExpenseListViewPage;
 
-const SettingContainer = styled.div`
+const ExpenseListViewContainer = styled.div`
   width: 100%;
   height: 100%;
 `;

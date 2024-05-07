@@ -1,18 +1,25 @@
-import TopNavigation from '@layout/TopNavigation';
+// 소비 입력 페이지
 import styled from 'styled-components';
+import TopNavigation from '@layout/TopNavigation';
 import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
-
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={<div>환경설정</div>}
+            leftContent={
+              <TopNavigation.TopBar.PrevButton
+                onClick={() => {
+                  alert('Click Prev');
+                }}
+              />
+            }
+            centerContent={<div>소비 입력</div>}
             rightContent={
               <TopNavigation.TopBar.CloseButton
                 onClick={() => {
@@ -27,18 +34,19 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
   );
 };
 
-// #20240429.syjang, 환경설정 테스트 페이지입니다. 추후 테마 변경 시 아래와 같이 가져다 쓰면 됩니다.
-const SettingPage = () => {
+const AddExpensePage = () => {
   return (
     <NavigationLayout>
-      <SettingContainer></SettingContainer>
+      <AddExpenseContainer>입력페이지</AddExpenseContainer>
     </NavigationLayout>
   );
 };
 
-export default SettingPage;
-
-const SettingContainer = styled.div`
+export default AddExpensePage;
+const AddExpenseContainer = styled.div`
+  background-color: transparent;
   width: 100%;
   height: 100%;
+  color: black;
+  overflow: auto;
 `;
