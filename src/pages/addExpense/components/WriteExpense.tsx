@@ -53,8 +53,8 @@ const WriteExpense = () => {
         <input id="amount" type="number" {...register('amount', { required: true })}></input>
       </AmountContainer>
       <DateContainer>
-        <label htmlFor="date">금액</label>
-        <input id="date" type="date" {...register('date', { required: true })}></input>
+        <label htmlFor="date">날짜</label>
+        <input id="date" type="datetime-local" {...register('date', { required: true })}></input>
       </DateContainer>
     </Container>
   );
