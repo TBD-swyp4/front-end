@@ -65,7 +65,7 @@ const RemainDetail = styled.div`
   & span.remain-month {
     color: #575755;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
   }
   & span.remain-price {
     color: #333331;

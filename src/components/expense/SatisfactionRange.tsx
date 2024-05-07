@@ -6,10 +6,15 @@ import styled from 'styled-components';
 
 type SatisfactionRangeProps = {
   satisfaction: number;
+  setSatisfaction?: (state: number) => void; // isEdit이 true인 경우 같이 넘겨줘야함.
   isEdit?: boolean;
 };
 
-const SatisfactionRange = ({ satisfaction, isEdit = false }: SatisfactionRangeProps) => {
+const SatisfactionRange = ({
+  satisfaction,
+  isEdit = false,
+  setSatisfaction,
+}: SatisfactionRangeProps) => {
   const max = 5;
   const min = 1;
 
@@ -21,9 +26,17 @@ const SatisfactionRange = ({ satisfaction, isEdit = false }: SatisfactionRangePr
   const rangeRef = useRef<HTMLDivElement>(null);
   // const followSah
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isEdit && setSatisfaction && event.target) {
+      setSatisfaction(parseInt(event.target.value));
+    }
     setValue(parseInt(event.target?.value));
   };
-
+  const handleClick = (satisfaction: number) => {
+    if (isEdit && setSatisfaction) {
+      setSatisfaction(satisfaction);
+    }
+    setValue(satisfaction);
+  };
   const getNomalized = (val: number): number => (val - min) / (max - min);
   const calculateLeft = (val: number) => {
     return getNomalized(val) * (rangeWidth - thumb) + thumb / 2;
@@ -68,7 +81,7 @@ const SatisfactionRange = ({ satisfaction, isEdit = false }: SatisfactionRangePr
               <RangeButton
                 key={i}
                 onClick={() => {
-                  setValue(x);
+                  handleClick(x);
                 }}>
                 {x}
               </RangeButton>

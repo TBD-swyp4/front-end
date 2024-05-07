@@ -19,6 +19,6 @@ export const lightTheme: DefaultTheme = {
   shadows: {
     on: '0px -5px 10px -10px gray',
     under: '0px 5px 10px -10px gray',
-    around: '',
+    around: '0px 5px 14.56px 0px #5252521a',
   },
 };
