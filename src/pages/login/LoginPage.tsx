@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import NaverLogin from './naverLogin/NaverLogin';
 import { useAuthStore } from '@stores/authStore';
 import { Navigate } from 'react-router-dom';
 
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
+import LogoIconTitle from '@assets/images/icon/logoTitle.svg?react';
 
-import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+import { flexColumnCenter } from '@styles/CommonStyles';
+import SocialLogin from './components/socialLogin';
 
 const LoginPage = () => {
   // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
@@ -18,12 +19,13 @@ const LoginPage = () => {
   return (
     <LoginContainer>
       <LogoWrapper>
-        <Logo></Logo>
+        <Logo />
+        <LogoTitle />
       </LogoWrapper>
       <LoginButtonContainer>
-        <NaverLogin></NaverLogin>
-        <NaverLogin></NaverLogin>
-        <NaverLogin></NaverLogin>
+        <SocialLogin provider={'kakao'} />
+        <SocialLogin provider={'naver'} />
+        {/* <SocialLogin provider={'google'} /> */}
       </LoginButtonContainer>
       <ExperienceWrapper>
         <ExperienceButton>체험하기</ExperienceButton>
@@ -48,14 +50,19 @@ const LoginContainer = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  ${flexCenter}
+  ${flexColumnCenter}
   width: 100%;
   height: 45%;
 `;
 
 const Logo = styled(LogoIcon)`
-  width: 300px;
-  height: 300px;
+  width: 100px;
+  height: 100px;
+`;
+
+const LogoTitle = styled(LogoIconTitle)`
+  width: 86px;
+  height: 24px;
 `;
 
 const LoginButtonContainer = styled.div`
@@ -73,7 +80,8 @@ const ExperienceWrapper = styled.div`
 
 const ExperienceButton = styled.button`
   width: 350px;
-  height: 80px;
+  height: 35%;
+  border-radius: 6px;
   background-color: ${(props) => props.theme.colors.button};
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: medium;
