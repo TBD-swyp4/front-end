@@ -28,7 +28,7 @@ const VoiceMultiText = ({
   } = useFormContext();
 
   const textValue = watch(hookFormFieldName); // 'message' 필드의 현재 값을 실시간으로 관찰
-  const maxLength = 300;
+  const maxLength = 150; // #20240508.syjang, DB 용량 문제로 150자 제한으로 변경
 
   const handleVoiceResult = (result: string) => {
     const currentValue = getValues(hookFormFieldName);

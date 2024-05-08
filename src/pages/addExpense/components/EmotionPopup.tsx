@@ -1,32 +1,57 @@
-import {
-  addPageSubject,
-  flexCenter,
-  flexColumnCenter,
-  overflowWithoutScroll,
-} from '@styles/CommonStyles';
+import { addPageSubject, flexCenter, overflowWithoutScroll } from '@styles/CommonStyles';
 import styled from 'styled-components';
-import { EmotionKeys, EmotionTexts, EmotionColors } from './../../../types/emotionType';
+import { EmotionKeys } from './../../../types/emotionType';
+import { useState } from 'react';
+import type { EmotionKey } from '../../../types/emotionType';
+
+import Emotion from '@components/emotion';
+
+type DefaultEmotionType = EmotionKey | ''; //빈값이거나, 선택된 EmotionKey를 받는다.
 
 type EmotionPopupProps = {
-  selectEmotion: (emotion: string, color: string) => void;
+  defaultEmotion: DefaultEmotionType; //
+  selectEmotion: (emotion: EmotionKey) => void; // 상태 반영하며 닫기
+  onClose: () => void; // 모달 그냥 닫기
 };
 
-const EmotionPopup = ({ selectEmotion }: EmotionPopupProps) => {
+const EmotionPopup = ({ defaultEmotion, selectEmotion, onClose }: EmotionPopupProps) => {
+  // 모달 창에서의 선택 emotion 상태
+  const [emotion, setEmotion] = useState<DefaultEmotionType>(defaultEmotion);
+
+  // x 버튼을 누를 경우, 그냥 닫아야함.
+  const handleClose = () => {
+    onClose();
+  };
+
+  // 선택한 감정을 기억하고, 확인 버튼을 누를 경우에만 save
+  const handleSelect = (emotion: DefaultEmotionType) => {
+    if (!emotion) return; // 빈 값인 경우를 체크해준다. -> 디자인 나오면 button에 disable 색으로 변경 필요.
+    selectEmotion(emotion);
+  };
+
   return (
     <Container>
       <Subject>감정을 하나 골라주세요.</Subject>
+      <div onClick={handleClose}>대충 x 버튼</div>{' '}
       <EmotionContainer>
-        {EmotionKeys.map((x, i) => (
-          <EmotionWrapper key={x}>
-            <EmotionColor
-              color={EmotionColors[i]}
-              onClick={() => {
-                selectEmotion(x, EmotionColors[i], EmotionTexts[i]);
-              }}></EmotionColor>
-            <EmotionText>{EmotionTexts[i]}</EmotionText>
-          </EmotionWrapper>
+        {EmotionKeys.map((x) => (
+          <Emotion
+            key={x}
+            emotionKey={x}
+            isSelect={x === emotion}
+            onClick={() => {
+              setEmotion(x);
+            }}
+          />
         ))}
       </EmotionContainer>
+      <div
+        style={{ backgroundColor: emotion ? 'red' : 'black' }}
+        onClick={() => {
+          handleSelect(emotion);
+        }}>
+        대충 적용 버튼
+      </div>
     </Container>
   );
 };
@@ -66,23 +91,4 @@ const EmotionContainer = styled.div`
   width: 100%;
 
   gap: 20px;
-`;
-
-const EmotionWrapper = styled.div`
-  ${flexColumnCenter}
-  margin-bottom: 10px;
-`;
-
-const EmotionColor = styled.div<{ color: string }>`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin-bottom: 5px;
-  cursor: pointer;
-`;
-const EmotionText = styled.div`
-  color: ${(props) => props.theme.colors.font};
-  font-size: 12px;
-  font-weight: 300;
 `;

@@ -13,6 +13,7 @@ import { addCommasToNumber } from '@utils/index';
 import { useEffect, useState } from 'react';
 import Modal from '@components/modal';
 import EmotionPopup from './EmotionPopup';
+import type { EmotionKey } from '../../../types/emotionType';
 import { getEmotionText, getEmotionColor } from '../../../types/emotionType';
 
 // 사건, 생각, 감정
@@ -20,10 +21,10 @@ const WriteEmotion = () => {
   const { register, getValues, setValue } = useFormContext();
 
   const prevValue = getValues(['registerType', 'content', 'amount', 'date']);
-  const summaryText = `${prevValue[3]} 에 '${prevValue[1]}'로 ${addCommasToNumber(prevValue[2])}원을 
+  const summaryText = `${prevValue[3]} 에 '${prevValue[1]}'(으)로 ${addCommasToNumber(prevValue[2])}원을 
   ${prevValue[0] == 'spend' ? '지출' : '절약'}했어요.`;
 
-  const emotionKey = getValues('emotion');
+  const emotionKey = getValues('emotion'); // emotionKey는 빈 값일 수 있다.
 
   const [isSelectEmotion, setIsSelectEmotion] = useState<boolean>(false);
   const [emotionColor, setEmotionColor] = useState<string>('#4F4F4F');
@@ -32,13 +33,13 @@ const WriteEmotion = () => {
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
-  const selectEmotion = (emotion: string) => {
+  const selectEmotion = (emotion: EmotionKey) => {
     setValue('emotion', emotion, { shouldValidate: true });
     updateEmotionState(emotion);
     toggleModal();
   };
 
-  const updateEmotionState = (key: string) => {
+  const updateEmotionState = (key: EmotionKey) => {
     setIsSelectEmotion(true);
     setEmotionColor(getEmotionColor(key));
     setEmotionText(getEmotionText(key));
@@ -94,7 +95,10 @@ const WriteEmotion = () => {
       </Container>
       {showModal && (
         <Modal onClose={toggleModal}>
-          <EmotionPopup selectEmotion={selectEmotion}></EmotionPopup>
+          <EmotionPopup
+            defaultEmotion={emotionKey}
+            selectEmotion={selectEmotion}
+            onClose={toggleModal}></EmotionPopup>
         </Modal>
       )}
     </>

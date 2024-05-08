@@ -1,6 +1,21 @@
 // 각 감정 아이콘도 여기에 정의 같이 하기.
 import { PrevBtn } from '@components/button';
 
+// 빈값 : 선택 안함의 경우를 표현.
+export type EmotionKey =
+  | 'ANNOYED'
+  | 'NERVOUS'
+  | 'LONELY'
+  | 'TIRED'
+  | 'DEPRESSED'
+  | 'SAD'
+  | 'SORRY'
+  | 'EXCITED'
+  | 'FLUTTER'
+  | 'PROUD'
+  | 'SHY'
+  | 'EVADED';
+
 // Emotion 객체의 속성을 정의하는 타입
 type EmotionDetail = {
   text: string;
@@ -8,12 +23,9 @@ type EmotionDetail = {
   icon: React.ComponentType; // React 컴포넌트 타입, 예를 들어 Icon 컴포넌트 등
 };
 
-// 모든 감정 타입을 매핑하는 객체 타입
-type EmotionType = {
-  [key: string]: EmotionDetail;
-};
+type EmotionMap = Record<EmotionKey, EmotionDetail>;
 
-export const emotions: EmotionType = {
+export const Emotions: Readonly<EmotionMap> = Object.freeze({
   ANNOYED: { text: '짜증/화남', color: '#FFD1DC', icon: PrevBtn },
   NERVOUS: { text: '불안/두려움', color: '#FBCBAA', icon: PrevBtn },
   LONELY: { text: '외로움/고독', color: '#F6DDCC', icon: PrevBtn },
@@ -24,20 +36,22 @@ export const emotions: EmotionType = {
   EXCITED: { text: '기분 좋은', color: '#D7E3FC', icon: PrevBtn },
   FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: PrevBtn },
   PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: PrevBtn },
-  EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: PrevBtn },
   SHY: { text: '부끄러움', color: '#B7C3F3', icon: PrevBtn },
-} as const;
+  EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: PrevBtn },
+} as const);
 
-export const EmotionKeys = Object.keys(emotions);
-export const EmotionTexts = Object.values(emotions).map((x) => x.text);
-export const EmotionColors = Object.values(emotions).map((x) => x.color);
-export const getEmotionColor = (key: string) => {
-  return emotions[key].color;
+export const EmotionKeys = Object.keys(Emotions) as EmotionKey[];
+export const EmotionTexts = Object.values(Emotions).map((x) => x.text);
+export const EmotionColors = Object.values(Emotions).map((x) => x.color);
+export const EmotionIcons = Object.values(Emotions).map((x) => x.icon);
+
+export const getEmotionColor = (key: EmotionKey): string => {
+  return Emotions[key].color;
 };
 
-export const getEmotionText = (key: string) => {
-  return emotions[key].text;
+export const getEmotionText = (key: EmotionKey): string => {
+  return Emotions[key].text;
 };
-export const getEmotionIcon = (key: string) => {
-  return emotions[key].icon;
+export const getEmotionIcon = (key: EmotionKey): React.ComponentType => {
+  return Emotions[key].icon;
 };
