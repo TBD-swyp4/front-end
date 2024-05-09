@@ -1,7 +1,10 @@
-import { format, startOfMonth, endOfMonth } from 'date-fns';
 import styled from 'styled-components';
-import { PrevBtn } from '@components/button';
 import { flexBetween, flexCenter } from '@styles/CommonStyles';
+
+import { PrevBtn } from '@components/button';
+
+import { formatYMD } from '@utils/index';
+import { startOfMonth, endOfMonth } from 'date-fns';
 
 type MonthNavigatorBtnProps = {
   currentDate: Date;
@@ -18,14 +21,12 @@ const MonthNavigatorBtn = ({
   const startDate: Date = startOfMonth(currentDate);
   const endDate: Date = endOfMonth(currentDate);
 
-  const formatDate = (date: Date): string => format(date, 'yyyy.MM.dd');
-
   return (
     <Wrapper color={color}>
       <BtnWrapper>
         <NavBtn color={color} onClick={previousMonth} />
       </BtnWrapper>
-      <Text>{`${formatDate(startDate)} - ${formatDate(endDate)}`}</Text>
+      <Text>{`${formatYMD(startDate)} - ${formatYMD(endDate)}`}</Text>
       <BtnWrapper>
         <NavBtn className="rotate-180" color={color} onClick={nextMonth} />
       </BtnWrapper>

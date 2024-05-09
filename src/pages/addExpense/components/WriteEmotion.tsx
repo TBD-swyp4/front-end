@@ -6,15 +6,19 @@ import {
   mainSection,
   overflowWithoutScroll,
 } from '@styles/CommonStyles';
-import { useFormContext } from 'react-hook-form';
 import styled, { css } from 'styled-components';
-import VoiceMultiText from '@components/input/VoiceMultiText';
 import { addCommasToNumber } from '@utils/index';
+
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import VoiceMultiText from '@components/input/VoiceMultiText';
 import Modal from '@components/modal';
 import EmotionPopup from './EmotionPopup';
-import type { EmotionKey } from '../../../types/emotionType';
-import { getEmotionText, getEmotionColor } from '../../../types/emotionType';
+import { EditBtn } from '@components/button';
+
+import type { EmotionKey } from '@models/index';
+import { getEmotionText, getEmotionColor } from '@models/emotion';
 
 // 사건, 생각, 감정
 const WriteEmotion = () => {
@@ -80,12 +84,14 @@ const WriteEmotion = () => {
           <Emotion>
             {!isSelectEmotion ? (
               <>
-                <EmotionEditBtn onClick={toggleModal} />
+                <EmotionAddBtn onClick={toggleModal} />
                 <span className="select">감정 선택</span>
               </>
             ) : (
               <>
-                <EmotionEditBtn onClick={toggleModal} className="edit" />
+                <EmotionEditBtn onClick={toggleModal}>
+                  <EditBtn />
+                </EmotionEditBtn>
                 <EmotionColor color={emotionColor}></EmotionColor>
                 <EmotionText>{emotionText}</EmotionText>
               </>
@@ -172,24 +178,29 @@ const Emotion = styled.div`
   }
 `;
 
-const EmotionEditBtn = styled.div`
+const buttonStyle = css`
   width: 30px;
   height: 30px;
   border-radius: 50%;
   background-color: #dddddd;
-
+  transition: background-color 0.2s ease-out;
   &:hover {
     background-color: #c9c5c5;
   }
+`;
 
-  &.edit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(50%, -50%);
-  }
+const EmotionEditBtn = styled.div`
+  ${buttonStyle}
+  ${flexCenter}
 
-  transition: background-color 0.2s ease-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+`;
+
+const EmotionAddBtn = styled.div`
+  ${buttonStyle}
 
   // + 그리기
   position: relative;

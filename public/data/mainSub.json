@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "message": "성공",
+  "data": {
+    "daySpendList": [
+      {
+        "articleId": 1,
+        "registerType": "SAVE",
+        "amount": 3000,
+        "content": "택시",
+        "satisfaction": 5,
+        "emotion": "SHY"
+      },
+      {
+        "articleId": 2,
+        "registerType": "SPEND",
+        "amount": 13000,
+        "content": "엽떡",
+        "satisfaction": 2,
+        "emotion": "ANNOYED"
+      },
+      {
+        "articleId": 3,
+        "registerType": "SPEND",
+        "amount": 13000,
+        "content": "엽떡",
+        "satisfaction": 2,
+        "emotion": "ANNOYED"
+      },
+      {
+        "articleId": 4,
+        "registerType": "SPEND",
+        "amount": 13000,
+        "content": "새우깡",
+        "satisfaction": 2,
+        "emotion": "ANNOYED"
+      },
+      {
+        "articleId": 5,
+        "registerType": "SAVE",
+        "amount": 133000,
+        "content": "아이스크림 14개",
+        "satisfaction": 2,
+        "emotion": "ANNOYED"
+      },
+      {
+        "articleId": 6,
+        "registerType": "SPEND",
+        "amount": 13000,
+        "content": "엽떡",
+        "satisfaction": 2,
+        "emotion": "ANNOYED"
+      }
+    ]
+  }
+}

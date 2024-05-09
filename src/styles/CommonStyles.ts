@@ -27,13 +27,6 @@ export const flexColumnBetween = css`
   flex-direction: column;
 `;
 
-export const buttonReset = css`
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-`;
-
 export const mainSection = css`
   background-color: ${(props) => props.theme.colors.contentBox};
   border-radius: 6px;

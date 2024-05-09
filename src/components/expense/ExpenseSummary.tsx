@@ -1,37 +1,53 @@
-// 만족도 점수, 물건, 지출, 감정을 props로 넘겨받는다.
-import SatisfactionRange from '@components/expense/SatisfactionRange';
-import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
 import styled from 'styled-components';
+import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
+
+import { useNavigate } from 'react-router-dom';
+
+import type { ExpenseSummaryType } from '@models/expense';
+import { getEmotionText } from '@models/emotion';
+
+import SatisfactionRange from '@components/expense/SatisfactionRange';
 import { addCommasToNumber } from '@utils/index';
 
-type ExpenseSummaryProps = {
-  subject: string;
-  price: number;
-  satisfaction: number;
-  emotion: string;
+type ExpenseSummaryProps = ExpenseSummaryType & {
   hideHeader?: boolean;
 };
 const ExpenseSummary = ({
-  subject,
-  price,
+  articleId,
+  registerType,
+  amount,
+  content,
   satisfaction,
   emotion,
   hideHeader = false,
 }: ExpenseSummaryProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = (id: number) => {
+    navigate(`/expense/${id}`);
+  };
+
   return (
-    <Container>
-      {!hideHeader && <EmotionText>{`${emotion} ${satisfaction}점`}</EmotionText>}
+    <Container
+      onClick={() => {
+        handleClick(articleId);
+      }}>
+      {!hideHeader && (
+        <EmotionText>
+          {getEmotionText(emotion)} {satisfaction}점
+        </EmotionText>
+      )}
       <RangeWrapper>
         <SatisfactionRange satisfaction={satisfaction} />
       </RangeWrapper>
       <Info>
         <InfoItem>
-          <span className="info-text">물건</span>
-          <span className="info-price">{subject}</span>
+          <span className="info-text">내용</span>
+          <span className="info-price">{content}</span>
         </InfoItem>
         <InfoItem>
-          <span className="info-text">지출</span>
-          <span className="info-price">{`${addCommasToNumber(price)}원`}</span>
+          <span className="info-text">{registerType === 'SPEND' ? '지출' : '절약'}</span>
+          <span className="info-price">{addCommasToNumber(amount)}원</span>
         </InfoItem>
       </Info>
     </Container>

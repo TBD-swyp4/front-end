@@ -1,3 +1,12 @@
+import styled, { css } from 'styled-components';
+import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+
+import { useState } from 'react';
+
+import type { MonthSpend } from '@models/api/main';
+
+import { PrevBtn } from '@components/button';
+import { formatYM, compareYMDString, addCommasToNumber } from '@utils/index';
 import {
   format,
   startOfMonth,
@@ -8,8 +17,6 @@ import {
   isSameMonth,
   isToday,
 } from 'date-fns';
-import styled, { css } from 'styled-components';
-import { useState } from 'react';
 
 // 현재 날짜를 넘겨받는다.
 type CalendarProps = {
@@ -17,12 +24,10 @@ type CalendarProps = {
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  data: MonthSpend[];
 };
 
-import { PrevBtn } from '@components/button';
-import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
-
-const Calendar = ({ currentDate, selectedDate, setSelectedDate }: CalendarProps) => {
+const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: CalendarProps) => {
   // 현재 달력에서 보여 줄 상태들 정의
   // const [selectedDate, setSelectedDate] = useState(new Date());
   const [showWeekOnly, setShowWeekOnly] = useState(true); // 주/ 월 달력 상태 추가
@@ -64,6 +69,19 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate }: CalendarProps)
     setShowWeekOnly(!showWeekOnly);
   };
 
+  // 넘겨받은 데이터와 보여줄 날짜를 바인딩
+  const bindDataDaysToShow = daysToShow.map((dayToShow) => {
+    // data에서 날짜가 같은 객체를 찾는다.
+    const dataEntry = data.find((x) => compareYMDString(x.date, dayToShow));
+
+    // 같은 날짜가 있다면 daySpend,dataEntry를 넣어주고 없다면 0으로 채운다.
+    if (dataEntry) {
+      return { date: dayToShow, daySpend: dataEntry.daySpend, daySave: dataEntry.daySave };
+    } else {
+      return { date: dayToShow, daySpend: 0, daySave: 0 }; // 데이터가 없는 경우 기본값을 설정
+    }
+  });
+
   return (
     <Container>
       <TitleWrapper>
@@ -74,7 +92,7 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate }: CalendarProps)
         </Label>
       </TitleWrapper>
       <WeekInfo>
-        {`${format(selectedDate, 'yyyy년 MM월')} ${Math.ceil(
+        {`${formatYM(selectedDate, 'word')} ${Math.ceil(
           (days.findIndex((d) => d.toDateString() === selectedDate.toDateString()) + 1) / 7,
         )}주차`}
       </WeekInfo>
@@ -82,20 +100,30 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate }: CalendarProps)
         {daysOfWeek.map((day, index) => (
           <DayHeader key={index}>{day}</DayHeader>
         ))}
-        {daysToShow.map((day, index) => (
-          <CalendarDay
-            key={index}
-            className={`
-            ${!isSameMonth(day, currentMonth) && 'faded'} 
-            ${isToday(day) && 'bold'}
-            ${selectedDate.toDateString() === day.toDateString() && 'selected'} 
-            ${[1, 2, 3, 20, 5, 10, 15].includes(day.getDate()) && isSameMonth(day, currentMonth) ? 'special' : ''}`}
-            onClick={() => handleDayClick(day)}>
-            {format(day, 'd')}
-          </CalendarDay>
-        ))}
+        {bindDataDaysToShow.map((day, index) => {
+          const same: boolean = isSameMonth(day.date, currentMonth);
+          return (
+            <CalendarDay
+              key={index}
+              className={`${same ? '' : 'faded'}${isToday(day.date) ? ' bold' : ''}${
+                selectedDate.toDateString() === day.date.toDateString() ? ' selected' : ''
+              }${day.daySpend !== 0 && same && !showWeekOnly ? ' spend' : ''}${
+                day.daySave !== 0 && same && !showWeekOnly ? ' save' : ''
+              }`}
+              onClick={() => handleDayClick(day.date)}>
+              {format(day.date, 'd')}
+            </CalendarDay>
+          );
+        })}
         {showWeekOnly &&
-          daysOfWeek.map((_, index) => <ExpenseDetail key={index}>ss</ExpenseDetail>)}
+          bindDataDaysToShow.map((day, i) => (
+            <ExpenseDetail
+              key={i}
+              className={`${selectedDate.toDateString() === day.date.toDateString() ? 'selected' : ''}`}>
+              <div className="save">+{addCommasToNumber(day.daySave)}</div>
+              <div className="spend">-{addCommasToNumber(day.daySpend)}</div>
+            </ExpenseDetail>
+          ))}
       </CalendarGrid>
       <ToggleButton onClick={toggleWeekView}>
         {showWeekOnly ? <ArrowDown /> : <ArrowUp />}
@@ -112,6 +140,8 @@ const Container = styled.div`
   gap: 15px;
 
   position: relative; // 토글 버튼 위치 잡기용
+
+  margin-bottom: 20px;
 `;
 
 const TitleWrapper = styled.div`
@@ -120,6 +150,10 @@ const TitleWrapper = styled.div`
   font-weight: 400;
   color: #575755;
   width: 100%;
+
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 const Label = styled.div`
   ${flexCenter}
@@ -160,6 +194,8 @@ const CalendarGrid = styled.div`
 
   width: 100%; // 너비는 부모 요소에 맞춤
   margin: 0 auto; // 중앙 정렬
+
+  position: relative;
 `;
 
 const DayHeader = styled.div`
@@ -197,23 +233,40 @@ const CalendarDay = styled.div`
     border-radius: 50%; // 동그란 형태
   }
 
-  // 데이터 넣을 때 클래스 이름으로 원 하나만 뜰지, 두개 뜰지 분기처리
-  &.special::after {
+  // 소비
+  &.spend::after {
     content: '';
     position: absolute;
     bottom: 0px; // 날짜 아래로 위치 조정
-    left: 50%;
-    transform: translateX(-50%) translateX(-5px); // 가운데 정렬 조정
     width: 5px;
     height: 5px;
     background-color: #fc4873;
     border-radius: 50%;
-    display: block;
+  }
+
+  // 절약
+  &.save::after {
+    content: '';
+    position: absolute;
+    bottom: 0px; // 날짜 아래로 위치 조정
+    width: 5px;
+    height: 5px;
+    background-color: #333331;
+    border-radius: 50%;
+  }
+
+  &.save.spend::after {
+    left: 50%;
+    transform: translateX(-50%) translateX(-5px); // 가운데 정렬 조정
+    background-color: #fc4873;
+    border-radius: 50%;
     box-shadow: 9.5px 0 0 #333331; // 옆으로 작은 원 하나 더 추가
   }
 
   // 선택된 날짜일 경우 좀 더 아래에 뜸
-  &.selected.special::after {
+  &.selected.both::after,
+  &.selected.spend::after,
+  &.selected.save::after {
     bottom: -8px; // 날짜 아래로 위치 조정
   }
 `;
@@ -222,7 +275,7 @@ const ToggleButton = styled.button`
   ${flexCenter}
 
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
 
@@ -263,12 +316,32 @@ const ArrowDown = styled(PrevBtn)`
 `;
 
 const ExpenseDetail = styled.div`
-  padding: 10px;
-  text-align: center;
+  ${flexColumnCenter}
+
   height: 30px; // 고정 높이 설정
 
-  font-size: 2px;
   color: #bcbcbc;
   font-weight: 300;
-  font-size: 13px;
+  font-size: 10px;
+
+  white-space: nowrap; // 텍스트를 한 줄로 표시
+  overflow: hidden;
+  text-overflow: ellipsis; // 오버플로 텍스트를 엘립시스(...)로 표시
+  max-width: 100%; // 너비를 그리드 열의 최대 너비로 제한
+
+  &.selected div {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &.selected div.save {
+    color: #333331;
+    bottom: 20px;
+  }
+
+  &.selected div.spend {
+    color: #fc4873;
+    bottom: 5px;
+  }
 `;

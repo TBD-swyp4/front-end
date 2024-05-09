@@ -1,8 +1,9 @@
-import useVoiceMultiText from '@hooks/useVoiceMutlText';
 import styled, { keyframes } from 'styled-components';
-import { useFormContext } from 'react-hook-form';
 import { flexCenter, flexColumnCenter, mainSection } from '@styles/CommonStyles';
 import { MikeBtn } from '@components/button';
+
+import useVoiceMultiText from '@hooks/useVoiceMutlText';
+import { useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
 // react hook form + FormProvider 전용..
@@ -43,7 +44,7 @@ const VoiceMultiText = ({
       if (isListening) {
         stopListen();
       } else {
-        startListen({ interimResults: false });
+        startListen({ lang: 'ko', interimResults: false });
       }
     } catch (err) {
       alert(err);

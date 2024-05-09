@@ -1,12 +1,14 @@
 import styled, { css } from 'styled-components';
 
-import SettingIcon from '@assets/images/icon/settingIcon.svg?react';
+import SettingGreenIcon from '@assets/images/icon/settingGreen.svg?react';
+import SettingGrayIcon from '@assets/images/icon/settingGray.svg?react';
 import PrevIcon from '@assets/images/icon/prevButton.svg?react';
 import CloseIcon from '@assets/images/icon/closeButton.svg?react';
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
 import LogoWhiteIcon from '@assets/images/icon/logoWhite.svg?react';
 import SpeechBubbleIcon from '@assets/images/icon/speechBubble.svg?react';
 import MikeIcon from '@assets/images/icon/mikeIcon.svg?react';
+import EditIcon from '@assets/images/icon/editIcon.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -40,11 +42,22 @@ export const PrevBtn = styled(PrevIcon)`
   height: 20px;
 `;
 
-export const SettingBtn = styled(SettingIcon)`
-  ${buttonStyle}
-  color: #767676;
+export const SettingGreenBtn = styled(SettingGreenIcon)`
   width: 24px;
   height: 24px;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1); // 10% 크기 증가
+  }
+`;
+
+export const SettingGrayBtn = styled(SettingGrayIcon)`
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1); // 10% 크기 증가
+  }
 `;
 
 export const LogoBtn = styled(LogoIcon)`
@@ -66,4 +79,9 @@ export const SpeechBubbleBtn = styled(SpeechBubbleIcon)`
 export const MikeBtn = styled(MikeIcon)`
   width: 24px;
   height: 24px;
+`;
+
+export const EditBtn = styled(EditIcon)`
+  width: 18px;
+  height: 18px;
 `;

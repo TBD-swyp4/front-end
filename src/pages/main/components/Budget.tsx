@@ -2,16 +2,30 @@ import { flexCenter, flexColumnCenter, absoluteCenter, flexBetween } from '@styl
 import styled, { keyframes } from 'styled-components';
 import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
-const Budget = () => {
+
+import type { Budget as BudgetType } from '@models/api/main';
+
+import { addCommasToNumber } from '@utils/index';
+
+type BudgetProps = BudgetType;
+
+const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
   const navigate = useNavigate();
-  const percent = '50%';
+
+  // 예산이 0인 경우 처리 추가 필요!!!!
+  const percent: string = `${Math.ceil((monthSpend / monthBudget) * 100)}%`;
+  const remain: number = Math.floor(monthBudget - monthSpend);
+  const recommend: number = Math.floor(monthBudget / 30);
+
   return (
     <>
       <Remain>
         <RemainDetail>
           <span className="remain-month">한 달 예산</span>
-          <span className="remain-price">50,000 원 남음</span>
-          <span className="remain-recommend">목표 달성을 위한 하루 권장 지출 : 9000원</span>
+          <span className="remain-price">{addCommasToNumber(remain)} 원 남음</span>
+          <span className="remain-recommend">
+            목표 달성을 위한 하루 권장 지출 : {addCommasToNumber(recommend)}원
+          </span>
         </RemainDetail>
         <GoSetting>
           <SettingBtn
@@ -31,15 +45,15 @@ const Budget = () => {
       <Info>
         <InfoItem>
           <span className="info-text">예산</span>
-          <span className="info-price">100,000원</span>
+          <span className="info-price">{addCommasToNumber(monthBudget)}원</span>
         </InfoItem>
         <InfoItem>
           <span className="info-text">지출</span>
-          <span className="info-price minus">-50,000원</span>
+          <span className="info-price minus">-{addCommasToNumber(monthSpend)}원</span>
         </InfoItem>
         <InfoItem>
           <span className="info-text">절약</span>
-          <span className="info-price">0원</span>
+          <span className="info-price">{addCommasToNumber(monthSave)}원</span>
         </InfoItem>
       </Info>
     </>

@@ -1,22 +1,23 @@
-import { addPageSubject, flexCenter, overflowWithoutScroll } from '@styles/CommonStyles';
+import { flexBetween, flexCenter, overflowWithoutScroll } from '@styles/CommonStyles';
 import styled from 'styled-components';
-import { EmotionKeys } from './../../../types/emotionType';
+import { CloseBtn } from '@components/button';
+
+import type { EmotionKey, EmotionKeyWithNone } from '@models/index';
+import { EmotionKeys } from '@models/index';
+
 import { useState } from 'react';
-import type { EmotionKey } from '../../../types/emotionType';
 
 import Emotion from '@components/emotion';
 
-type DefaultEmotionType = EmotionKey | ''; //빈값이거나, 선택된 EmotionKey를 받는다.
-
 type EmotionPopupProps = {
-  defaultEmotion: DefaultEmotionType; //
+  defaultEmotion: EmotionKeyWithNone; // 빈값 허용 (감정 선택 안된 경우)
   selectEmotion: (emotion: EmotionKey) => void; // 상태 반영하며 닫기
   onClose: () => void; // 모달 그냥 닫기
 };
 
 const EmotionPopup = ({ defaultEmotion, selectEmotion, onClose }: EmotionPopupProps) => {
   // 모달 창에서의 선택 emotion 상태
-  const [emotion, setEmotion] = useState<DefaultEmotionType>(defaultEmotion);
+  const [emotion, setEmotion] = useState<EmotionKeyWithNone>(defaultEmotion);
 
   // x 버튼을 누를 경우, 그냥 닫아야함.
   const handleClose = () => {
@@ -24,15 +25,18 @@ const EmotionPopup = ({ defaultEmotion, selectEmotion, onClose }: EmotionPopupPr
   };
 
   // 선택한 감정을 기억하고, 확인 버튼을 누를 경우에만 save
-  const handleSelect = (emotion: DefaultEmotionType) => {
+  const handleSelect = (emotion: EmotionKeyWithNone) => {
     if (!emotion) return; // 빈 값인 경우를 체크해준다. -> 디자인 나오면 button에 disable 색으로 변경 필요.
     selectEmotion(emotion);
   };
 
   return (
     <Container>
-      <Subject>감정을 하나 골라주세요.</Subject>
-      <div onClick={handleClose}>대충 x 버튼</div>{' '}
+      <Header>
+        <div>감정을 1개 골라주세요.</div>
+        <PopupCloseBtn onClick={handleClose} />
+      </Header>
+
       <EmotionContainer>
         {EmotionKeys.map((x) => (
           <Emotion
@@ -45,13 +49,13 @@ const EmotionPopup = ({ defaultEmotion, selectEmotion, onClose }: EmotionPopupPr
           />
         ))}
       </EmotionContainer>
-      <div
-        style={{ backgroundColor: emotion ? 'red' : 'black' }}
+      <SelectBtn
+        className={`${emotion ? '' : 'disabled'}`}
         onClick={() => {
           handleSelect(emotion);
         }}>
-        대충 적용 버튼
-      </div>
+        완료
+      </SelectBtn>
     </Container>
   );
 };
@@ -60,29 +64,15 @@ export default EmotionPopup;
 
 const Container = styled.div`
   ${overflowWithoutScroll}
-
   width: 350px;
-  height: 600px;
+  height: 650px;
 
   padding: 20px;
 
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: ${(props) => props.theme.shadows.around};
 
   background-color: #fff;
-
-  // 스크롤 시에도 하단에 여백 나타내기
-  /* &::after {
-    content: '';
-    display: block;
-    height: 50px;
-  } */
-`;
-
-const Subject = styled.div`
-  ${addPageSubject}
-  flex-shrink: 0;
-  margin-bottom: 10px;
 `;
 
 const EmotionContainer = styled.div`
@@ -91,4 +81,47 @@ const EmotionContainer = styled.div`
   width: 100%;
 
   gap: 20px;
+
+  margin-bottom: 20px;
+`;
+
+const Header = styled.div`
+  ${flexBetween}
+  align-items: flex-end;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: ${(props) => props.theme.colors.font};
+
+  margin-bottom: 20px;
+`;
+
+const PopupCloseBtn = styled(CloseBtn)`
+  width: 14px;
+  height: 14px;
+  color: #9f9f9f;
+  stroke-width: 2.5;
+  &:hover {
+    color: #9f9f9f; // 마우스 호버 시 색상 변경
+    transform: scale(1.1); // 10% 크기 증가
+    stroke-width: 2.5;
+  }
+`;
+
+const SelectBtn = styled.div`
+  ${flexCenter}
+  background-color: #47cfb0;
+  width: 100%;
+  height: 60px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &.disabled {
+    background-color: #ccc;
+    color: #666;
+  }
 `;

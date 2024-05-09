@@ -1,9 +1,12 @@
 import BottomNavigation from '@layout/BottomNavigation';
 import TopNavigation from '@layout/TopNavigation';
 import styled from 'styled-components';
-import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
+
+type NavLayoutProps = {
+  children: React.ReactNode;
+};
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
@@ -12,9 +15,8 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={<div>둘러보기</div>}
             rightContent={
-              <TopNavigation.TopBar.SettingButton
+              <TopNavigation.TopBar.SettingGrayButton
                 onClick={() => {
                   navigate('/setting');
                 }}

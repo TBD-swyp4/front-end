@@ -49,19 +49,20 @@ const GlobalStyles = createGlobalStyle`
 
   // #20240425.syjang, 여기부터는 임의로 넣은 것 입니다. 수정 가능
   input { 
-      box-sizing: border-box;
-      border: none;
-      outline:none
+    box-sizing: border-box;
+    border: none;
+    outline:none
   }
   input:checked {
-      border: none
+    border: none
   }
   button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
     padding: 0;
+    margin: 0;
   }
   a {
     text-decoration: none;

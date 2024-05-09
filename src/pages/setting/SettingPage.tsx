@@ -1,8 +1,11 @@
 import TopNavigation from '@layout/TopNavigation';
 import styled from 'styled-components';
-import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
+
+type NavLayoutProps = {
+  children: React.ReactNode;
+};
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
@@ -12,7 +15,9 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={<div>환경설정</div>}
+            centerContent={
+              <TopNavigation.TopBar.CenterTitle>내 정보</TopNavigation.TopBar.CenterTitle>
+            }
             rightContent={
               <TopNavigation.TopBar.CloseButton
                 onClick={() => {

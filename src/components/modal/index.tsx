@@ -1,13 +1,15 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { flexCenter } from '@styles/CommonStyles';
+
 import { useRef } from 'react';
+
 import ModalPortal from '@utils/ui/ModalPortal';
 import useOutSideClick from '@hooks/useOutsideClick';
-import { flexCenter } from '@styles/CommonStyles';
 
 type ModalProps = {
   onClose: () => void; // 모달창 닫기 함수를 넘겨받는다.
-  isFullScreen?: boolean; // 모달창이 화면 전체를 덮는지 여부
   children: React.ReactNode;
+  isFullScreen?: boolean; // 모달창이 화면 전체를 덮는지 여부
 };
 
 const Modal = ({ onClose, isFullScreen = false, children }: ModalProps) => {
@@ -39,17 +41,8 @@ const Overlay = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 9999;
-`;
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 `;
 
 const ModalWrap = styled.div<{ full: string }>`
@@ -62,6 +55,4 @@ const ModalWrap = styled.div<{ full: string }>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  animation: ${fadeIn} 0.3s ease-out;
 `;
