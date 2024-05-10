@@ -8,7 +8,7 @@
         "registerType": "SAVE",
         "amount": 3000,
         "content": "택시",
-        "satisfaction": 5,
+        "satisfaction": 1,
         "emotion": "SHY"
       },
       {
@@ -24,7 +24,7 @@
         "registerType": "SPEND",
         "amount": 13000,
         "content": "엽떡",
-        "satisfaction": 2,
+        "satisfaction": 3,
         "emotion": "ANNOYED"
       },
       {
@@ -32,7 +32,7 @@
         "registerType": "SPEND",
         "amount": 13000,
         "content": "새우깡",
-        "satisfaction": 2,
+        "satisfaction": 4,
         "emotion": "ANNOYED"
       },
       {
@@ -40,7 +40,7 @@
         "registerType": "SAVE",
         "amount": 133000,
         "content": "아이스크림 14개",
-        "satisfaction": 2,
+        "satisfaction": 5,
         "emotion": "ANNOYED"
       },
       {
@@ -48,7 +48,7 @@
         "registerType": "SPEND",
         "amount": 13000,
         "content": "엽떡",
-        "satisfaction": 2,
+        "satisfaction": 5,
         "emotion": "ANNOYED"
       }
     ]

@@ -9,6 +9,7 @@ import LogoWhiteIcon from '@assets/images/icon/logoWhite.svg?react';
 import SpeechBubbleIcon from '@assets/images/icon/speechBubble.svg?react';
 import MikeIcon from '@assets/images/icon/mikeIcon.svg?react';
 import EditIcon from '@assets/images/icon/editIcon.svg?react';
+import SearchIcon from '@assets/images/icon/searchIcon.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -85,3 +86,5 @@ export const EditBtn = styled(EditIcon)`
   width: 18px;
   height: 18px;
 `;
+
+export const SearchBtn = styled(SearchIcon)``;
