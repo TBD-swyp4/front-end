@@ -48,7 +48,7 @@ const DayExpenseListTop2 = () => {
         </Summary>
       </Container>
       {showModal && (
-        <Modal onClose={toggleModal}>
+        <Modal isFullScreen={true} onClose={toggleModal}>
           <ExpenseListPopup>
             <PopupHeader>
               <TopBar

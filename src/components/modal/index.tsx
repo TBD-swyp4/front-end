@@ -6,10 +6,11 @@ import { flexCenter } from '@styles/CommonStyles';
 
 type ModalProps = {
   onClose: () => void; // 모달창 닫기 함수를 넘겨받는다.
+  isFullScreen?: boolean; // 모달창이 화면 전체를 덮는지 여부
   children: React.ReactNode;
 };
 
-const Modal = ({ onClose, children }: ModalProps) => {
+const Modal = ({ onClose, isFullScreen = false, children }: ModalProps) => {
   const modalRef = useRef(null);
 
   const handleClose = () => {
@@ -22,7 +23,9 @@ const Modal = ({ onClose, children }: ModalProps) => {
   return (
     <ModalPortal>
       <Overlay>
-        <ModalWrap ref={modalRef}>{children}</ModalWrap>
+        <ModalWrap ref={modalRef} full={isFullScreen.toString()}>
+          {children}
+        </ModalWrap>
       </Overlay>
     </ModalPortal>
   );
@@ -36,7 +39,7 @@ const Overlay = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 9999;
 `;
 
@@ -49,11 +52,11 @@ const fadeIn = keyframes`
   }
 `;
 
-const ModalWrap = styled.div`
+const ModalWrap = styled.div<{ full: string }>`
   ${flexCenter}
 
-  height: 100%;
-  width: 100%;
+  height: ${(props) => (props.full === 'true' ? '100%' : 'fit-content')};
+  width: ${(props) => (props.full === 'true' ? '100%' : 'fit-content')};
 
   position: absolute; // fixed 인 부모 요소 기준으로 위치
   top: 50%;

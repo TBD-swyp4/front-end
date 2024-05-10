@@ -57,3 +57,31 @@ export const overflowWithoutScroll = css`
     display: none;
   }
 `;
+
+export const addPageContainer = css`
+  ${overflowWithoutScroll}
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+`;
+export const addPageSubject = css`
+  font-size: 20px;
+  font-weight: 700;
+  color: ${(props) => props.theme.colors.font};
+  height: 40px;
+`;
+
+export const borderCheck = css`
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid;
+  border-width: 0 3px 3px 0;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  border-color: #bbb; // 회색 체크 마크
+`;

@@ -6,6 +6,7 @@ import CloseIcon from '@assets/images/icon/closeButton.svg?react';
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
 import LogoWhiteIcon from '@assets/images/icon/logoWhite.svg?react';
 import SpeechBubbleIcon from '@assets/images/icon/speechBubble.svg?react';
+import MikeIcon from '@assets/images/icon/mikeIcon.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -60,4 +61,9 @@ export const LogoWhiteBtn = styled(LogoWhiteIcon)`
 export const SpeechBubbleBtn = styled(SpeechBubbleIcon)`
   width: 54px;
   height: 36px;
+`;
+
+export const MikeBtn = styled(MikeIcon)`
+  width: 24px;
+  height: 24px;
 `;
