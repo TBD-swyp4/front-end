@@ -1,9 +1,12 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
-import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
+
+type NavLayoutProps = {
+  children: React.ReactNode;
+};
 
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
@@ -19,7 +22,9 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
                 }}
               />
             }
-            centerContent={<div>Details</div>}
+            centerContent={
+              <TopNavigation.TopBar.CenterTitle>Details</TopNavigation.TopBar.CenterTitle>
+            }
             rightContent={
               <TopNavigation.TopBar.CloseButton
                 onClick={() => {

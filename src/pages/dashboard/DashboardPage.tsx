@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
-import type { NavLayoutProps } from '../../types/navigationTypes';
 
 import { useNavigate } from 'react-router-dom';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 
-type DashboardNavProps = NavLayoutProps & {
+type DashboardNavProps = {
   currentDate: Date;
   previousMonth: () => void;
   nextMonth: () => void;
+  children: React.ReactNode;
 };
 
 const NavigationLayout = ({
@@ -28,9 +28,11 @@ const NavigationLayout = ({
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={<div>대시보드</div>}
+            centerContent={
+              <TopNavigation.TopBar.CenterTitle>대시보드</TopNavigation.TopBar.CenterTitle>
+            }
             rightContent={
-              <TopNavigation.TopBar.SettingButton
+              <TopNavigation.TopBar.SettingGrayButton
                 onClick={() => {
                   navigate('/setting');
                 }}

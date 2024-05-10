@@ -27,14 +27,14 @@ const WriteExpense = () => {
           <Label className={activeLabel === 'spend' ? 'selected' : ''} htmlFor="spend">
             지출했나요?
           </Label>
-          <HiddenRadio id="spend" value="spend" {...register('registerType', { required: true })} />
+          <HiddenRadio id="spend" value="SPEND" {...register('registerType', { required: true })} />
           <StyledCheckmark />
         </CustomCheckboxContainer>
         <CustomCheckboxContainer>
           <Label className={activeLabel === 'save' ? 'selected' : ''} htmlFor="save">
             절약했나요?
           </Label>
-          <HiddenRadio id="save" value="save" {...register('registerType', { required: true })} />
+          <HiddenRadio id="save" value="SAVE" {...register('registerType', { required: true })} />
           <StyledCheckmark />
         </CustomCheckboxContainer>
       </RegisterTypeContainer>

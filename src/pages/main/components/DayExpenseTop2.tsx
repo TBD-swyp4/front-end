@@ -7,20 +7,23 @@ import {
 } from '@styles/CommonStyles';
 import styled from 'styled-components';
 import { PrevBtn } from '@components/button';
-import ExpenseSummary from '@components/expense/ExpenseSummary';
+
 import { useState } from 'react';
+
 import Modal from '@components/modal';
-
 import TopBar from '@components/layout/TopBar';
+import ExpenseSummary from '@components/expense/ExpenseSummary';
 
-const DayExpenseListTop2 = () => {
-  const data = [
-    { subject: '엽떡', price: 2000, satisfaction: 3, emotion: '불안' },
-    { subject: '택시', price: 12000, satisfaction: 2, emotion: '짜증' },
-    { subject: '엽떡', price: 2000, satisfaction: 3, emotion: '불안' },
-    { subject: '엽떡', price: 2000, satisfaction: 3, emotion: '불안' },
-    { subject: '엽떡', price: 2000, satisfaction: 3, emotion: '불안' },
-  ];
+import type { ExpenseSummaryType } from '@models/expense';
+
+import { formatYM } from '@utils/index';
+
+type DayExpenseListTop2Props = {
+  data: ExpenseSummaryType[];
+  currentDate: Date;
+};
+
+const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
   const dataTop2 = data.slice(0, 2);
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -32,8 +35,9 @@ const DayExpenseListTop2 = () => {
     <>
       <Container>
         <DateInfo>
-          4월 26일 내역
-          <ShowMoreBtn onClick={toggleModal} />
+          {formatYM(currentDate, 'word')} 내역
+          {/* 2건 이하인 경우, 더보기 버튼을 보이지 않는다. */}
+          {data.length > 2 && <ShowMoreBtn onClick={toggleModal} />}
         </DateInfo>
         <Summary>
           {dataTop2.length === 0
@@ -53,11 +57,13 @@ const DayExpenseListTop2 = () => {
             <PopupHeader>
               <TopBar
                 leftContent={<TopBar.PrevButton onClick={toggleModal} />}
-                centerContent={<div>소비내역</div>}
+                centerContent={<div>지출/절약 내역</div>}
               />
             </PopupHeader>
             <PopupContent>
-              <Title>4월 30일 총 2건</Title>
+              <Title>
+                {formatYM(currentDate, 'word')} 총 {data.length}건
+              </Title>
               <ListWrapper>
                 {data.map((x, i) => {
                   return (

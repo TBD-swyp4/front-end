@@ -1,8 +1,10 @@
-import { absoluteCenter, flexBetween, flexCenter } from '@styles/CommonStyles';
-import { useEffect, useRef, useState } from 'react';
-import useWindowWidthResize from '@hooks/useWindowWidthResize';
-import { SpeechBubbleBtn } from '@components/button';
 import styled from 'styled-components';
+import { absoluteCenter, flexBetween, flexCenter } from '@styles/CommonStyles';
+import { SpeechBubbleBtn } from '@components/button';
+
+import { useEffect, useRef, useState } from 'react';
+
+import useWindowWidthResize from '@hooks/useWindowWidthResize';
 
 type SatisfactionRangeProps = {
   satisfaction: number;

@@ -1,6 +1,8 @@
-import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { flexColumnCenter } from '@styles/CommonStyles';
+
+import { Outlet } from 'react-router-dom';
+
 // 모바일 크기의 화면을 정중앙에 배치시키는 최상단 레이아웃
 const Layout = () => {
   return (

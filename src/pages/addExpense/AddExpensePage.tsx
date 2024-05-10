@@ -1,8 +1,7 @@
 // 소비 입력 페이지
 import styled from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
-import type { NavLayoutProps } from '../../types/navigationTypes';
-import type { ExpenseForm } from 'src/types/expenseFormType';
+import type { ExpenseFormType } from '@models/expense';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +12,11 @@ import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-type AddNavProps = NavLayoutProps & {
+type AddNavProps = {
   title: string;
   hasPrev: boolean;
   prevStep: () => void;
+  children: React.ReactNode;
 };
 
 const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) => {
@@ -35,7 +35,9 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
                 />
               )
             }
-            centerContent={<div>{title}</div>}
+            centerContent={
+              <TopNavigation.TopBar.CenterTitle>{title}</TopNavigation.TopBar.CenterTitle>
+            }
             rightContent={
               <TopNavigation.TopBar.CloseButton
                 onClick={() => {
@@ -51,12 +53,12 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
 };
 
 const AddExpensePage = () => {
-  const methods = useForm<ExpenseForm>({
+  const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     criteriaMode: 'all',
     defaultValues: {
-      registerType: 'spend', // 소비, 절약
+      registerType: 'SPEND', // 소비, 절약
       content: '', // 소비 내용 (원래 물건)
       date: '', // 소비 날짜, 시간 (저장 시간 아님) -> 추가 필요 필드
       event: '', // 사건
@@ -94,7 +96,7 @@ const AddExpensePage = () => {
   };
 
   // 제출
-  const handleSubmit = (data: ExpenseForm) => {
+  const handleSubmit = (data: ExpenseFormType) => {
     alert(JSON.stringify(data));
     // console.log(data); // 여기서 서버로 데이터를 전송
   };

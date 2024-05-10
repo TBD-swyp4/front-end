@@ -3,7 +3,6 @@ import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
 import Background from '@components/background';
 
-import type { NavLayoutProps } from '../../types/navigationTypes';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,25 +15,38 @@ import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
 
-type MainNavProps = NavLayoutProps & {
+import { ApiResponse } from '@models/api';
+import { MainData } from '@models/api/main';
+import _data from '../../../public/data/main.json';
+
+type MainNavProps = {
   currentDate: Date;
   previousMonth: () => void;
   nextMonth: () => void;
+  children: React.ReactNode;
 };
 
 const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
   const navigate = useNavigate();
   const mainColor = { color: 'white' };
   const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
+
+  const [showBackground, setShowBackground] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowBackground(true);
+    return () => {
+      setShowBackground(false);
+    };
+  }, []);
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
             leftContent={<TopNavigation.TopBar.LogoWhiteButton />}
-            // centerContent={<div>메인</div>}
             rightContent={
-              <TopNavigation.TopBar.SettingButton
+              <TopNavigation.TopBar.SettingGreenButton
                 style={mainColor}
                 onClick={() => {
                   navigate('/setting');
@@ -51,6 +63,7 @@ const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: M
       />
       {children}
       <BottomNavigation />
+      {showBackground && <Background height="36%" color="#47CFB0" />}
     </>
   );
 };
@@ -64,32 +77,25 @@ const MonthNavWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const [showBackground, setShowBackground] = useState<boolean>(false);
-
-  useEffect(() => {
-    setShowBackground(true);
-    return () => {
-      setShowBackground(false);
-    };
-  }, []);
-
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
+
+  const data: ApiResponse<MainData> = _data as ApiResponse<MainData>; // 일단 타입 단언..
+  console.log(data);
 
   return (
     <>
       <NavigationLayout {...monthNav}>
         <MainContainer>
           <BudgetContainer>
-            <Budget />
+            <Budget {...data.data.budget} />
           </BudgetContainer>
           <CalendarWrapper>
-            <Calendar {...monthNav} />
+            <Calendar {...monthNav} data={data.data.monthSpendList} />
           </CalendarWrapper>
           <DayListContainer>
-            <DayExpenseListTop2 />
+            <DayExpenseListTop2 data={data.data.daySpendList} currentDate={monthNav.currentDate} />
           </DayListContainer>
         </MainContainer>
-        {showBackground && <Background height="36%" color="#47CFB0" />}
       </NavigationLayout>
     </>
   );
@@ -117,6 +123,7 @@ const CalendarWrapper = styled.section`
   ${mainSection}
   min-height: 150px;
   width: 100%;
+  padding: 5px;
   margin-bottom: 2px;
 `;
 const DayListContainer = styled.section`

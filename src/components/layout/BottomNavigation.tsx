@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
+
 const BottomNavigation = () => {
   const navigator = useNavigate();
   return (

@@ -1,22 +1,6 @@
-// 각 감정 아이콘도 여기에 정의 같이 하기.
+import { EmotionKey } from '..';
 import { PrevBtn } from '@components/button';
 
-// 빈값 : 선택 안함의 경우를 표현.
-export type EmotionKey =
-  | 'ANNOYED'
-  | 'NERVOUS'
-  | 'LONELY'
-  | 'TIRED'
-  | 'DEPRESSED'
-  | 'SAD'
-  | 'SORRY'
-  | 'EXCITED'
-  | 'FLUTTER'
-  | 'PROUD'
-  | 'SHY'
-  | 'EVADED';
-
-// Emotion 객체의 속성을 정의하는 타입
 type EmotionDetail = {
   text: string;
   color: string;
@@ -36,11 +20,10 @@ export const Emotions: Readonly<EmotionMap> = Object.freeze({
   EXCITED: { text: '기분 좋은', color: '#D7E3FC', icon: PrevBtn },
   FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: PrevBtn },
   PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: PrevBtn },
-  SHY: { text: '부끄러움', color: '#B7C3F3', icon: PrevBtn },
+  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: PrevBtn },
   EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: PrevBtn },
 } as const);
 
-export const EmotionKeys = Object.keys(Emotions) as EmotionKey[];
 export const EmotionTexts = Object.values(Emotions).map((x) => x.text);
 export const EmotionColors = Object.values(Emotions).map((x) => x.color);
 export const EmotionIcons = Object.values(Emotions).map((x) => x.icon);

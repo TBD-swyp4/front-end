@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-
-import { CloseBtn, PrevBtn, SettingBtn, LogoBtn, LogoWhiteBtn } from '@components/button';
 import { flexBetween } from '@styles/CommonStyles';
+import {
+  CloseBtn,
+  PrevBtn,
+  SettingGreenBtn,
+  SettingGrayBtn,
+  LogoBtn,
+  LogoWhiteBtn,
+} from '@components/button';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -35,11 +41,19 @@ const Item = styled.div<{ type: string }>`
   margin: 10px;
 `;
 
+const CenterTitle = styled.div`
+  color: #333331;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
 // 이것 역시 가져다 쓰는 곳에서 topnavigation->topbar->closebutton으로 접근 가능해 import 구문이 필요 없다.
 TopBar.PrevButton = PrevBtn;
-TopBar.SettingButton = SettingBtn;
+TopBar.SettingGreenButton = SettingGreenBtn;
+TopBar.SettingGrayButton = SettingGrayBtn;
 TopBar.CloseButton = CloseBtn;
 TopBar.LogoButton = LogoBtn;
 TopBar.LogoWhiteButton = LogoWhiteBtn;
+TopBar.CenterTitle = CenterTitle;
 
 export default TopBar;
