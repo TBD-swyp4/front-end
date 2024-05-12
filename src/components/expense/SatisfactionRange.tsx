@@ -179,14 +179,14 @@ const RangeInput = styled.input<{ height: number; thumb: number }>`
 
 const FollowShape = styled(SpeechBubbleBtn)`
   position: absolute;
-  top: -25px; // thumb 위에 위치하도록 조정
+  top: -15px; // thumb 위에 위치하도록 조정
   left: 50%;
   transform: translateX(-50%);
 `;
 
 const FollowText = styled.div`
   position: absolute;
-  top: -20px; // thumb 위에 위치하도록 조정
+  top: -10px; // thumb 위에 위치하도록 조정
   left: 50%;
   transform: translateX(-50%);
   color: white;

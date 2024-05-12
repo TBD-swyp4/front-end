@@ -25,7 +25,7 @@ export type ExpenseFormType = {
   aiComment?: string; // ai 한마디
 };
 
-// 조회 타입
+// 조회 필터 타입
 export type ExpenseFilterType = {
   page: number;
   registerType: Register[];
@@ -34,4 +34,18 @@ export type ExpenseFilterType = {
   to: Date;
   satisfaction: number[];
   word: string;
+};
+
+type RegisterDetail = {
+  text: string;
+};
+type RegisterMap = Record<Register, RegisterDetail>;
+
+const RegisterTexts: Readonly<RegisterMap> = Object.freeze({
+  SPEND: { text: '지출했어요' },
+  SAVE: { text: '절약했어요' },
+} as const);
+
+export const getRegisterTypeText = (key: Register): string => {
+  return RegisterTexts[key].text;
 };

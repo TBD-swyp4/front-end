@@ -24,14 +24,14 @@ const WriteExpense = () => {
       <Subject>기록하고 싶은 지출/절약을 작성해 주세요.</Subject>
       <RegisterTypeContainer>
         <CustomCheckboxContainer>
-          <Label className={activeLabel === 'spend' ? 'selected' : ''} htmlFor="spend">
+          <Label className={activeLabel === 'SPEND' ? 'selected' : ''} htmlFor="spend">
             지출했나요?
           </Label>
           <HiddenRadio id="spend" value="SPEND" {...register('registerType', { required: true })} />
           <StyledCheckmark />
         </CustomCheckboxContainer>
         <CustomCheckboxContainer>
-          <Label className={activeLabel === 'save' ? 'selected' : ''} htmlFor="save">
+          <Label className={activeLabel === 'SAVE' ? 'selected' : ''} htmlFor="save">
             절약했나요?
           </Label>
           <HiddenRadio id="save" value="SAVE" {...register('registerType', { required: true })} />
@@ -115,7 +115,7 @@ const StyledCheckmark = styled.span`
   }
 
   ${HiddenRadio}:checked + & {
-    background-color: #47cfb0;
+    background-color: #767676;
   }
 
   &:after {
