@@ -65,9 +65,9 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
                 {formatYM(currentDate, 'word')} 총 {data.length}건
               </Title>
               <ListWrapper>
-                {data.map((x, i) => {
+                {data.map((x) => {
                   return (
-                    <ExpenseBox key={i}>
+                    <ExpenseBox key={x.articleId}>
                       <ExpenseSummary {...x} />
                     </ExpenseBox>
                   );

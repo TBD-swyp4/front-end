@@ -97,8 +97,7 @@ const AddExpensePage = () => {
 
   // 제출
   const handleSubmit = (data: ExpenseFormType) => {
-    alert(JSON.stringify(data));
-    // console.log(data); // 여기서 서버로 데이터를 전송
+    alert(`최종 값(메인)` + JSON.stringify(data));
   };
 
   return (

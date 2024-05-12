@@ -55,17 +55,19 @@ const EmotionText = styled.div<{ size: string }>`
   color: ${(props) => props.theme.colors.font};
   font-size: ${(props) => props.size};
   font-weight: 500;
+  white-space: nowrap;
 `;
 
 const SelectMark = styled.div<{ size: string }>`
   position: absolute;
   width: ${(props) => props.size};
   height: ${(props) => props.size};
-  background-color: ${(props) => props.theme.colors.main};
+  background-color: #767676;
   border-radius: 50%;
 
   top: 0;
   right: 0;
+  transform: translateY(-25%);
 
   &::after {
     ${borderCheck}

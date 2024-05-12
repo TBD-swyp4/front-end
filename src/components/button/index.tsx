@@ -9,6 +9,8 @@ import LogoWhiteIcon from '@assets/images/icon/logoWhite.svg?react';
 import SpeechBubbleIcon from '@assets/images/icon/speechBubble.svg?react';
 import MikeIcon from '@assets/images/icon/mikeIcon.svg?react';
 import EditIcon from '@assets/images/icon/editIcon.svg?react';
+import SearchIcon from '@assets/images/icon/searchIcon.svg?react';
+import FilterIcon from '@assets/images/icon/filterIcon.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -72,8 +74,9 @@ export const LogoWhiteBtn = styled(LogoWhiteIcon)`
 `;
 
 export const SpeechBubbleBtn = styled(SpeechBubbleIcon)`
-  width: 54px;
-  height: 36px;
+  width: 46px;
+  height: 30px;
+  color: #575755;
 `;
 
 export const MikeBtn = styled(MikeIcon)`
@@ -85,3 +88,6 @@ export const EditBtn = styled(EditIcon)`
   width: 18px;
   height: 18px;
 `;
+
+export const SearchBtn = styled(SearchIcon)``;
+export const FilterBtn = styled(FilterIcon)``;

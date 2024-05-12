@@ -10,12 +10,14 @@ export const addCommasToNumber = (number: number): string => {
 export const formatYMD = (date: Date, type: string = 'period') => {
   if (type === 'period') return format(date, format(date, 'yyyy.MM.dd'));
   if (type === 'word') return format(date, 'yyyy년 MM월 dd일');
+  if (type === 'dash') return format(date, 'yyyy-MM-dd');
 };
 
 // 필요 시 다른 타입 추가나 년/월/일 | 월/일 자름 타입 추가 필요
 export const formatYM = (date: Date, type: string = 'period') => {
   if (type === 'period') return format(date, format(date, 'yyyy.MM'));
   if (type === 'word') return format(date, 'yyyy년 MM월');
+  if (type === 'dash') return format(date, 'yyyy-MM');
 };
 
 // 서버에 보낼 때 날짜 형식 정의 `yyyy-MM-ddThh:mm:ss`
@@ -32,4 +34,9 @@ export const compareYMDString = (dateString: string, date: Date, format: string 
   const areSameDay = isSameDay(dateFromString, date);
 
   return areSameDay;
+};
+
+export const convertToDateObject = (dateString: string, type: string = 'dash') => {
+  if (!dateString) return new Date();
+  if (type === 'dash') return parse(dateString, 'yyyy-MM-dd', new Date());
 };
