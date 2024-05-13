@@ -1,5 +1,19 @@
 import { EmotionKey } from '..';
-import { PrevBtn } from '@components/button';
+
+import Annoyed from '@assets/images/icon/emotion/annoyed.svg?react';
+import Flutter from '@assets/images/icon/emotion/flutter.svg?react';
+import Sorry from '@assets/images/icon/emotion/sorry.svg?react';
+import Evaded from '@assets/images/icon/emotion/evaded.svg?react';
+import Proud from '@assets/images/icon/emotion/proud.svg?react';
+import Depressed from '@assets/images/icon/emotion/depressed.svg?react';
+import Nervous from '@assets/images/icon/emotion/nervous.svg?react';
+import Excited from '@assets/images/icon/emotion/excited.svg?react';
+import Tired from '@assets/images/icon/emotion/tired.svg?react';
+import Sad from '@assets/images/icon/emotion/sad.svg?react';
+import Shy from '@assets/images/icon/emotion/shy.svg?react';
+import Lonely from '@assets/images/icon/emotion/lonely.svg?react';
+
+import styled from 'styled-components';
 
 type EmotionDetail = {
   text: string;
@@ -9,19 +23,26 @@ type EmotionDetail = {
 
 type EmotionMap = Record<EmotionKey, EmotionDetail>;
 
+const getStyledComponent = (icon: React.ComponentType) => {
+  return styled(icon)`
+    width: 100%;
+    height: 100%;
+  `;
+};
+
 export const Emotions: Readonly<EmotionMap> = Object.freeze({
-  ANNOYED: { text: '짜증/화남', color: '#FFD1DC', icon: PrevBtn },
-  NERVOUS: { text: '불안/두려움', color: '#FBCBAA', icon: PrevBtn },
-  LONELY: { text: '외로움/고독', color: '#F6DDCC', icon: PrevBtn },
-  TIRED: { text: '피곤/지침', color: '#E8C7C0', icon: PrevBtn },
-  DEPRESSED: { text: '우울/권태', color: '#ECE4DB', icon: PrevBtn },
-  SAD: { text: '슬픔/절망', color: '#FAD2E1', icon: PrevBtn },
-  SORRY: { text: '죄책감/미안', color: '#CEE7E6', icon: PrevBtn },
-  EXCITED: { text: '기분 좋은', color: '#D7E3FC', icon: PrevBtn },
-  FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: PrevBtn },
-  PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: PrevBtn },
-  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: PrevBtn },
-  EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: PrevBtn },
+  ANNOYED: { text: '짜증/화남', color: '#FFD1DC', icon: getStyledComponent(Annoyed) },
+  NERVOUS: { text: '불안/두려움', color: '#FBCBAA', icon: getStyledComponent(Nervous) },
+  LONELY: { text: '외로움/고독', color: '#F6DDCC', icon: getStyledComponent(Lonely) },
+  TIRED: { text: '피곤/지침', color: '#E8C7C0', icon: getStyledComponent(Tired) },
+  DEPRESSED: { text: '우울/권태', color: '#ECE4DB', icon: getStyledComponent(Depressed) },
+  SAD: { text: '슬픔/절망', color: '#FAD2E1', icon: getStyledComponent(Sad) },
+  SORRY: { text: '죄책감/미안', color: '#CEE7E6', icon: getStyledComponent(Sorry) },
+  EXCITED: { text: '기분 좋은/신나는', color: '#D7E3FC', icon: getStyledComponent(Excited) },
+  FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: getStyledComponent(Flutter) },
+  PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: getStyledComponent(Proud) },
+  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: getStyledComponent(Shy) },
+  EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: getStyledComponent(Evaded) },
 } as const);
 
 export const EmotionTexts = Object.values(Emotions).map((x) => x.text);

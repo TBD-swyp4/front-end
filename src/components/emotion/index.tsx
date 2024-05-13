@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { borderCheck, flexColumnCenter } from '@styles/CommonStyles';
+import { borderCheck, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import type { EmotionKey } from '@models/index';
-import { getEmotionColor, getEmotionText } from '@models/emotion';
+import { getEmotionIcon, getEmotionText } from '@models/emotion';
 
 type EmotionProps = {
   emotionKey: EmotionKey; // key에 맞는 감정의 아이콘(색), 텍스트 표시
@@ -17,15 +17,15 @@ const Emotion = ({
   isSelect,
   onClick,
   iconSize = 80,
-  textSize = 12,
+  textSize = 14,
   selectSize = 24,
 }: EmotionProps) => {
+  const EmotionSVG = getEmotionIcon(emotionKey);
   return (
     <EmotionWrapper>
-      <EmotionIcon
-        onClick={onClick}
-        size={`${iconSize}px`}
-        color={getEmotionColor(emotionKey)}></EmotionIcon>
+      <EmotionIcon onClick={onClick} size={`${iconSize}px`}>
+        <EmotionSVG />
+      </EmotionIcon>
       <EmotionText size={`${textSize}px`}>{getEmotionText(emotionKey)}</EmotionText>
       {isSelect && <SelectMark size={`${selectSize}px`} />}
     </EmotionWrapper>
@@ -36,23 +36,23 @@ export default Emotion;
 
 const EmotionWrapper = styled.div`
   ${flexColumnCenter}
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   cursor: pointer;
 
   position: relative;
 `;
 
-const EmotionIcon = styled.div<{ color: string; size: string }>`
+const EmotionIcon = styled.div<{ size: string }>`
+  ${flexCenter}
   width: ${(props) => props.size};
   height: ${(props) => props.size};
   border-radius: 50%;
-  background-color: ${(props) => props.color};
   margin-bottom: 5px;
   cursor: pointer;
 `;
 
 const EmotionText = styled.div<{ size: string }>`
-  color: ${(props) => props.theme.colors.font};
+  color: #9f9f9f;
   font-size: ${(props) => props.size};
   font-weight: 500;
   white-space: nowrap;
@@ -62,7 +62,7 @@ const SelectMark = styled.div<{ size: string }>`
   position: absolute;
   width: ${(props) => props.size};
   height: ${(props) => props.size};
-  background-color: #767676;
+  background-color: #333331;
   border-radius: 50%;
 
   top: 0;

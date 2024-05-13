@@ -5,14 +5,18 @@ import { SpeechBubbleBtn } from '@components/button';
 import { useEffect, useRef, useState } from 'react';
 
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
+import { EmotionKey } from '@models/index';
+import { getEmotionIcon } from '@models/emotion';
 
 type SatisfactionRangeProps = {
+  emotion: EmotionKey;
   satisfaction: number;
   setSatisfaction?: (state: number) => void; // isEdit이 true인 경우 같이 넘겨줘야함.
   isEdit?: boolean;
 };
 
 const SatisfactionRange = ({
+  emotion,
   satisfaction,
   isEdit = false,
   setSatisfaction,
@@ -26,7 +30,9 @@ const SatisfactionRange = ({
   const [rangeWidth, setRangeWidth] = useState<number>(212);
   const [value, setValue] = useState<number>(satisfaction); // props로 넘겨받게될듯
   const rangeRef = useRef<HTMLDivElement>(null);
-  // const followSah
+
+  const EmotionSVG = getEmotionIcon(emotion);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEdit && setSatisfaction && event.target) {
       setSatisfaction(parseInt(event.target.value));
@@ -60,7 +66,7 @@ const SatisfactionRange = ({
     <Wrapper>
       <RangeBackgroundBar radius={radius} />
       <Left>
-        <EmotionIcon />
+        <EmotionSVG />
       </Left>
       <Right>
         <RangeSection ref={rangeRef}>
@@ -113,13 +119,6 @@ const Left = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
   z-index: 2;
-`;
-
-const EmotionIcon = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #fc4873;
 `;
 
 const Right = styled.div`

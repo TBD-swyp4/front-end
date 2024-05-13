@@ -117,14 +117,14 @@ const BudgetContainer = styled.section`
   ${flexColumnBetween}
   height: 250px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 `;
 const CalendarWrapper = styled.section`
   ${mainSection}
   min-height: 150px;
   width: 100%;
   padding: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 16px;
 `;
 const DayListContainer = styled.section`
   ${mainSection}

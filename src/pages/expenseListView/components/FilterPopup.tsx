@@ -1,4 +1,5 @@
 import {
+  divider,
   flexBetween,
   flexCenter,
   flexColumnCenter,
@@ -185,10 +186,5 @@ const ApplyButton = styled.button`
 `;
 
 const Divider = styled.div`
-  border: none;
-  width: 100%;
-  height: 2px;
-  background-color: #dddddd;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  ${divider}
 `;

@@ -1,6 +1,6 @@
 import {
+  divider,
   flexBetween,
-  flexCenter,
   flexColumnCenter,
   mainSection,
   overflowWithoutScroll,
@@ -16,7 +16,7 @@ import ExpenseSummary from '@components/expense/ExpenseSummary';
 
 import type { ExpenseSummaryType } from '@models/expense';
 
-import { formatYM } from '@utils/index';
+import { formatMD } from '@utils/index';
 
 type DayExpenseListTop2Props = {
   data: ExpenseSummaryType[];
@@ -35,7 +35,10 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
     <>
       <Container>
         <DateInfo>
-          {formatYM(currentDate, 'word')} 내역
+          <Title>
+            <span>{formatMD(currentDate, 'word')} 내역</span>
+            <span className="sub">{`총 ${data.length}건`}</span>
+          </Title>
           {/* 2건 이하인 경우, 더보기 버튼을 보이지 않는다. */}
           {data.length > 2 && <ShowMoreBtn onClick={toggleModal} />}
         </DateInfo>
@@ -44,8 +47,9 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
             ? '작성 내역이 없습니다.'
             : dataTop2.map((x, i) => {
                 return (
-                  <div key={i} style={{ marginBottom: '15px' }}>
+                  <div key={i}>
                     <ExpenseSummary {...x} hideHeader={true} />
+                    {i != dataTop2.length - 1 && <Divider />}
                   </div>
                 );
               })}
@@ -62,7 +66,8 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
             </PopupHeader>
             <PopupContent>
               <Title>
-                {formatYM(currentDate, 'word')} 총 {data.length}건
+                <span>{formatMD(currentDate, 'word')}</span>
+                <span className="sub">{`총 ${data.length}건`}</span>
               </Title>
               <ListWrapper>
                 {data.map((x) => {
@@ -148,13 +153,23 @@ const PopupContent = styled.div`
 `;
 
 const Title = styled.div`
-  ${flexCenter}
-  justify-content: flex-start;
+  display: flex;
+  align-items: flex-end;
   width: 100%;
-  height: 60px;
+
   color: ${(props) => props.theme.font};
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
+  gap: 8px;
+
+  margin-bottom: 12px;
+  margin-top: 20px;
+
+  & > span.sub {
+    color: #9f9f9f;
+    font-size: 14px;
+    font-weight: 400;
+  }
 `;
 
 const ListWrapper = styled.div`
@@ -162,9 +177,13 @@ const ListWrapper = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  gap: 5px;
+  gap: 12px;
 `;
 const ExpenseBox = styled.div`
   ${mainSection}
   width: 100%;
+`;
+
+const Divider = styled.div`
+  ${divider}
 `;

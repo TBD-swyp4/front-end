@@ -3,8 +3,8 @@ import {
   addPageSubject,
   flexCenter,
   flexColumnCenter,
-  mainSection,
   overflowWithoutScroll,
+  summaryArea,
 } from '@styles/CommonStyles';
 import styled, { css } from 'styled-components';
 import { addCommasToNumber } from '@utils/index';
@@ -18,7 +18,7 @@ import EmotionPopup from './EmotionPopup';
 import { EditBtn } from '@components/button';
 
 import type { EmotionKey } from '@models/index';
-import { getEmotionText, getEmotionColor } from '@models/emotion';
+import { getEmotionIcon, getEmotionText } from '@models/emotion';
 
 // 사건, 생각, 감정
 const WriteEmotion = () => {
@@ -31,8 +31,9 @@ const WriteEmotion = () => {
   const emotionKey = getValues('emotion'); // emotionKey는 빈 값일 수 있다.
 
   const [isSelectEmotion, setIsSelectEmotion] = useState<boolean>(false);
-  const [emotionColor, setEmotionColor] = useState<string>('#4F4F4F');
   const [emotionText, setEmotionText] = useState<string>('없음');
+  const [EmotionSVG, setEmotionSVG] = useState<React.ComponentType | null>(null);
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const toggleModal = () => {
     setShowModal((prev) => !prev);
@@ -45,8 +46,8 @@ const WriteEmotion = () => {
 
   const updateEmotionState = (key: EmotionKey) => {
     setIsSelectEmotion(true);
-    setEmotionColor(getEmotionColor(key));
     setEmotionText(getEmotionText(key));
+    setEmotionSVG(getEmotionIcon(key));
   };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const WriteEmotion = () => {
   return (
     <>
       <Container>
-        <Subject>그 때 사건과 생각을 말해주세요.</Subject>
+        <Subject>그 때 사건과 생각을 말해주세요</Subject>
         <Summary>{summaryText}</Summary>
         <EventContainer>
           <VoiceMultiText
@@ -77,7 +78,7 @@ const WriteEmotion = () => {
         <EmotionContainer>
           {/* 필수값 */}
           <Subject>
-            어떤 감정을 느꼈나요?
+            느낀 감정 1가지를 선택해주세요
             <span className="required">* 필수</span>
           </Subject>
           <HiddenInput {...register('emotion', { required: true })} />
@@ -92,7 +93,7 @@ const WriteEmotion = () => {
                 <EmotionEditBtn onClick={toggleModal}>
                   <EditBtn />
                 </EmotionEditBtn>
-                <EmotionColor color={emotionColor}></EmotionColor>
+                {EmotionSVG && <EmotionSVG />}
                 <EmotionText>{emotionText}</EmotionText>
               </>
             )}
@@ -131,13 +132,7 @@ const Subject = styled.h1`
   }
 `;
 const Summary = styled.div`
-  ${mainSection}
-  ${flexCenter}
-  width: 100%;
-  height: 50px;
-  font-weight: 700;
-  font-size: 14px;
-  color: #575755;
+  ${summaryArea}
 `;
 
 const EventContainer = styled.div`
@@ -147,7 +142,7 @@ const EventContainer = styled.div`
 `;
 const ThoughtContainer = styled.div`
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 `;
 const EmotionContainer = styled.div`
   ${flexColumnCenter}
@@ -156,7 +151,7 @@ const EmotionContainer = styled.div`
 `;
 
 const EmotionBorder = css`
-  border-radius: 8px;
+  border-radius: 50%;
   border: 1px dashed #bcbcbc;
 `;
 
@@ -196,7 +191,6 @@ const EmotionEditBtn = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(50%, -50%);
 `;
 
 const EmotionAddBtn = styled.div`
@@ -228,19 +222,13 @@ const EmotionAddBtn = styled.div`
   }
 `;
 
-const EmotionColor = styled.div<{ color: string }>`
-  ${EmotionBorder}
-  width: 100%;
-  height: 75%;
-  background-color: ${(props) => props.color};
-`;
-
 const EmotionText = styled.div`
   ${flexCenter}
-  width: 100%;
-  height: 25%;
+  position: absolute;
+  color: #ffffff;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
+  bottom: 10px;
 `;
 
 const HiddenInput = styled.input.attrs({ type: 'text' })`

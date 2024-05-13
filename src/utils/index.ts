@@ -20,6 +20,13 @@ export const formatYM = (date: Date, type: string = 'period') => {
   if (type === 'dash') return format(date, 'yyyy-MM');
 };
 
+// 필요 시 다른 타입 추가나 년/월/일 | 월/일 자름 타입 추가 필요
+export const formatMD = (date: Date, type: string = 'period') => {
+  if (type === 'period') return format(date, format(date, 'M.dd'));
+  if (type === 'word') return format(date, 'M월 dd일');
+  if (type === 'dash') return format(date, 'M-dd');
+};
+
 // 서버에 보낼 때 날짜 형식 정의 `yyyy-MM-ddThh:mm:ss`
 export const formatToServer = (date: Date) => {
   return format(date, "yyyy-MM-dd'T'HH:mm:ss");

@@ -49,7 +49,7 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
         </InfoItem>
         <InfoItem>
           <span className="info-text">지출</span>
-          <span className="info-price minus">-{addCommasToNumber(monthSpend)}원</span>
+          <span className="info-price">-{addCommasToNumber(monthSpend)}원</span>
         </InfoItem>
         <InfoItem>
           <span className="info-text">절약</span>

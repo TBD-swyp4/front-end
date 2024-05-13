@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { flexCenter, flexColumnCenter, mainSection } from '@styles/CommonStyles';
+import { flexCenter, textArea, textAreaWrapper } from '@styles/CommonStyles';
 import { MikeBtn } from '@components/button';
 
 import useVoiceMultiText from '@hooks/useVoiceMutlText';
@@ -20,13 +20,7 @@ const VoiceMultiText = ({
   placeholder = '',
   isRequired = false,
 }: VoiceMultiTextProps) => {
-  const {
-    register,
-    watch,
-    // formState: { errors },
-    getValues,
-    setValue,
-  } = useFormContext();
+  const { register, watch, getValues, setValue } = useFormContext();
 
   const textValue = watch(hookFormFieldName); // 'message' 필드의 현재 값을 실시간으로 관찰
   const maxLength = 150; // #20240508.syjang, DB 용량 문제로 150자 제한으로 변경
@@ -96,48 +90,11 @@ const Container = styled.div`
 `;
 
 const TextAreaWrapper = styled.div`
-  ${mainSection}
-  ${flexColumnCenter}
-  justify-content: flex-start;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 2px;
-  width: 100%;
-  height: 100px;
-  gap: 2px;
-
-  & span.title {
-    font-size: 12px;
-    font-weight: 300;
-    color: #9f9f9f;
-    width: 100%;
-    flex-shrink: 0;
-  }
-
-  & span.count {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-size: 10px;
-    font-weight: 400;
-    color: #9f9f9f;
-    width: 100%;
-    flex-shrink: 0;
-    margin-bottom: 3px;
-  }
+  ${textAreaWrapper}
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
-  height: 100%;
-  border: none;
-  resize: none;
-  font-size: 14px;
-  outline: none;
-
-  &::placeholder {
-    color: #bcbcbc;
-  }
+  ${textArea}
 `;
 
 const VoiceButton = styled.div<{ listening: string }>`
