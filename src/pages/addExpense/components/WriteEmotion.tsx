@@ -7,7 +7,7 @@ import {
   summaryArea,
 } from '@styles/CommonStyles';
 import styled, { css } from 'styled-components';
-import { addCommasToNumber } from '@utils/index';
+import { getSpendSumamryText } from '@utils/index';
 
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -24,9 +24,9 @@ import { getEmotionIcon, getEmotionText } from '@models/emotion';
 const WriteEmotion = () => {
   const { register, getValues, setValue } = useFormContext();
 
-  const prevValue = getValues(['registerType', 'content', 'amount', 'date']);
-  const summaryText = `${prevValue[3]} 에 '${prevValue[1]}'(으)로 ${addCommasToNumber(prevValue[2])}원을 
-  ${prevValue[0] == 'spend' ? '지출' : '절약'}했어요.`;
+  const summaryText = getSpendSumamryText(
+    ...getValues(['spendDate', 'content', 'amount', 'registerType']),
+  );
 
   const emotionKey = getValues('emotion'); // emotionKey는 빈 값일 수 있다.
 

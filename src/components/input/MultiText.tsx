@@ -7,6 +7,7 @@ type MultiTextProps = {
   title?: string;
   placeholder?: string;
   isRequired?: boolean;
+  isDisable?: boolean;
 };
 
 const MultiText = ({
@@ -14,6 +15,7 @@ const MultiText = ({
   title = '내용',
   placeholder = '',
   isRequired = false,
+  isDisable = false,
 }: MultiTextProps) => {
   const { register, watch } = useFormContext();
 
@@ -26,6 +28,7 @@ const MultiText = ({
       <TextArea
         maxLength={maxLength}
         placeholder={placeholder}
+        disabled={isDisable}
         {...register(hookFormFieldName, { required: isRequired })}
       />
       <span className="count">{`${textValue?.length || 0}/${maxLength}`}</span>

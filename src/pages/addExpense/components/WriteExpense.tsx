@@ -45,7 +45,12 @@ const WriteExpense = () => {
       </RegisterTypeContainer>
 
       <ContentContainer>
-        <VoiceMultiText hookFormFieldName="content" title="내용" placeholder="예) 엽기떡볶이" />
+        <VoiceMultiText
+          hookFormFieldName="content"
+          title="내용"
+          placeholder="예) 엽기떡볶이"
+          isRequired={true}
+        />
       </ContentContainer>
 
       <AmountContainer>
@@ -57,7 +62,7 @@ const WriteExpense = () => {
       </AmountContainer>
       <DateContainer>
         <label htmlFor="date">날짜</label>
-        <DatetimeInput id="date" {...register('date', { required: true })}></DatetimeInput>
+        <DatetimeInput id="date" {...register('spendDate', { required: true })}></DatetimeInput>
       </DateContainer>
     </Container>
   );
@@ -186,6 +191,6 @@ const DatetimeInput = styled.input.attrs({ type: 'datetime-local' })`
   border: none;
   width: 220px;
   height: 40px;
-  font-family: 'SUIT';
   font-size: 14px;
+  font-weight: 500;
 `;

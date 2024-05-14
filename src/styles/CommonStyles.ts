@@ -83,12 +83,10 @@ export const textAreaWrapper = css`
   ${mainSection}
   ${flexColumnCenter}
   justify-content: flex-start;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 2px;
+  padding: 14.5px 16px 2px 16px;
   width: 100%;
   height: 100px;
-  gap: 2px;
+  gap: 5px;
 
   & span.title {
     font-size: 12px;
@@ -122,6 +120,12 @@ export const textArea = css`
   &::placeholder {
     color: #bcbcbc;
   }
+
+  &:disabled {
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+  }
 `;
 
 export const summaryArea = css`
@@ -135,7 +139,7 @@ export const summaryArea = css`
   color: #ffffff;
   background-color: #767676;
 
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
 `;
 
@@ -146,4 +150,45 @@ export const divider = css`
   background-color: #dddddd;
   margin-top: 24px;
   margin-bottom: 24px;
+`;
+
+export const radioButtonStyle = css`
+  appearance: none;
+  width: 24px;
+  height: 24px;
+
+  margin: 0;
+  margin-bottom: 10px;
+
+  border: 2px solid gray;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  position: relative;
+  background: #e3e3e3;
+  border: none;
+
+  &:checked {
+    background-color: #767676;
+    border: none;
+  }
+  &::after {
+    ${borderCheck}
+    left: 8px;
+    top: 4px;
+    border-color: #fff;
+  }
+`;
+
+export const radioButtonLabelStyle = css`
+  font-size: 14px;
+  font-weight: 500;
+  color: #bcbcbc;
+  cursor: pointer;
+
+  &.selected {
+    color: #333331;
+    font-weight: 700;
+  }
 `;

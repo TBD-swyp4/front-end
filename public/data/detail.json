@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "message": "게시글 1개 불러오기 성공",
+  "data": {
+    "content": "This is another content.",
+    "amount": 19000,
+    "spendDate": "2024-05-08T00:00",
+    "event": "Event 8",
+    "thought": "Thought 8",
+    "emotion": "EXCITED",
+    "satisfaction": 4,
+    "reason": "Reason 8",
+    "improvements": "Improvement 8",
+    "registerType": "SAVE",
+    "aiComment": "Keep it up!"
+  }
+}

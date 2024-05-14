@@ -37,11 +37,11 @@ export const Emotions: Readonly<EmotionMap> = Object.freeze({
   TIRED: { text: '피곤/지침', color: '#E8C7C0', icon: getStyledComponent(Tired) },
   DEPRESSED: { text: '우울/권태', color: '#ECE4DB', icon: getStyledComponent(Depressed) },
   SAD: { text: '슬픔/절망', color: '#FAD2E1', icon: getStyledComponent(Sad) },
-  SORRY: { text: '죄책감/미안', color: '#CEE7E6', icon: getStyledComponent(Sorry) },
-  EXCITED: { text: '기분 좋은/신나는', color: '#D7E3FC', icon: getStyledComponent(Excited) },
+  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: getStyledComponent(Shy) },
+  SORRY: { text: '죄책감/미안함', color: '#CEE7E6', icon: getStyledComponent(Sorry) },
+  EXCITED: { text: '기분좋은/신나는', color: '#D7E3FC', icon: getStyledComponent(Excited) },
   FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: getStyledComponent(Flutter) },
   PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: getStyledComponent(Proud) },
-  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: getStyledComponent(Shy) },
   EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: getStyledComponent(Evaded) },
 } as const);
 

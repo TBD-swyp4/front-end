@@ -1,11 +1,12 @@
 import {
   addPageContainer,
   addPageSubject,
-  borderCheck,
   flexBetween,
   flexColumnCenter,
   mainSection,
   overflowWithoutScroll,
+  radioButtonLabelStyle,
+  radioButtonStyle,
 } from '@styles/CommonStyles';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
@@ -101,42 +102,9 @@ const RadioLabelContainer = styled.div`
 `;
 
 const RadioButton = styled.input.attrs({ type: 'radio' })`
-  appearance: none;
-  width: 24px;
-  height: 24px;
-
-  margin: 0;
-  margin-bottom: 10px;
-
-  border: 2px solid gray;
-  border-radius: 50%;
-
-  cursor: pointer;
-
-  position: relative;
-  background: #d9d9d9;
-  border: none;
-
-  &:checked {
-    background-color: #47cfb0;
-    border: none;
-  }
-
-  &:checked::after {
-    ${borderCheck}
-    left: 8px;
-    top: 4px;
-    border-color: #fff;
-  }
+  ${radioButtonStyle}
 `;
 
 const Label = styled.label`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.colors.font};
-  cursor: pointer;
-
-  &.selected {
-    font-weight: 700;
-  }
+  ${radioButtonLabelStyle}
 `;
