@@ -38,16 +38,15 @@ export default MonthNavigatorBtn;
 
 const Wrapper = styled.div<{ color: string }>`
   ${flexBetween}
-  font-size: 14px;
-  font-weight: 700;
-  width: 220px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 230px;
 
   color: ${(props) => props.color};
 `;
 const BtnWrapper = styled.div`
   ${flexCenter}
   height: 100%;
-  /* padding-top: 3px; */
   margin-left: 8px;
   margin-right: 8px;
 `;

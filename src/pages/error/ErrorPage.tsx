@@ -1,19 +1,21 @@
 import styled from 'styled-components';
-import NotFoundIcon from '@assets/images/icon/404.svg?react';
+import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+import ErrorBird from '@assets/images/icon/bird/errorBird.svg?react';
+
 import { useNavigate } from 'react-router-dom';
-import { flexCenter } from '@styles/CommonStyles';
 
 const ErrorPage = () => {
   const navigator = useNavigate();
   return (
     <Container>
-      <NotFoundIcon></NotFoundIcon>
-      <PrevButton
+      <ErrorBird></ErrorBird>
+      <Text>원하는 페이지를 찾을 수 없어요</Text>
+      <Button
         onClick={() => {
-          navigator(-1);
+          navigator('/');
         }}>
-        뒤로가기
-      </PrevButton>
+        홈으로 돌아가기
+      </Button>
     </Container>
   );
 };
@@ -21,21 +23,29 @@ const ErrorPage = () => {
 export default ErrorPage;
 
 const Container = styled.div`
-  ${flexCenter}
-  background-color: transparent;
+  position: relative;
+  ${flexColumnCenter}
   width: 100%;
   height: 100%;
-  gap: 150px;
-  flex-direction: column;
+  padding-bottom: 150px;
 `;
 
-const PrevButton = styled.button`
-  width: 300px;
-  height: 80px;
-  border-radius: 40px;
-  border: 6px solid ${(props) => props.theme.colors.button};
-  color: ${(props) => props.theme.colors.button};
-  font-weight: 400;
-  font-size: 30px;
-  text-align: center;
+const Text = styled.div`
+  color: #767676;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+const Button = styled.div`
+  ${flexCenter}
+  position: absolute;
+  bottom: 50px;
+  width: 358px;
+  height: 60px;
+  border-radius: 6px;
+  background-color: #47cfb0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
 `;

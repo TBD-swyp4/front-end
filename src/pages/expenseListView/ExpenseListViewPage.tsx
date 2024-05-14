@@ -68,7 +68,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
           />
         }></TopNavigation>
       {children}
-      <BottomNavigation />
+      <BottomNavigation location="expenseList" />
       {showBackground && <Background height="60px" color="#47CFB0" />}
     </>
   );

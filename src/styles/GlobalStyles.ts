@@ -83,7 +83,7 @@ const GlobalStyles = createGlobalStyle`
   // body-background image 여기서 지정
   body {
     ${flexCenter}
-    background-image: url(${(props) => props.theme.bgImage});
+    background-image: url('./assets/background/background.svg');
     background-size: cover;
     color: black;
     width: 100vw;

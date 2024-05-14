@@ -87,6 +87,7 @@ const toolbarStyle = css`
   width: 24px;
   height: 24px;
   color: #bcbcbc;
+  cursor: pointer;
 
   &:hover {
     color: #47cfb0;

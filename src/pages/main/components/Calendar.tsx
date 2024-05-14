@@ -33,6 +33,17 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
   const [showWeekOnly, setShowWeekOnly] = useState(true); // 주/ 월 달력 상태 추가
   const currentMonth = startOfMonth(currentDate);
 
+  // 초기 렌더링 시 필요한 오늘 날짜 데이터가 있는지 찾는다.
+  const todayData = data.find((x) => compareYMDString(x.date, currentDate));
+  let todaySpend: number = 0;
+  let todaySave: number = 0;
+  if (todayData) {
+    todayData.daySpend > 0 && (todaySpend = todayData.daySpend);
+    todayData.daySave > 0 && (todaySave = todayData.daySave);
+  }
+  const [daySpend, setDaySpend] = useState<number>(todaySpend);
+  const [daySave, setDaySave] = useState<number>(todaySave);
+
   // 월요일 시작 설정
   const startDay = startOfWeek(currentMonth, { weekStartsOn: 1 });
   const endDay = endOfWeek(endOfMonth(currentDate), { weekStartsOn: 1 });
@@ -58,10 +69,12 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
 
   const daysToShow = showWeekOnly ? getDaysOfSelectedWeek() : days;
 
-  const handleDayClick = (day: Date) => {
+  const handleDayClick = (day: Date, daySpend: number, daySave: number) => {
     // 이번달 날짜가 아니면 return
     if (!isSameMonth(day, currentMonth)) return;
     setSelectedDate(day);
+    setDaySpend(daySpend);
+    setDaySave(daySave);
     alert(day);
   };
 
@@ -107,24 +120,33 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
               key={index}
               className={`${same ? '' : 'faded'}${isToday(day.date) ? ' bold' : ''}${
                 selectedDate.toDateString() === day.date.toDateString() ? ' selected' : ''
-              }${day.daySpend !== 0 && same && !showWeekOnly ? ' spend' : ''}${
-                day.daySave !== 0 && same && !showWeekOnly ? ' save' : ''
+              }${day.daySpend !== 0 && same ? ' spend' : ''}${
+                day.daySave !== 0 && same ? ' save' : ''
               }`}
-              onClick={() => handleDayClick(day.date)}>
+              onClick={() => handleDayClick(day.date, day.daySpend, day.daySave)}>
               {format(day.date, 'd')}
             </CalendarDay>
           );
         })}
-        {showWeekOnly &&
-          bindDataDaysToShow.map((day, i) => (
-            <ExpenseDetail
-              key={i}
-              className={`${selectedDate.toDateString() === day.date.toDateString() ? 'selected' : ''}`}>
-              <div className="save">+{addCommasToNumber(day.daySave)}</div>
-              <div className="spend">-{addCommasToNumber(day.daySpend)}</div>
-            </ExpenseDetail>
-          ))}
       </CalendarGrid>
+      {showWeekOnly && (
+        <ExpenseDetailWrapper>
+          {(daySpend > 0 || daySave > 0) && (
+            <ExpenseDetail>
+              {daySpend > 0 && (
+                <Detail className="spend">
+                  지출:<span>{`-${addCommasToNumber(daySpend)}원`}</span>
+                </Detail>
+              )}
+              {daySave > 0 && (
+                <Detail>
+                  절약:<span>{`${addCommasToNumber(daySave)}원`}</span>
+                </Detail>
+              )}
+            </ExpenseDetail>
+          )}
+        </ExpenseDetailWrapper>
+      )}
       <ToggleButton onClick={toggleWeekView}>
         {showWeekOnly ? <ArrowDown /> : <ArrowUp />}
       </ToggleButton>
@@ -195,6 +217,9 @@ const CalendarGrid = styled.div`
   width: 100%; // 너비는 부모 요소에 맞춤
   margin: 0 auto; // 중앙 정렬
 
+  padding-left: 5px;
+  padding-right: 5px;
+
   position: relative;
 `;
 
@@ -228,9 +253,11 @@ const CalendarDay = styled.div`
   }
 
   &.selected {
-    background-color: #333331; // 선택된 날짜 배경색
+    background-color: #575755; // 선택된 날짜 배경색
     color: rgb(255, 255, 255); // 선택된 날짜 글씨색
     border-radius: 50%; // 동그란 형태
+    font-size: 16px;
+    font-weight: 700;
   }
 
   // 소비
@@ -315,33 +342,33 @@ const ArrowDown = styled(PrevBtn)`
   }
 `;
 
+const ExpenseDetailWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 23px;
+  padding-left: 14px;
+  margin-top: 3px;
+`;
+
 const ExpenseDetail = styled.div`
-  ${flexColumnCenter}
+  ${flexCenter}
+  height: 100%;
+  background-color: #eeeeee;
+  border-radius: 3px;
+  padding: 0 14px 0 14px;
+  gap: 15px;
+`;
 
-  height: 30px; // 고정 높이 설정
-
-  color: #bcbcbc;
+const Detail = styled.div`
+  font-size: 11px;
   font-weight: 300;
-  font-size: 10px;
-
-  white-space: nowrap; // 텍스트를 한 줄로 표시
-  overflow: hidden;
-  text-overflow: ellipsis; // 오버플로 텍스트를 엘립시스(...)로 표시
-  max-width: 100%; // 너비를 그리드 열의 최대 너비로 제한
-
-  &.selected div {
-    position: absolute;
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  &.selected div.save {
-    color: #333331;
-    bottom: 20px;
-  }
-
-  &.selected div.spend {
+  color: #575755;
+  &.spend {
     color: #fc4873;
-    bottom: 5px;
+  }
+
+  & > span {
+    margin-left: 3px;
+    font-weight: 500;
   }
 `;

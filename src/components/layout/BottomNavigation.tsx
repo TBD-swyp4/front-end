@@ -2,43 +2,68 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
 
-const BottomNavigation = () => {
+import MainIcon from '@assets/images/icon/navigation/main.svg?react';
+import DashboardIcon from '@assets/images/icon/navigation/dashboard.svg?react';
+import AddIcon from '@assets/images/icon/navigation/addExpense.svg?react';
+import ViewIcon from '@assets/images/icon/navigation/view.svg?react';
+import StatisticsIcon from '@assets/images/icon/navigation/statistics.svg?react';
+
+type BottomNavigationProps = {
+  location: string;
+};
+
+const BottomNavigation = ({ location }: BottomNavigationProps) => {
   const navigator = useNavigate();
+
   return (
     <Wrapper>
       <NavItem
+        className={`${location == 'main' ? 'select' : ''}`}
         onClick={() => {
           navigator('/');
         }}>
-        <NavIcon></NavIcon>
+        <NavIcon>
+          <MainIcon />
+        </NavIcon>
         <NavTitle>메인</NavTitle>
       </NavItem>
       <NavItem
+        className={`${location == 'dashboard' ? 'select' : ''}`}
         onClick={() => {
           navigator('/dashboard');
         }}>
-        <NavIcon></NavIcon>
+        <NavIcon>
+          <DashboardIcon />
+        </NavIcon>
         <NavTitle>대시보드</NavTitle>
-      </NavItem>
-      <NavItem
-        onClick={() => {
-          navigator('/expense');
-        }}>
-        <NavIcon></NavIcon>
-        <NavTitle>조회</NavTitle>
       </NavItem>
       <NavItem
         onClick={() => {
           navigator('/add');
         }}>
-        <NavIcon></NavIcon>
-        <NavTitle>입력</NavTitle>
+        <NavIcon>
+          <AddIcon />
+        </NavIcon>
+        <NavTitle>내용입력</NavTitle>
       </NavItem>
       <NavItem
+        className={`${location == 'expenseList' ? 'select' : ''}`}
+        onClick={() => {
+          navigator('/expense');
+        }}>
+        <NavIcon>
+          <ViewIcon />
+        </NavIcon>
+        <NavTitle>조회</NavTitle>
+      </NavItem>
+      <NavItem
+        className={`${location == 'statistics' ? 'select' : ''}`}
         onClick={() => {
           navigator('/statistics');
         }}>
-        <NavIcon></NavIcon>
+        <NavIcon>
+          <StatisticsIcon />
+        </NavIcon>
         <NavTitle>둘러보기</NavTitle>
       </NavItem>
     </Wrapper>
@@ -61,23 +86,27 @@ const Wrapper = styled.nav`
 `;
 
 const NavItem = styled.div`
+  ${flexColumnCenter}
   width: 50px;
   height: 50px;
-  ${flexColumnCenter}
+  gap: 5px;
+
+  &.select > a {
+    color: #47cfb0;
+  }
+  &.select > div {
+    color: #47cfb0;
+    font-weight: 800;
+  }
 `;
 
 const NavIcon = styled.a`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-
-  background-image: linear-gradient(135deg, beige 1%, ${(props) => props.theme.colors.navFont});
-  margin-bottom: 15px;
-  //background-color: ${(props) => props.theme.colors.navFont};
+  width: 24px;
+  height: 24px;
+  color: #bcbcbc;
 `;
 const NavTitle = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  color: ${(props) => props.theme.colors.navFont};
+  color: #a7acaa;
+  font-size: 12px;
+  font-weight: 500;
 `;
