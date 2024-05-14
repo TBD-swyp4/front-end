@@ -1,10 +1,23 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 
 import App from '../App';
 import Layout from '../components/layout/Layout';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
+import MainPage from '../pages/main/MainPage';
+import LoginPage from '../pages/login/LoginPage';
+import ErrorPage from '../pages/error/ErrorPage';
+import Loading from '@components/information/Loading';
 
-import * as P from '../pages';
+// 바로 로딩되지 않아도 되는 컴포넌트 lazy loading 추가
+const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage.tsx'));
+const AddExpensePage = lazy(() => import('../pages/addExpense/AddExpensePage'));
+const ExpenseListViewPage = lazy(() => import('../pages/expenseListView/ExpenseListViewPage'));
+const ExpenseDetailViewPage = lazy(
+  () => import('../pages/expenseDetailView/ExpenseDetailViewPage'),
+);
+const StatisticsPage = lazy(() => import('../pages/statistics/StatisticsPage'));
+const SettingPage = lazy(() => import('../pages/setting/SettingPage'));
 
 export const router = createBrowserRouter([
   {
@@ -19,65 +32,77 @@ export const router = createBrowserRouter([
             index: true, // 하위에 다른 경로가 안붙을 때 보여줄 컴포넌트
             element: (
               <ProtectedRoute>
-                <P.MainPage />
+                <MainPage />
               </ProtectedRoute>
             ),
           },
           {
             path: '/login',
-            element: <P.LoginPage />,
+            element: <LoginPage />,
           },
           {
             path: '/dashboard',
             element: (
-              <ProtectedRoute>
-                <P.DashboardPage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '/add',
             element: (
-              <ProtectedRoute>
-                <P.AddExpensePage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <AddExpensePage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '/expense',
             element: (
-              <ProtectedRoute>
-                <P.ExpenseListViewPage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <ExpenseListViewPage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '/expense/:id',
             element: (
-              <ProtectedRoute>
-                <P.ExpenseDetailViewPage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <ExpenseDetailViewPage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '/statistics',
             element: (
-              <ProtectedRoute>
-                <P.StatisticsPage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <StatisticsPage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '/setting',
             element: (
-              <ProtectedRoute>
-                <P.SettingPage />
-              </ProtectedRoute>
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>
+                  <SettingPage />
+                </ProtectedRoute>
+              </Suspense>
             ),
           },
           {
             path: '*',
-            element: <P.ErrorPage />,
+            element: <ErrorPage />,
           },
         ],
       },

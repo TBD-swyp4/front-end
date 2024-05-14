@@ -107,7 +107,7 @@ const MainContainer = styled.div`
   background-color: transparent;
   width: 100%;
   height: 100%;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
 
   ${overflowWithoutScroll}
 `;
