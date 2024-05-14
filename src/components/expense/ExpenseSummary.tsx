@@ -38,7 +38,7 @@ const ExpenseSummary = ({
         </EmotionText>
       )}
       <RangeWrapper>
-        <SatisfactionRange satisfaction={satisfaction} />
+        <SatisfactionRange satisfaction={satisfaction} emotion={emotion} />
       </RangeWrapper>
       <Info>
         <InfoItem>

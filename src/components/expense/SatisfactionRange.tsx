@@ -5,17 +5,21 @@ import { SpeechBubbleBtn } from '@components/button';
 import { useEffect, useRef, useState } from 'react';
 
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
+import { EmotionKey } from '@models/index';
+import { getEmotionIcon } from '@models/emotion';
 
 type SatisfactionRangeProps = {
+  emotion: EmotionKey;
   satisfaction: number;
-  setSatisfaction?: (state: number) => void; // isEdit이 true인 경우 같이 넘겨줘야함.
+  // setSatisfaction?: (state: number) => void; // isEdit이 true인 경우 같이 넘겨줘야함.
   isEdit?: boolean;
 };
 
 const SatisfactionRange = ({
+  emotion,
   satisfaction,
   isEdit = false,
-  setSatisfaction,
+  // setSatisfaction,
 }: SatisfactionRangeProps) => {
   const max = 5;
   const min = 1;
@@ -24,21 +28,24 @@ const SatisfactionRange = ({
   const thumb = 16;
   const height = 10;
   const [rangeWidth, setRangeWidth] = useState<number>(212);
-  const [value, setValue] = useState<number>(satisfaction); // props로 넘겨받게될듯
+  // const [value, setValue] = useState<number>(satisfaction); // props로 넘겨받게될듯
+  const value: number = satisfaction;
   const rangeRef = useRef<HTMLDivElement>(null);
-  // const followSah
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isEdit && setSatisfaction && event.target) {
-      setSatisfaction(parseInt(event.target.value));
-    }
-    setValue(parseInt(event.target?.value));
-  };
-  const handleClick = (satisfaction: number) => {
-    if (isEdit && setSatisfaction) {
-      setSatisfaction(satisfaction);
-    }
-    setValue(satisfaction);
-  };
+
+  const EmotionSVG = getEmotionIcon(emotion);
+
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (isEdit && setSatisfaction && event.target) {
+  //     setSatisfaction(parseInt(event.target.value));
+  //   }
+  //   setValue(parseInt(event.target?.value));
+  // };
+  // const handleClick = (satisfaction: number) => {
+  //   if (isEdit && setSatisfaction) {
+  //     setSatisfaction(satisfaction);
+  //   }
+  //   setValue(satisfaction);
+  // };
   const getNomalized = (val: number): number => (val - min) / (max - min);
   const calculateLeft = (val: number) => {
     return getNomalized(val) * (rangeWidth - thumb) + thumb / 2;
@@ -60,7 +67,7 @@ const SatisfactionRange = ({
     <Wrapper>
       <RangeBackgroundBar radius={radius} />
       <Left>
-        <EmotionIcon />
+        <EmotionSVG />
       </Left>
       <Right>
         <RangeSection ref={rangeRef}>
@@ -73,7 +80,7 @@ const SatisfactionRange = ({
             min={min}
             max={max}
             step={0.1}
-            onChange={handleChange}
+            // onChange={handleChange}
             height={height}
             thumb={thumb}
             disabled={!isEdit}
@@ -82,9 +89,8 @@ const SatisfactionRange = ({
             {[1, 2, 3, 4, 5].map((x, i) => (
               <RangeButton
                 key={i}
-                onClick={() => {
-                  handleClick(x);
-                }}>
+                // onClick={() => {handleClick(x);}}
+              >
                 {x}
               </RangeButton>
             ))}
@@ -113,13 +119,6 @@ const Left = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
   z-index: 2;
-`;
-
-const EmotionIcon = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #fc4873;
 `;
 
 const Right = styled.div`

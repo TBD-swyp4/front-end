@@ -14,7 +14,7 @@ export type ExpenseSummaryType = {
 export type ExpenseFormType = {
   content: string; // 소비 내용 (원래 물건)
   amount: number; // 금액 (절약 또는 지출한)
-  date: string; // 소비 날짜, 시간 (저장 시간 아님) -> 내가 서버에 보낼 땐 string 타입으로? Date로?
+  spendDate: string; // 소비 날짜, 시간 (저장 시간 아님) -> 내가 서버에 보낼 땐 string 타입으로? Date로?
   event: string; // 사건
   thought: string; // 생각
   emotion: EmotionKeyWithNone; // 감정, 첫 입력 시 빈값이므로 빈값 허용, form에서 저장 시 빈값 예외처리 필요

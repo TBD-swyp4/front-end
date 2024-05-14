@@ -282,7 +282,7 @@ const ToggleButton = styled.button`
   width: 30px;
   height: 30px;
   background-color: #f3f3f3;
-  border: 0.5px solid #dddddd;
+  /* border: 0.5px solid #dddddd; */
   border-radius: 50%;
   box-shadow: 0 5px 14.56px 0 #5252521a;
 `;

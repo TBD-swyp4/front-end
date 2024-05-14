@@ -254,7 +254,7 @@ const Select = styled.span`
   color: #767676;
   font-size: 10px;
   font-weight: 600;
-  padding: 5px;
+  padding: 12.5px;
 `;
 
 const SearchBoxWrapper = styled.div`
@@ -285,7 +285,7 @@ const ExpenseListContainer = styled.section`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  padding: 10px 20px 0 20px;
+  padding: 10px 16px 0 16px;
 `;
 
 // 제목, 정렬박스
@@ -321,7 +321,7 @@ const ExpenseListContent = styled.div`
   ${overflowWithoutScroll}
   width: 100%;
   height: 100%;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const ExpenseBox = styled.div`

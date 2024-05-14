@@ -7,6 +7,8 @@ import {
   SettingGrayBtn,
   LogoBtn,
   LogoWhiteBtn,
+  TrashBtn,
+  EditBtn,
 } from '@components/button';
 
 // top bar은 왼/중/오 세가지를 가진다.
@@ -55,5 +57,7 @@ TopBar.CloseButton = CloseBtn;
 TopBar.LogoButton = LogoBtn;
 TopBar.LogoWhiteButton = LogoWhiteBtn;
 TopBar.CenterTitle = CenterTitle;
+TopBar.DeleteButton = TrashBtn;
+TopBar.EditButton = EditBtn;
 
 export default TopBar;

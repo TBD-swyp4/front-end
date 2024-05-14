@@ -75,6 +75,7 @@ const GlobalStyles = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    font-family: 'SUIT';
   }
 
   // App.tsx에서 ThemeProvider 내부에 GlobalStyles을 선언했기에, 테마 가져다 쓸 수 있음.
@@ -88,7 +89,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     overflow: hidden; // 모바일 화면에서 세로, 가로 스크롤 방지
-    font-family: 'SUIT';
+    
   }
 
   #root {

@@ -11,6 +11,8 @@ import MikeIcon from '@assets/images/icon/mikeIcon.svg?react';
 import EditIcon from '@assets/images/icon/editIcon.svg?react';
 import SearchIcon from '@assets/images/icon/searchIcon.svg?react';
 import FilterIcon from '@assets/images/icon/filterIcon.svg?react';
+import TrashIcon from '@assets/images/icon/trashIcon.svg?react';
+import VolumeIcon from '@assets/images/icon/volumeIcon.svg?react';
 
 // SVG 아이콘 스타일
 const buttonStyle = css`
@@ -87,7 +89,13 @@ export const MikeBtn = styled(MikeIcon)`
 export const EditBtn = styled(EditIcon)`
   width: 18px;
   height: 18px;
+  color: #9f9f9f;
 `;
 
+export const TrashBtn = styled(TrashIcon)``;
 export const SearchBtn = styled(SearchIcon)``;
 export const FilterBtn = styled(FilterIcon)``;
+export const VolumeBtn = styled(VolumeIcon)`
+  width: 24px;
+  height: 24px;
+`;

@@ -60,7 +60,7 @@ const AddExpensePage = () => {
     defaultValues: {
       registerType: 'SPEND', // 소비, 절약
       content: '', // 소비 내용 (원래 물건)
-      date: '', // 소비 날짜, 시간 (저장 시간 아님) -> 추가 필요 필드
+      spendDate: '', // 소비 날짜, 시간 (저장 시간 아님) -> 추가 필요 필드
       event: '', // 사건
       thought: '', // 생각
       emotion: '', // 감정

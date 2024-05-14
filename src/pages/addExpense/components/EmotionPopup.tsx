@@ -33,7 +33,7 @@ const EmotionPopup = ({ defaultEmotion, selectEmotion, onClose }: EmotionPopupPr
   return (
     <Container>
       <Header>
-        <div>감정을 1개 골라주세요.</div>
+        <div>느낀 감정 1가지를 선택해주세요</div>
         <PopupCloseBtn onClick={handleClose} />
       </Header>
 
@@ -64,7 +64,7 @@ export default EmotionPopup;
 
 const Container = styled.div`
   ${overflowWithoutScroll}
-  width: 350px;
+  width: 358px;
   height: 650px;
 
   padding: 20px;
@@ -73,6 +73,7 @@ const Container = styled.div`
   box-shadow: ${(props) => props.theme.shadows.around};
 
   background-color: #fff;
+  overflow: hidden;
 `;
 
 const EmotionContainer = styled.div`
@@ -80,7 +81,7 @@ const EmotionContainer = styled.div`
   flex-wrap: wrap;
   width: 100%;
 
-  gap: 20px;
+  gap: 23px;
 
   margin-bottom: 20px;
 `;
@@ -94,7 +95,7 @@ const Header = styled.div`
 
   color: ${(props) => props.theme.colors.font};
 
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 const PopupCloseBtn = styled(CloseBtn)`
