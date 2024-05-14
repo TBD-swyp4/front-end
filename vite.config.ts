@@ -19,6 +19,7 @@ export default defineConfig({
       '@models': path.resolve(__dirname, 'src/models'),
       '@components': path.resolve(__dirname, 'src/components/'),
       '@layout': path.resolve(__dirname, 'src/components/layout'),
+      src: path.resolve(__dirname, './src'),
     },
   },
   build: {
