@@ -25,7 +25,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
           />
         }></TopNavigation>
       {children}
-      <BottomNavigation />
+      <BottomNavigation location="statistics" />
     </>
   );
 };

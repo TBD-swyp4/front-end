@@ -62,7 +62,7 @@ const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: M
         }
       />
       {children}
-      <BottomNavigation />
+      <BottomNavigation location="main" />
       {showBackground && <Background height="36%" color="#47CFB0" />}
     </>
   );

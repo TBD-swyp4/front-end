@@ -2,12 +2,65 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SpinLog</title>
+
+    <script defer src="https://cdn.swygbro.com/public/widget/swyg-widget.js"></script>
+
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="alternate icon" type="image/svg+xml" href="/assets/favicon.svg" sizes="32x32" />
+
+    <!-- IOS -->
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
+    <!-- ANDROID -->
+    <link rel="shortcut icon" href="/assets/logo.png" />
+
+    <link
+      rel="apple-touch-icon-precomposed"
+      sizes="180x180"
+      href="/assets/logo.png"
+      type="image/png" />
+
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>Spinlog</title>
+    <meta name="theme-color" content="#47CFB0" />
+    <meta name="description" content="스핀로그에서 감정 소비일기를 작성해보세요!" />
+    <meta name="keywords" content="swyg,감정,소비,감정소비,감정일기,소비일기" />
+
+    <!--Open Graph tag-->
+    <meta property="og:site_name" content="Spinlog" />
+    <meta property="og:title" content="Spinlog" />
+    <meta property="og:description" content="스핀로그에서 감정 소비일기를 작성해보세요!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://spinlog.swygbro.com" />
+    <meta property="og:image" content="/assets/logo.png" />
+
+    <!--Twitter Tag-->
+    <meta name="twitter:title" content="Spinlog" />
+    <meta name="twitter:description" content="스핀로그에서 감정 소비일기를 작성해보세요!" />
+    <meta name="twitter:url" content="https://spinlog.swygbro.com" />
+    <meta name="twitter:image" content="/assets/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        // Register a service worker hosted at the root of the
+        // site using the default scope.
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('Service worker registration succeeded:', registration);
+          })
+          .catch((err) => {
+            console.log('Service worker registration failed:', error);
+          });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    </script>
   </body>
 </html>

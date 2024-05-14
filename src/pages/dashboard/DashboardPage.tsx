@@ -47,7 +47,7 @@ const NavigationLayout = ({
         }
       />
       {children}
-      <BottomNavigation />
+      <BottomNavigation location="dashboard" />
     </>
   );
 };
