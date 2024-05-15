@@ -49,6 +49,7 @@ const BtnWrapper = styled.div`
   height: 100%;
   margin-left: 8px;
   margin-right: 8px;
+  margin-bottom: 3px;
 `;
 const NavBtn = styled(PrevBtn)<{ color: string }>`
   width: 10px;

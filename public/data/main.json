@@ -3,7 +3,7 @@
   "message": "성공",
   "data": {
     "budget": {
-      "monthBudget": 100000,
+      "monthBudget": 200000,
       "monthSpend": 30000,
       "monthSave": 3000
     },
@@ -16,8 +16,19 @@
       { "date": "20240506", "daySpend": 10000, "daySave": 20000 },
       { "date": "20240507", "daySpend": 3000, "daySave": 70000 },
       { "date": "20240508", "daySpend": 3000, "daySave": 20000 },
-      { "date": "20240514", "daySpend": 0, "daySave": 20000 },
+      { "date": "20240509", "daySpend": 3000, "daySave": 20000 },
       { "date": "20240510", "daySpend": 3000, "daySave": 20000 },
+      { "date": "20240511", "daySpend": 3000, "daySave": 20000 },
+      { "date": "20240512", "daySpend": 3000, "daySave": 20000 },
+      { "date": "20240513", "daySpend": 3000, "daySave": 20000 },
+      { "date": "20240514", "daySpend": 0, "daySave": 20000 },
+      { "date": "20240515", "daySpend": 2000000, "daySave": 20000 },
+      { "date": "20240516", "daySpend": 0, "daySave": 20000 },
+      { "date": "20240517", "daySpend": 0, "daySave": 0 },
+      { "date": "20240518", "daySpend": 3000, "daySave": 12000 },
+      { "date": "20240519", "daySpend": 0, "daySave": 20000 },
+      { "date": "20240520", "daySpend": 0, "daySave": 20000 },
+      { "date": "20240521", "daySpend": 0, "daySave": 20000 },
       { "date": "20240530", "daySpend": 3000, "daySave": 0 }
     ],
     "daySpendList": [
@@ -67,6 +78,14 @@
         "amount": 13000,
         "content": "엽떡",
         "satisfaction": 4,
+        "emotion": "PROUD"
+      },
+      {
+        "articleId": 7,
+        "registerType": "SAVE",
+        "amount": 1300000,
+        "content": "가방",
+        "satisfaction": 5,
         "emotion": "PROUD"
       }
     ]

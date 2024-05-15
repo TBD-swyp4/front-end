@@ -1,0 +1,12 @@
+{
+  "content": "내용내요내용",
+  "amount": 16000,
+  "spendDate": "2020-12-31T12:34:56",
+  "event": "사건입니다",
+  "thought": "생각입니다",
+  "emotion": "SHY",
+  "satisfaction": 3,
+  "reason": "이유입니다",
+  "improvements": "개선점입니다",
+  "registerType": "SPEND"
+}

@@ -7,7 +7,7 @@
         "articleId": 1,
         "registerType": "SAVE",
         "amount": 3000,
-        "content": "택시",
+        "content": "새로운거",
         "satisfaction": 1,
         "emotion": "SHY"
       },
@@ -15,7 +15,7 @@
         "articleId": 2,
         "registerType": "SPEND",
         "amount": 13000,
-        "content": "엽떡",
+        "content": "새로운거2",
         "satisfaction": 2,
         "emotion": "ANNOYED"
       },
@@ -23,7 +23,7 @@
         "articleId": 3,
         "registerType": "SPEND",
         "amount": 13000,
-        "content": "엽떡",
+        "content": "새로운거3",
         "satisfaction": 3,
         "emotion": "ANNOYED"
       },
@@ -31,7 +31,7 @@
         "articleId": 4,
         "registerType": "SPEND",
         "amount": 13000,
-        "content": "새우깡",
+        "content": "새로운거4",
         "satisfaction": 4,
         "emotion": "ANNOYED"
       },
@@ -39,7 +39,7 @@
         "articleId": 5,
         "registerType": "SAVE",
         "amount": 133000,
-        "content": "아이스크림 14개",
+        "content": "33아이스크림 14개",
         "satisfaction": 5,
         "emotion": "ANNOYED"
       },
@@ -47,7 +47,7 @@
         "articleId": 6,
         "registerType": "SPEND",
         "amount": 13000,
-        "content": "엽떡",
+        "content": "ㅇㅇ떡",
         "satisfaction": 5,
         "emotion": "ANNOYED"
       }

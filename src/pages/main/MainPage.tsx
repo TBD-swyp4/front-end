@@ -15,9 +15,10 @@ import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
 
-import { ApiResponse } from '@models/api';
-import { MainData } from '@models/api/main';
-import _data from '../../../public/data/main.json';
+import { fetchDataForDay, fetchMainData } from '@api/main';
+import { formatYMD } from '@utils/index';
+import { useQuery } from 'react-query';
+import Spinner from '@components/information/Spinner';
 
 type MainNavProps = {
   currentDate: Date;
@@ -79,21 +80,52 @@ const MonthNavWrapper = styled.div`
 const MainPage = () => {
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
 
-  const data: ApiResponse<MainData> = _data as ApiResponse<MainData>; // 일단 타입 단언..
-  console.log(data);
+  const selectDate = formatYMD(monthNav.currentDate, 'none');
+
+  // 메인 데이터는 "월" 이 바뀌면 재로딩
+  const {
+    data: mainData,
+    isLoading: isLoadingMainData,
+    error: mainDataError,
+  } = useQuery(['mainData', monthNav.currentDate.getMonth()], () => fetchMainData(selectDate), {
+    enabled: !!selectDate,
+  });
+
+  const {
+    data: subData,
+    isLoading: isLoadingSubData,
+    error: subDataError,
+  } = useQuery(['mainSubData', selectDate], () => fetchDataForDay(selectDate), {
+    enabled: !!selectDate,
+  });
+
+  if (mainDataError) return <div>An error occurred</div>;
 
   return (
     <>
       <NavigationLayout {...monthNav}>
         <MainContainer>
-          <BudgetContainer>
-            <Budget {...data.data.budget} />
+          <BudgetContainer isLoading={isLoadingMainData}>
+            {isLoadingMainData ? <Spinner /> : <Budget {...mainData.data.budget} />}
           </BudgetContainer>
           <CalendarWrapper>
-            <Calendar {...monthNav} data={data.data.monthSpendList} />
+            {isLoadingMainData ? (
+              <Spinner />
+            ) : (
+              <Calendar {...monthNav} data={mainData.data.monthSpendList} />
+            )}
           </CalendarWrapper>
           <DayListContainer>
-            <DayExpenseListTop2 data={data.data.daySpendList} currentDate={monthNav.currentDate} />
+            {subDataError ? (
+              <div>Error..</div>
+            ) : isLoadingSubData ? (
+              <Spinner />
+            ) : (
+              <DayExpenseListTop2
+                data={subData.data.daySpendList}
+                currentDate={monthNav.currentDate}
+              />
+            )}
           </DayListContainer>
         </MainContainer>
       </NavigationLayout>
@@ -112,10 +144,11 @@ const MainContainer = styled.div`
   ${overflowWithoutScroll}
 `;
 
-const BudgetContainer = styled.section`
+const BudgetContainer = styled.section<{ isLoading: boolean }>`
   ${mainSection}
   ${flexColumnBetween}
-  height: 250px;
+  flex-direction:  ${(props) => (props.isLoading ? 'row' : 'column')};
+  min-height: 250px;
   width: 100%;
   margin-bottom: 16px;
 `;
@@ -128,6 +161,6 @@ const CalendarWrapper = styled.section`
 `;
 const DayListContainer = styled.section`
   ${mainSection}
-  min-height: 240px;
+  min-height: 170px;
   width: 100%;
 `;
