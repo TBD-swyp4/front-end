@@ -2,7 +2,7 @@ import axiosInstance from '@api/axios';
 
 /**
  * 소비 상세 조회 데이터
- * @param articleId
+ * @param articleId 게시글 Id
  * @returns
  */
 export const deleteExpenseById = async (articleId: string | undefined) => {

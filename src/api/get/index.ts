@@ -5,8 +5,8 @@ import { formatYMD } from '@utils/index';
 
 /**
  * 메인 페이지 데이터 (예산, 달력, 요약 정보)
- * @param selectDate
- * @param isSelectDay
+ * @param selectDate 조회하고자 하는 날짜
+ * @param isSelectDay 달력에서 날짜를 선택한 것인지 여부
  * @returns
  */
 export const fetchMainData = async (selectDate: string, isSelectDay = false) => {
@@ -39,8 +39,8 @@ export const fetchExpenseById = async (articleId: string | undefined) => {
 
 /**
  * 소비 리스트 조회 (검색)
- * @param page ㅁㅁㅁ
- * @param params
+ * @param page 페이징 카운트
+ * @param params 필터 조건
  * @returns
  */
 export const fetchExpensesByCondition = async (page: number = 0, params: ExpenseFilterType) => {

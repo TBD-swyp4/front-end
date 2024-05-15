@@ -27,7 +27,6 @@ export type ExpenseFormType = {
 
 // 조회 필터 타입
 export type ExpenseFilterType = {
-  page: number;
   registerType: Register[];
   emotion: EmotionKey[];
   from: Date;
