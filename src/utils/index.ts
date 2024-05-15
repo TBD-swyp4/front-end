@@ -6,25 +6,31 @@ export const addCommasToNumber = (number: number): string => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-// 필요 시 다른 타입 추가나 년/월/일 | 월/일 자름 타입 추가 필요
-export const formatYMD = (date: Date, type: string = 'period') => {
-  if (type === 'period') return format(date, format(date, 'yyyy.MM.dd'));
+// Date 객체 -> yyyyMMdd String
+export const formatYMD = (date: Date, type: string = 'period'): string => {
+  if (type === 'period') return format(date, 'yyyy.MM.dd');
   if (type === 'word') return format(date, 'yyyy년 MM월 dd일');
   if (type === 'dash') return format(date, 'yyyy-MM-dd');
+  if (type === 'none') return format(date, 'yyyyMMdd');
+  return '';
 };
 
-// 필요 시 다른 타입 추가나 년/월/일 | 월/일 자름 타입 추가 필요
-export const formatYM = (date: Date, type: string = 'period') => {
-  if (type === 'period') return format(date, format(date, 'yyyy.MM'));
+// Date 객체 -> yyyyMM String
+export const formatYM = (date: Date, type: string = 'period'): string => {
+  if (type === 'period') return format(date, 'yyyy.MM');
   if (type === 'word') return format(date, 'yyyy년 MM월');
   if (type === 'dash') return format(date, 'yyyy-MM');
+  if (type === 'none') return format(date, 'yyyyMM');
+  return '';
 };
 
-// 필요 시 다른 타입 추가나 년/월/일 | 월/일 자름 타입 추가 필요
-export const formatMD = (date: Date, type: string = 'period') => {
-  if (type === 'period') return format(date, format(date, 'M.dd'));
-  if (type === 'word') return format(date, 'M월 dd일');
-  if (type === 'dash') return format(date, 'M-dd');
+// Date 객체 -> Md String
+export const formatMD = (date: Date, type: string = 'period'): string => {
+  if (type === 'period') return format(date, 'M.d');
+  if (type === 'word') return format(date, 'M월 d일');
+  if (type === 'dash') return format(date, 'M-d');
+  if (type === 'none') return format(date, 'M-d');
+  return '';
 };
 
 // 'yyyyMMdd' 형태의 문자열과 Date 객체를 비교하여 같은 년/월/일인지 돌려주는 함수

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { MonthSpend } from '@models/api/main';
 
@@ -22,14 +22,11 @@ import {
 type CalendarProps = {
   currentDate: Date;
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
-  selectedDate: Date;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
   data: MonthSpend[];
 };
 
-const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: CalendarProps) => {
+const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
   // 현재 달력에서 보여 줄 상태들 정의
-  // const [selectedDate, setSelectedDate] = useState(new Date());
   const [showWeekOnly, setShowWeekOnly] = useState(true); // 주/ 월 달력 상태 추가
   const currentMonth = startOfMonth(currentDate);
 
@@ -43,6 +40,14 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
   }
   const [daySpend, setDaySpend] = useState<number>(todaySpend);
   const [daySave, setDaySave] = useState<number>(todaySave);
+
+  useEffect(() => {
+    const todayData = data.find((x) => compareYMDString(x.date, currentDate));
+    if (todayData) {
+      setDaySpend(todayData.daySpend);
+      setDaySave(todayData.daySave);
+    }
+  }, [currentDate, data]);
 
   // 월요일 시작 설정
   const startDay = startOfWeek(currentMonth, { weekStartsOn: 1 });
@@ -63,19 +68,17 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
   const days = eachDayOfInterval(startDay, endDay);
 
   const getDaysOfSelectedWeek = () => {
-    const startSelectedWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
+    const startSelectedWeek = startOfWeek(currentDate, { weekStartsOn: 1 });
     return eachDayOfInterval(startSelectedWeek, endOfWeek(startSelectedWeek, { weekStartsOn: 1 }));
   };
 
   const daysToShow = showWeekOnly ? getDaysOfSelectedWeek() : days;
 
-  const handleDayClick = (day: Date, daySpend: number, daySave: number) => {
+  const handleDayClick = (day: Date) => {
     // 이번달 날짜가 아니면 return
     if (!isSameMonth(day, currentMonth)) return;
-    setSelectedDate(day);
-    setDaySpend(daySpend);
-    setDaySave(daySave);
-    alert(day);
+
+    setCurrentDate(day);
   };
 
   const toggleWeekView = () => {
@@ -105,8 +108,8 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
         </Label>
       </TitleWrapper>
       <WeekInfo>
-        {`${formatYM(selectedDate, 'word')} ${Math.ceil(
-          (days.findIndex((d) => d.toDateString() === selectedDate.toDateString()) + 1) / 7,
+        {`${formatYM(currentDate, 'word')} ${Math.ceil(
+          (days.findIndex((d) => d.toDateString() === currentDate.toDateString()) + 1) / 7,
         )}주차`}
       </WeekInfo>
       <CalendarGrid>
@@ -119,11 +122,11 @@ const Calendar = ({ currentDate, selectedDate, setSelectedDate, data }: Calendar
             <CalendarDay
               key={index}
               className={`${same ? '' : 'faded'}${isToday(day.date) ? ' bold' : ''}${
-                selectedDate.toDateString() === day.date.toDateString() ? ' selected' : ''
+                currentDate.toDateString() === day.date.toDateString() ? ' selected' : ''
               }${day.daySpend !== 0 && same ? ' spend' : ''}${
                 day.daySave !== 0 && same ? ' save' : ''
               }`}
-              onClick={() => handleDayClick(day.date, day.daySpend, day.daySave)}>
+              onClick={() => handleDayClick(day.date)}>
               {format(day.date, 'd')}
             </CalendarDay>
           );

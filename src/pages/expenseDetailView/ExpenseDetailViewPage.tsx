@@ -1,38 +1,38 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 
 import { useNavigate } from 'react-router-dom';
 import {
-  borderCheck,
   flexCenter,
   flexColumnCenter,
   mainSection,
   overflowWithoutScroll,
-  radioButtonLabelStyle,
   summaryArea,
-  textArea,
-  textAreaWrapper,
-  radioButtonStyle,
-  flexBetween,
 } from '@styles/CommonStyles';
 
-import detailData from './../../../public/data/detail.json';
 import { getSpendSumamryText } from '@utils/index';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
-import { EmotionKey, EmotionKeys, Register } from '@models/index';
+import { EmotionKey, Register } from '@models/index';
 import MultiText from '@components/input/MultiText';
 import { useForm, FormProvider } from 'react-hook-form';
 import { ExpenseFormType } from '@models/expense';
 import { useEffect, useState } from 'react';
 import { VolumeBtn } from '@components/button';
-import Emotion from '@components/emotion';
+import EditSummary from './components/EditSummary';
+import { useMutation, useQuery } from 'react-query';
+import { fetchExpenseById } from '@api/get';
+import LoadingModal from '@components/modal/LoadingModal';
+import { saveExpenseData } from '@api/patch';
+import { deleteExpenseById } from '@api/delete';
+import { fetchAIComment } from '@api/post';
 
 type NavLayoutProps = {
   children: React.ReactNode;
   isEdit: boolean;
   isValid: boolean;
   handleSubmit: () => void;
+  handleDelete: () => void;
   toggleEdit: () => void;
 };
 
@@ -41,20 +41,29 @@ const NavigationLayout = ({
   isEdit,
   isValid,
   handleSubmit,
+  handleDelete,
   toggleEdit,
 }: NavLayoutProps) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('prev');
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
             leftContent={
-              <TopNavigation.TopBar.PrevButton
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
+              !isEdit && (
+                <TopNavigation.TopBar.PrevButton
+                  onClick={() => {
+                    if (query == 'add') {
+                      navigate('/');
+                    } else {
+                      navigate(-1);
+                    }
+                  }}
+                />
+              )
             }
             centerContent={
               <TopNavigation.TopBar.CenterTitle>작성완료 내역</TopNavigation.TopBar.CenterTitle>
@@ -68,7 +77,7 @@ const NavigationLayout = ({
                 ) : (
                   <EditButton onClick={toggleEdit} />
                 )}
-                <DeleteButton />
+                <DeleteButton onClick={handleDelete} />
               </Toolbar>
             }
           />
@@ -121,44 +130,29 @@ const SaveButton = styled.button`
 
 const ExpenseDetailViewPage = () => {
   const { id } = useParams();
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [data, setData] = useState<ExpenseFormType>({
-    content: '',
-    amount: 0,
-    spendDate: '',
-    event: '',
-    thought: '',
-    emotion: 'EVADED',
-    satisfaction: 1,
-    reason: '',
-    improvements: '',
-    registerType: 'SPEND',
-    aiComment: '',
-  });
+  const navigate = useNavigate();
 
-  const methods = useForm({
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('prev');
+
+  const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     criteriaMode: 'all',
-    defaultValues: data,
+    defaultValues: {
+      content: '',
+      amount: 0,
+      spendDate: '',
+      event: '',
+      thought: '',
+      emotion: 'EVADED',
+      satisfaction: 1,
+      reason: '',
+      improvements: '',
+      registerType: 'SPEND',
+      aiComment: '',
+    },
   });
-
-  const handleSubmit = methods.handleSubmit((data: ExpenseFormType) => {
-    alert(`수정 최종 : ${JSON.stringify(data)}`);
-    toggleEditMode();
-  });
-
-  // articleId를 가지고 ai comment 요청.
-  const handleAIComment = () => {
-    // 수정모드일 경우 return
-    // 이미 내용이 있거나(요청은 한번만 받을 수 있음), 메세지 창 띄워주는 사용성 개선 필요
-    if (isEditMode) return;
-    alert('한마디 듣기');
-  };
-
-  const toggleEditMode = () => {
-    setIsEditMode((prev) => !prev);
-  };
 
   const [
     registerTypeState,
@@ -167,6 +161,7 @@ const ExpenseDetailViewPage = () => {
     satisfactionState,
     emotionState,
     spendDateState,
+    aiComment,
   ] = methods.getValues([
     'registerType',
     'amount',
@@ -174,7 +169,82 @@ const ExpenseDetailViewPage = () => {
     'satisfaction',
     'emotion',
     'spendDate',
+    'aiComment',
   ]);
+
+  const {
+    data: expenseData,
+    isLoading: isLoadingExpenseData,
+    error: errorExpenseData,
+  } = useQuery(['expense', id], () => fetchExpenseById(id), {
+    enabled: !!id, // id가 있을 때만 쿼리 실행
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: (data: ExpenseFormType) => saveExpenseData(id, data),
+    onSuccess: () => {
+      console.log('저장 성공!');
+    },
+    onError: (error) => {
+      console.log(`저장 실패: ${error}`);
+    },
+  });
+
+  const deleteMutation = useMutation(deleteExpenseById, {
+    onSuccess: () => {
+      console.log(`${id} 삭제 성공`);
+      if (query == 'add') {
+        navigate('/');
+      } else {
+        navigate(-1);
+      }
+    },
+    onError: (error) => {
+      console.log(`삭제 실패: ${error}`);
+    },
+  });
+
+  const commentMutation = useMutation(fetchAIComment, {
+    onSuccess: (commentData) => {
+      console.log(commentData.data.aiComment);
+      methods.setValue('aiComment', commentData.data.aiComment);
+    },
+    onError: (error) => {
+      console.log(`삭제 실패: ${error}`);
+    },
+  });
+
+  const handleSubmit = methods.handleSubmit((data: ExpenseFormType) => {
+    saveMutation.mutate(data);
+    toggleEditMode();
+  });
+
+  const handleDelete = () => {
+    deleteMutation.mutate(id);
+  };
+
+  // articleId를 가지고 ai comment 요청.
+  const handleAIComment = () => {
+    // 수정모드일 경우 return
+    // 이미 내용이 있거나(요청은 한번만 받을 수 있음), 메세지 창 띄워주는 사용성 개선 필요
+    if (isEditMode || aiComment) return;
+    commentMutation.mutate(id);
+  };
+
+  useEffect(() => {
+    // 데이터 로딩이 완료되었고, 실제 데이터가 존재하는 경우에만 reset을 실행
+    if (!isLoadingExpenseData && expenseData && expenseData.data) {
+      methods.reset(expenseData.data);
+      // 감정 state도 최신 데이터로 업데이트 필요
+      setSelectEmotion(expenseData.data.emotion as EmotionKey);
+    }
+  }, [expenseData, methods, isLoadingExpenseData]); // isLoadingExpenseData 의존성 추가
+
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  const toggleEditMode = () => {
+    setIsEditMode((prev) => !prev);
+  };
 
   // 감정 선택 시 렌더링 필요
   const [selectEmotion, setSelectEmotion] = useState<EmotionKey>(emotionState as EmotionKey);
@@ -197,181 +267,93 @@ const ExpenseDetailViewPage = () => {
     registerTypeState,
   );
 
-  const satisfactionLabels = [1, 2, 3, 4, 5];
-
-  useEffect(() => {
-    // id로 데이터 요청하여 받아온 후, data 세팅하고 hook form 을 초기화한다.
-    setData(detailData.data as ExpenseFormType);
-    methods.reset(detailData.data as ExpenseFormType);
-
-    // 감정 state도 최신 데이터로 업데이트 필요
-    setSelectEmotion(detailData.data.emotion as EmotionKey);
-  }, [methods]);
-
   return (
     <NavigationLayout
       isValid={!methods.formState.isValid}
       isEdit={isEditMode}
       handleSubmit={handleSubmit}
+      handleDelete={handleDelete}
       toggleEdit={toggleEditMode}>
       <ExpenseDetailContainer>
-        <FormProvider {...methods}>
-          <Form onSubmit={handleSubmit}>
-            {!isEditMode && (
-              <>
-                <SpendDateInput
-                  type="datetime-local"
-                  disabled={true}
-                  {...methods.register('spendDate', { required: true })}
-                />
-                <ContentSumamry>{summaryText}</ContentSumamry>
-                <SpendSummary>
-                  {/* 만족도, 감정, 내용, 가격, 지출여부 담고있음 */}
-                  <ExpenseBox>
-                    <ExpenseSummary {...summaryProps} />
-                  </ExpenseBox>
-                </SpendSummary>
-              </>
-            )}
-
-            <ContentContainer>
-              <Title>{`${isEditMode ? '소비 내용 수정' : '소비 내용'}`}</Title>
-
-              {/* 내용, 금액은 수정모드일 때만 Show */}
-              {isEditMode && (
+        {isLoadingExpenseData || saveMutation.isLoading ? (
+          <LoadingModal />
+        ) : errorExpenseData ? (
+          <div>Error...</div>
+        ) : (
+          <FormProvider {...methods}>
+            <Form onSubmit={handleSubmit}>
+              {!isEditMode && (
                 <>
-                  <div style={{ display: 'flex', width: '100%', gap: '10px' }}>
-                    <GroupWrapper style={{ height: '80px' }}>
-                      <span className="title">지출&nbsp;&nbsp;&nbsp;&nbsp;절약</span>
-                      <span style={{ display: 'flex', gap: '10px', width: '100%' }}>
-                        {/* 지출 */}
-                        <HiddenRadio
-                          id="spend"
-                          value="SPEND"
-                          {...methods.register('registerType', { required: true })}
-                        />
-                        <CheckLabel htmlFor="spend" />
-                        {/* 절약 */}
-                        <HiddenRadio
-                          id="save"
-                          value="SAVE"
-                          {...methods.register('registerType', { required: true })}
-                        />
-                        <CheckLabel htmlFor="save" />
-                      </span>
-                    </GroupWrapper>
-                    <GroupWrapper style={{ height: '80px' }}>
-                      <span className="title">날짜</span>
-                      <SpendDateInput
-                        id="date"
-                        className="edit"
-                        type="datetime-local"
-                        disabled={!isEditMode}
-                        {...methods.register('spendDate', { required: true })}
-                      />
-                    </GroupWrapper>
-                  </div>
-                  <GroupWrapper>
-                    <span className="title">만족도 내역</span>
-                    <SatisfactionRadioContainer>
-                      {satisfactionLabels.map((label, i) => (
-                        <SatisfactionRadioWrapper key={i}>
-                          <SatisfactionRadioButton
-                            id={`satisfaction-${i + 1}`}
-                            value={i + 1}
-                            defaultChecked={i + 1 === satisfactionState}
-                            {...methods.register('satisfaction', { required: true })}
-                          />
-                          <SatisfactionLabel htmlFor={`satisfaction-${i + 1}`}>
-                            {label}
-                          </SatisfactionLabel>
-                        </SatisfactionRadioWrapper>
-                      ))}
-                    </SatisfactionRadioContainer>
-                  </GroupWrapper>
-                  <GroupWrapper style={{ height: '120px' }}>
-                    <span className="title">감정</span>
-                    <EmotionContainer>
-                      {EmotionKeys.map((x) => (
-                        <EmotionWrapper key={x}>
-                          <Emotion
-                            emotionKey={x}
-                            isSelect={x === selectEmotion}
-                            iconSize={50}
-                            onClick={() => {
-                              methods.setValue('emotion', x, { shouldValidate: true });
-                              setSelectEmotion(x);
-                            }}
-                          />
-                        </EmotionWrapper>
-                      ))}
-                    </EmotionContainer>
-                  </GroupWrapper>
-                  <Content>
-                    <MultiText
-                      hookFormFieldName="content"
-                      title="내용"
-                      placeholder="작성내역이 없어요"
-                      isRequired={true}
-                      isDisable={!isEditMode}></MultiText>
-                  </Content>
-                  <Content className="amount">
-                    <AmountWrapper>
-                      <span className="title">금액</span>
-                      <AmountInput
-                        placeholder="0"
-                        disabled={!isEditMode}
-                        {...methods.register('amount', { required: true })}
-                      />
-                    </AmountWrapper>
-                    <AmountText>원</AmountText>
-                  </Content>
+                  <SpendDateInput
+                    type="datetime-local"
+                    disabled={true}
+                    {...methods.register('spendDate', { required: true })}
+                  />
+                  <ContentSumamry>{summaryText}</ContentSumamry>
+                  <SpendSummary>
+                    {/* 만족도, 감정, 내용, 가격, 지출여부 담고있음 */}
+                    <ExpenseBox>
+                      <ExpenseSummary {...summaryProps} />
+                    </ExpenseBox>
+                  </SpendSummary>
                 </>
               )}
-              <Content>
-                <MultiText
-                  hookFormFieldName="event"
-                  title="사건"
-                  placeholder="작성내역이 없어요"
-                  isDisable={!isEditMode}></MultiText>
-              </Content>
-              <Content>
-                <MultiText
-                  hookFormFieldName="thought"
-                  title="생각"
-                  placeholder="작성내역이 없어요"
-                  isDisable={!isEditMode}></MultiText>
-              </Content>
-              <Content>
-                <MultiText
-                  hookFormFieldName="reason"
-                  title="이유"
-                  placeholder="작성내역이 없어요"
-                  isDisable={!isEditMode}></MultiText>
-              </Content>
-              <Content>
-                <MultiText
-                  hookFormFieldName="improvements"
-                  title="개선점"
-                  placeholder="작성내역이 없어요"
-                  isDisable={!isEditMode}></MultiText>
-              </Content>
-              {/* AI Comment는 수정 불가 */}
-              <Content className="ai">
-                <MultiText
-                  hookFormFieldName="aiComment"
-                  title="AI 한마디"
-                  placeholder="작성내역이 없어요"
-                  isDisable={true}></MultiText>
-                <AICommentButton
-                  onClick={handleAIComment}
-                  className={`${isEditMode ? '' : 'able'}`}>
-                  <VolumeBtn />
-                </AICommentButton>
-              </Content>
-            </ContentContainer>
-          </Form>
-        </FormProvider>
+              <ContentContainer>
+                <Title>{`${isEditMode ? '소비 내용 수정' : '소비 내용'}`}</Title>
+                {/* 내용, 금액은 수정모드일 때만 Show */}
+                {isEditMode && (
+                  <EditSummary
+                    isEditMode={isEditMode}
+                    satisfactionState={satisfactionState}
+                    selectEmotion={selectEmotion}
+                    setSelectEmotion={setSelectEmotion}
+                  />
+                )}
+                <Content>
+                  <MultiText
+                    hookFormFieldName="event"
+                    title="사건"
+                    placeholder="작성내역이 없어요"
+                    isDisable={!isEditMode}></MultiText>
+                </Content>
+                <Content>
+                  <MultiText
+                    hookFormFieldName="thought"
+                    title="생각"
+                    placeholder="작성내역이 없어요"
+                    isDisable={!isEditMode}></MultiText>
+                </Content>
+                <Content>
+                  <MultiText
+                    hookFormFieldName="reason"
+                    title="이유"
+                    placeholder="작성내역이 없어요"
+                    isDisable={!isEditMode}></MultiText>
+                </Content>
+                <Content>
+                  <MultiText
+                    hookFormFieldName="improvements"
+                    title="개선점"
+                    placeholder="작성내역이 없어요"
+                    isDisable={!isEditMode}></MultiText>
+                </Content>
+                {/* AI Comment는 수정 불가 */}
+                <Content className="ai">
+                  <MultiText
+                    hookFormFieldName="aiComment"
+                    title="AI 한마디"
+                    placeholder="작성내역이 없어요"
+                    isDisable={true}></MultiText>
+                  <AICommentButton
+                    onClick={handleAIComment}
+                    className={`${isEditMode || aiComment ? '' : 'able'}`}>
+                    <VolumeBtn />
+                  </AICommentButton>
+                </Content>
+              </ContentContainer>
+            </Form>
+          </FormProvider>
+        )}
       </ExpenseDetailContainer>
     </NavigationLayout>
   );
@@ -433,34 +415,6 @@ const Content = styled.div`
   }
 `;
 
-const AmountWrapper = styled.div`
-  ${textAreaWrapper}
-  height: 70px;
-`;
-
-const AmountInput = styled.input.attrs({ type: 'number' })`
-  ${textArea}
-  background-color: transparent;
-  // 화살표 숨기기
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  appearance: textfield;
-`;
-
-const AmountText = styled.div`
-  ${flexCenter}
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-
-  color: #767676;
-  font-size: 14px;
-  font-weight: 400;
-`;
-
 const AICommentButton = styled.div`
   ${flexCenter}
   width: 50px;
@@ -497,74 +451,4 @@ const SpendDateInput = styled.input`
     font-size: 14px;
     font-weight: 500;
   }
-`;
-
-const CheckLabel = styled.label`
-  position: relative;
-  width: 24px;
-  height: 24px;
-  background-color: #dddddd;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 8px;
-  &::after {
-    ${borderCheck}
-    left: 8px;
-    top: 4px;
-    cursor: pointer;
-  }
-`;
-
-// 지출, 절약의 체크박스 라디오
-const HiddenRadio = styled.input.attrs({ type: 'radio' })`
-  position: absolute;
-  opacity: 0;
-  &:checked + label {
-    background-color: #767676;
-    &::after {
-      border-color: #ffffff;
-    }
-  }
-`;
-
-const GroupWrapper = styled.div`
-  ${textAreaWrapper}
-`;
-
-const SatisfactionRadioContainer = styled.div`
-  ${flexBetween}
-  width: 100%;
-`;
-const SatisfactionRadioWrapper = styled.div`
-  ${flexColumnCenter}
-  padding: 10px;
-`;
-
-// 만족도 1~5점의 동그란 원 라디오
-const SatisfactionRadioButton = styled.input.attrs({ type: 'radio' })`
-  ${radioButtonStyle}
-
-  &:checked + label {
-    color: #333331;
-    font-weight: 700;
-  }
-`;
-
-const SatisfactionLabel = styled.label`
-  ${radioButtonLabelStyle}
-`;
-
-const EmotionContainer = styled.div`
-  ${flexBetween}
-  ${overflowWithoutScroll}
-  height: 100%;
-  width: 100%;
-  gap: 15px;
-`;
-
-const EmotionWrapper = styled.div`
-  ${flexCenter}
-  height: 100%;
-  width: 80px;
-  flex-shrink: 0;
 `;
