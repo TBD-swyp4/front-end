@@ -6,22 +6,16 @@ import axiosInstance from '@api/axios';
  * @param isSelectDay
  * @returns
  */
-export const fetchMainData = async (selectDate: string) => {
-  const { data } = await axiosInstance.get('/articles/main', {
-    params: {
-      selectDate,
-      isSelectDay: false,
-    },
-  });
-  return data;
-};
-
-export const fetchDataForDay = async (selectDate: string) => {
-  const { data } = await axiosInstance.get('/articles/main', {
-    params: {
-      selectDate,
-      isSelectDay: true,
-    },
-  });
-  return data;
+export const fetchMainData = async (selectDate: string, isSelectDay = false) => {
+  try {
+    const { data } = await axiosInstance.get('/articles/main', {
+      params: {
+        selectDate,
+        isSelectDay: isSelectDay,
+      },
+    });
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchMainData : ' + error);
+  }
 };

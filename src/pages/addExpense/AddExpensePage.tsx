@@ -11,6 +11,9 @@ import WriteExpense from './components/WriteExpense';
 import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+import { useMutation } from 'react-query';
+import { saveExpense } from '@api/add';
+import LoadingModal from '@components/modal/LoadingModal';
 
 type AddNavProps = {
   title: string;
@@ -53,6 +56,7 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
 };
 
 const AddExpensePage = () => {
+  const navigate = useNavigate();
   const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -95,9 +99,21 @@ const AddExpensePage = () => {
     setCurrStep(currStep - 1);
   };
 
+  // 쿼리 실행
+  const expenseMutation = useMutation(saveExpense, {
+    onSuccess: (data) => {
+      const articleId = data.data.articleId;
+      console.log('저장 성공: ' + articleId);
+      navigate(`/expense/${articleId}?prev=add`);
+    },
+    onError: (error) => {
+      console.log('저장 실패: ' + error);
+    },
+  });
+
   // 제출
   const handleSubmit = (data: ExpenseFormType) => {
-    alert(`최종 값(메인)` + JSON.stringify(data));
+    expenseMutation.mutate(data);
   };
 
   return (
@@ -125,6 +141,7 @@ const AddExpensePage = () => {
           </Form>
         </FormProvider>
       </AddExpenseContainer>
+      {expenseMutation.isLoading && <LoadingModal />}
     </NavigationLayout>
   );
 };

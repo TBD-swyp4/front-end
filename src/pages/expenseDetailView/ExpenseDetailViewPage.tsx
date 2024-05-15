@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import TopNavigation from '@layout/TopNavigation';
 
@@ -44,6 +44,8 @@ const NavigationLayout = ({
   toggleEdit,
 }: NavLayoutProps) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('prev');
   return (
     <>
       <TopNavigation
@@ -52,7 +54,11 @@ const NavigationLayout = ({
             leftContent={
               <TopNavigation.TopBar.PrevButton
                 onClick={() => {
-                  navigate(-1);
+                  if (query == 'add') {
+                    navigate('/');
+                  } else {
+                    navigate(-1);
+                  }
                 }}
               />
             }
@@ -121,6 +127,7 @@ const SaveButton = styled.button`
 
 const ExpenseDetailViewPage = () => {
   const { id } = useParams();
+
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [data, setData] = useState<ExpenseFormType>({
     content: '',

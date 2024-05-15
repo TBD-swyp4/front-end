@@ -11,6 +11,7 @@ const Layout = () => {
       {/* 포탈을 사용해 모달을 붙일 id 생성 */}
       <div id="background-root"></div>
       <div id="modal-root"></div>
+      <div id="loading-root"></div>
     </LayoutContainer>
   );
 };

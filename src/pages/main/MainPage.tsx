@@ -15,7 +15,7 @@ import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
 
-import { fetchDataForDay, fetchMainData } from '@api/main';
+import { fetchMainData } from '@api/main';
 import { formatYMD } from '@utils/index';
 import { useQuery } from 'react-query';
 import Spinner from '@components/information/Spinner';
@@ -95,7 +95,7 @@ const MainPage = () => {
     data: subData,
     isLoading: isLoadingSubData,
     error: subDataError,
-  } = useQuery(['mainSubData', selectDate], () => fetchDataForDay(selectDate), {
+  } = useQuery(['mainSubData', selectDate], () => fetchMainData(selectDate, true), {
     enabled: !!selectDate,
   });
 
