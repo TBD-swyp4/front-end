@@ -37,7 +37,7 @@ const LayoutContainer = styled.div`
   }
 
   @media (max-height: 844px) {
-    width: 100vw;
+    //width: 100vw;
     height: 100vh;
   }
 `;

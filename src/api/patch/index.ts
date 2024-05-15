@@ -3,8 +3,8 @@ import { ExpenseFormType } from '@models/expense';
 
 /**
  * 소비 데이터 저장
- * @param articleId
- * @param expenseData
+ * @param articleId 게시글 Id
+ * @param expenseData 게시글 데이터 (ExpenseFormType)
  * @returns
  */
 export const saveExpenseData = async (

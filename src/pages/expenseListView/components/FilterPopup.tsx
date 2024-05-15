@@ -43,8 +43,8 @@ const FilterPopup = ({ onClose, prevCondition, updateCondition }: FilterPopupPro
       return;
     }
 
-    alert('필터 선택 값' + JSON.stringify(data));
-    console.log(data);
+    //alert('필터 선택 값' + JSON.stringify(data));
+    console.log(`필터 선택 값: ${JSON.stringify(data)}`);
     updateCondition(data);
     onClose();
   };

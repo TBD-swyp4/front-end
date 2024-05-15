@@ -99,7 +99,7 @@ const AddExpensePage = () => {
     setCurrStep(currStep - 1);
   };
 
-  // 쿼리 실행
+  // 저장 쿼리 실행
   const expenseMutation = useMutation(saveExpense, {
     onSuccess: (data) => {
       const articleId = data.data.articleId;

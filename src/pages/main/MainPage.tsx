@@ -93,6 +93,7 @@ const MainPage = () => {
     error: mainDataError,
   } = useQuery(['mainData', monthNav.currentDate.getMonth()], () => fetchMainData(selectDate), {
     enabled: !!selectDate,
+    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
   });
 
   const {
@@ -101,6 +102,7 @@ const MainPage = () => {
     error: subDataError,
   } = useQuery(['mainSubData', selectDate], () => fetchMainData(selectDate, true), {
     enabled: !!selectDate,
+    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
   });
 
   if (mainDataError) return <div>An error occurred</div>;
@@ -110,11 +112,19 @@ const MainPage = () => {
       <NavigationLayout {...monthNav}>
         <MainContainer>
           <BudgetContainer isLoading={isLoadingMainData}>
-            {isLoadingMainData ? <Spinner /> : <Budget {...mainData.data.budget} />}
+            {isLoadingMainData ? (
+              <Spinner />
+            ) : !mainData.data.budget ? (
+              <div>예산 데이터 없음</div>
+            ) : (
+              <Budget {...mainData.data.budget} />
+            )}
           </BudgetContainer>
           <CalendarWrapper>
             {isLoadingMainData ? (
               <Spinner />
+            ) : !mainData.data.monthSpendList ? (
+              <div>소비 데이터 없음</div>
             ) : (
               <Calendar {...monthNav} data={mainData.data.monthSpendList} />
             )}
@@ -124,6 +134,8 @@ const MainPage = () => {
               <div>Error..</div>
             ) : isLoadingSubData ? (
               <Spinner />
+            ) : !subData.data.daySpendList ? (
+              <div>리스트 데이터 없음</div>
             ) : (
               <DayExpenseListTop2
                 data={subData.data.daySpendList}

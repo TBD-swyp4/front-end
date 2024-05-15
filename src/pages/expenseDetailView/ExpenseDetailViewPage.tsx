@@ -206,7 +206,7 @@ const ExpenseDetailViewPage = () => {
 
   const commentMutation = useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
-      alert(commentData.data.aiComment);
+      console.log(commentData.data.aiComment);
       methods.setValue('aiComment', commentData.data.aiComment);
     },
     onError: (error) => {
@@ -346,7 +346,7 @@ const ExpenseDetailViewPage = () => {
                     isDisable={true}></MultiText>
                   <AICommentButton
                     onClick={handleAIComment}
-                    className={`${isEditMode ? '' : 'able'}`}>
+                    className={`${isEditMode || aiComment ? '' : 'able'}`}>
                     <VolumeBtn />
                   </AICommentButton>
                 </Content>

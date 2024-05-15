@@ -5,7 +5,7 @@ import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
 
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Background from '@components/background';
 import {
@@ -24,7 +24,6 @@ import {
   type ExpenseFilterType,
   type ExpenseSummaryType,
 } from '@models/expense';
-import mainSub from '../../../public/data/mainSub.json';
 
 import SlideModal from '@components/modal/SlideModal';
 import FilterPopup from './components/FilterPopup';
@@ -32,6 +31,9 @@ import ExpenseSummary from '@components/expense/ExpenseSummary';
 import { EmotionKeys, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
 import { getEmotionText } from '@models/emotion';
+import { useInfiniteQuery } from 'react-query';
+import { fetchExpensesByCondition } from '@api/get';
+import Spinner from '@components/information/Spinner';
 
 type NavLayoutProps = {
   children: React.ReactNode;
@@ -76,17 +78,13 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 
 const ExpenseListViewPage = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
-  const testData = mainSub.data.daySpendList as ExpenseSummaryType[];
-
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDesc, setIsDesc] = useState<boolean>(true); // 내림차순 = 최신순
-
   const now = new Date();
+
+  // 검색 조건 상태
   const [condition, setCondition] = useState<ExpenseFilterType>({
-    page: 1,
     registerType: [...Registers],
     emotion: [...EmotionKeys],
     from: startOfMonth(now), //미 선택 시, 당월
@@ -95,30 +93,83 @@ const ExpenseListViewPage = () => {
     word: inputRef.current ? inputRef.current.value : '',
   });
 
-  const showData = isDesc ? testData : [...testData].reverse();
+  // 무한 스크롤 구현
+  const {
+    data: expensesData,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery(
+    ['expenses', condition],
+    ({ pageParam = 1 }) => fetchExpensesByCondition(pageParam, condition),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.data.nextPage) {
+          return allPages.length + 1;
+        } else {
+          return undefined;
+        }
+      },
+      onSuccess: (data) => console.log('Fetched data:', data),
+      onError: (error) => console.error('Error fetching data:', error),
+      //enabled: false, // 새로운 조건이 적용된 쿼리를 자동으로 재시작하지 않도록 설정
+      refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
+    },
+  );
+
+  // 검색 조건이 변경될 때 쿼리를 다시 실행
+  useEffect(() => {
+    refetch();
+  }, [condition, refetch]);
+
+  // 추가 데이터 로드
+  const loadMore = useCallback(() => {
+    if (hasNextPage) fetchNextPage();
+  }, [hasNextPage, fetchNextPage]);
+
+  // 무한 스크롤 이벤트 핸들러
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const onScroll = () => {
+      if (
+        scrollContainer.scrollTop + scrollContainer.clientHeight + 1 >=
+        scrollContainer.scrollHeight
+      ) {
+        loadMore();
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', onScroll);
+    return () => scrollContainer.removeEventListener('scroll', onScroll);
+  }, [hasNextPage, fetchNextPage, loadMore]);
+
+  // 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
+  //const showData = isDesc ? data.data : [...data.data].reverse();
   const toggleDesc = () => setIsDesc((prev) => !prev);
   const toggleModal = () => setShowModal((prev) => !prev);
 
-  // 필터에서 적용버튼 눌렀을 때 적용할 데이터로 condition 상태 업데이트
+  // 필터에서 적용버튼 눌렀을 때 적용할 데이터로 condition 상태 업데이트 -> 바로 검색
   const updateCondition = (data: ExpenseFilterType) => {
     setCondition(() => {
       const newCondition = cloneDeep(data);
-      // 상태를 업데이트하는 함수 내에서 handleSearch 호출
-      handleSearch(newCondition);
       return newCondition;
     });
   };
 
   // 현재 상태의 조건을 가지고 서버에 데이터 요청하는 함수
   const handleSearch = (currentCondition: ExpenseFilterType) => {
-    const sendData = cloneDeep(currentCondition);
-    // 1. 날짜 형태 맞추기 (`yyyy-MM-ddThh:mm:ss`) -> 타입 고민해보기
-    // 2. 현재 상태 키워드로 업데이트
-    if (inputRef.current) sendData.word = inputRef.current.value;
-    // 3. 서버에 요청
-    // 4. 데이터 업데이트
-    alert(`실제 검색 조건: ` + JSON.stringify(sendData));
-    console.log(sendData);
+    // 1. 현재 상태 키워드로 업데이트
+    const sendData = {
+      ...cloneDeep(currentCondition),
+      word: inputRef.current ? inputRef.current.value : '',
+    };
+
+    // 2. 상태를 업데이트하여 query 실행
+    setCondition(sendData);
   };
 
   // 검색 실행
@@ -139,12 +190,20 @@ const ExpenseListViewPage = () => {
             </span>
             <SelectList>
               <Select>{`${formatYMD(condition.from)}-${formatYMD(condition.to)}`}</Select>
-              <Select>{condition.registerType.map((x) => getRegisterTypeText(x)).join(',')}</Select>
-              <Select>
-                {`${getEmotionText(condition.emotion[0])}`}
-                {condition.emotion.length > 1 ? ` 외 ${condition.emotion.length - 1}건` : ``}
-              </Select>
-              <Select>{`만족도 ${condition.satisfaction.sort((a, b) => a - b).join(',')}`}</Select>
+              {condition.registerType.length > 0 && (
+                <Select>
+                  {condition.registerType.map((x) => getRegisterTypeText(x)).join(',')}
+                </Select>
+              )}
+              {condition.emotion.length > 0 && (
+                <Select>
+                  {`${getEmotionText(condition.emotion[0])}`}
+                  {condition.emotion.length > 1 ? ` 외 ${condition.emotion.length - 1}건` : ``}
+                </Select>
+              )}
+              {condition.satisfaction.length > 0 && (
+                <Select>{`만족도 ${condition.satisfaction.sort((a, b) => a - b).join(',')}`}</Select>
+              )}
             </SelectList>
           </FilterWrapper>
           <SearchBoxWrapper>
@@ -181,15 +240,20 @@ const ExpenseListViewPage = () => {
               )}
             </span>
           </ExpenseListHeader>
-          <ExpenseListContent>
-            {showData.map((x) => {
-              return (
-                <ExpenseBox key={x.articleId}>
-                  <ExpenseSummary {...x} />
-                </ExpenseBox>
-              );
-            })}
-            <div style={{ height: '5000px', width: '3px' }}></div>
+          <ExpenseListContent ref={scrollContainerRef} isloading={isLoading.toString()}>
+            {isLoading ? (
+              <Spinner />
+            ) : error ? (
+              <div>Error...</div>
+            ) : (
+              expensesData?.pages?.map((page) =>
+                page.data?.spendList?.map((expenseSummary: ExpenseSummaryType) => (
+                  <ExpenseBox key={expenseSummary.articleId}>
+                    <ExpenseSummary {...expenseSummary} />
+                  </ExpenseBox>
+                )),
+              )
+            )}
           </ExpenseListContent>
         </ExpenseListContainer>
       </ExpenseListViewContainer>
@@ -315,9 +379,9 @@ const ExpenseListHeader = styled.div`
     }
   }
 `;
-const ExpenseListContent = styled.div`
+const ExpenseListContent = styled.div<{ isloading: string }>`
   ${flexColumnCenter}
-  justify-content: flex-start;
+  justify-content: ${(props) => (props.isloading == 'true' ? '' : 'flex-start')};
   ${overflowWithoutScroll}
   width: 100%;
   height: 100%;

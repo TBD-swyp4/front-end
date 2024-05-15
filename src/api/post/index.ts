@@ -3,7 +3,7 @@ import { ExpenseFormType } from '@models/expense';
 
 /**
  * 입력 페이지 저장 쿼리메인 페이지 데이터 (예산, 달력, 요약 정보)
- * @param expenseData
+ * @param expenseData 게시글 데이터 (ExpenseFormType)
  * @returns
  */
 export const saveExpense = async (expenseData: ExpenseFormType) => {
@@ -29,7 +29,7 @@ export const saveExpense = async (expenseData: ExpenseFormType) => {
 
 /**
  * ai comment 데이터
- * @param articleId
+ * @param articleId 게시글 Id
  * @returns
  */
 export const fetchAIComment = async (articleId: string | undefined) => {
