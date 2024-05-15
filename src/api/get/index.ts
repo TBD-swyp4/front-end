@@ -19,3 +19,17 @@ export const fetchMainData = async (selectDate: string, isSelectDay = false) => 
     throw new Error('[서버 통신 오류] fetchMainData : ' + error);
   }
 };
+
+/**
+ * 소비 상세 조회 데이터
+ * @param articleId
+ * @returns
+ */
+export const fetchExpenseById = async (articleId: string | undefined) => {
+  try {
+    const { data } = await axiosInstance.get(`/articles/${articleId}`);
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchExpenseById : ' + error);
+  }
+};

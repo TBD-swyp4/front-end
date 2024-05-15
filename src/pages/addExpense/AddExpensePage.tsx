@@ -12,7 +12,7 @@ import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 import { useMutation } from 'react-query';
-import { saveExpense } from '@api/add';
+import { saveExpense } from '@api/post';
 import LoadingModal from '@components/modal/LoadingModal';
 
 type AddNavProps = {

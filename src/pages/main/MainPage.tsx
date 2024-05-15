@@ -4,7 +4,7 @@ import BottomNavigation from '@layout/BottomNavigation';
 import Background from '@components/background';
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
@@ -15,7 +15,7 @@ import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
 
-import { fetchMainData } from '@api/main';
+import { fetchMainData } from '@api/get';
 import { formatYMD } from '@utils/index';
 import { useQuery } from 'react-query';
 import Spinner from '@components/information/Spinner';
@@ -78,6 +78,10 @@ const MonthNavWrapper = styled.div`
 `;
 
 const MainPage = () => {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('isFirstLogin');
+  console.log(query);
+
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
 
   const selectDate = formatYMD(monthNav.currentDate, 'none');
