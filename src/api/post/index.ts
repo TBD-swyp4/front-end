@@ -1,5 +1,6 @@
 import axiosInstance from '@api/axios';
 import { ExpenseFormType } from '@models/expense';
+import type { UserFormType } from '@models/user';
 
 /**
  * 입력 페이지 저장 쿼리메인 페이지 데이터 (예산, 달력, 요약 정보)
@@ -40,5 +41,24 @@ export const fetchAIComment = async (articleId: string | undefined) => {
     return data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchAIComment : ' + error);
+  }
+};
+
+/**
+ * 유저 정보 저장 (환경설정)
+ *
+ * @param articleId 게시글 Id
+ * @returns
+ */
+export const saveUserData = async (userData: UserFormType) => {
+  try {
+    const { data } = await axiosInstance.post('/users/details', {
+      mbti: `${userData.EI}${userData.NS}${userData.TF}${userData.PJ}`,
+      gender: userData.gender,
+      budget: userData.budget,
+    });
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] saveUserData : ' + error);
   }
 };
