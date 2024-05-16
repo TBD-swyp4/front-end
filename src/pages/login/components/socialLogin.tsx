@@ -9,7 +9,8 @@ type SocialLoginProps = {
 };
 
 const SocialLogin = ({ provider }: SocialLoginProps) => {
-  const AUTH_URL = `${import.meta.env.VITE_BASE_URL}/users/login/${provider}`;
+  //const AUTH_URL = `${import.meta.env.VITE_BASE_URL}/users/login/${provider}`;
+  const AUTH_URL = `https://www.api-spinlog.shop/api/users/login/${provider}`;
   const isDevelopment = import.meta.env.MODE === 'development';
 
   if (isDevelopment) {

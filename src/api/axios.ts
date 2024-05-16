@@ -1,7 +1,7 @@
 import { useAuthStore } from '@stores/authStore';
 import axios from 'axios';
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: 'https://www.api-spinlog.shop/api',
   headers: {
     'Content-Type': 'application/json',
     TemporaryAuth: 'OurAuthValue', // 임시 헤더 -> 로컬 요청 처리
@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
       window.location.href = '/login';
       alert('로그아웃 되었습니다.');
     }
-    // 이외의 오류를 다시 throw 하여 호출자에게 전달
+    // 이외의 오류는 다시 throw 하여 호출자에게 전달
     return Promise.reject(error);
   },
 );
