@@ -14,6 +14,7 @@ import Spinner from '@components/information/Spinner';
 import { useEffect } from 'react';
 import LoadingModal from '@components/modal/LoadingModal';
 import { saveUserData } from '@api/post';
+import { useAuthStore } from '@stores/authStore';
 
 type NavLayoutProps = {
   children: React.ReactNode;
@@ -94,6 +95,9 @@ const SettingPage = () => {
     }
   }, [userData, methods, isLoadingUserData]);
 
+  const handleLogout = () => {
+    useAuthStore.getState().setLogoutState();
+  };
   return (
     <NavigationLayout>
       <SettingContainer>
@@ -208,7 +212,7 @@ const SettingPage = () => {
           </ProfileContainer>
           <Button>저장</Button>
         </Form>
-        <Button>로그아웃</Button>
+        <Button onClick={handleLogout}>로그아웃</Button>
       </SettingContainer>
       {saveMutation.isLoading && <LoadingModal />}
     </NavigationLayout>
@@ -223,6 +227,7 @@ const SettingContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 16px;
+  margin-top: 15px;
 `;
 
 const Form = styled.form`
@@ -233,7 +238,7 @@ const Form = styled.form`
 const BudgetContainer = styled.div`
   ${flexCenter}
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
   & > span {
     ${flexCenter}
     flex-shrink: 0;

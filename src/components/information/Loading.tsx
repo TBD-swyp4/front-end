@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { flexColumnCenter } from '@styles/CommonStyles';
 
-import LoadingBird from '@assets/images/icon/bird/loadingBird.svg?react';
+import LoadingBird from '@assets/images/bird/loadingBird.svg?react';
 
 const Loading = () => {
   return (

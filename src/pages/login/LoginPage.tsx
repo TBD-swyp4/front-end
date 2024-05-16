@@ -25,7 +25,7 @@ const LoginPage = () => {
       <LoginButtonContainer>
         <SocialLogin provider={'kakao'} />
         <SocialLogin provider={'naver'} />
-        {/* <SocialLogin provider={'google'} /> */}
+        <SocialLogin provider={'google'} />
       </LoginButtonContainer>
       <ExperienceWrapper>
         <ExperienceButton>체험하기</ExperienceButton>
