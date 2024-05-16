@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
 
-import MainIcon from '@assets/images/icon/navigation/main.svg?react';
-import DashboardIcon from '@assets/images/icon/navigation/dashboard.svg?react';
-import AddIcon from '@assets/images/icon/navigation/addExpense.svg?react';
-import ViewIcon from '@assets/images/icon/navigation/view.svg?react';
-import StatisticsIcon from '@assets/images/icon/navigation/statistics.svg?react';
+import MainIcon from '@assets/images/navigation/main.svg?react';
+import DashboardIcon from '@assets/images/navigation/dashboard.svg?react';
+import AddIcon from '@assets/images/navigation/addExpense.svg?react';
+import ViewIcon from '@assets/images/navigation/view.svg?react';
+import StatisticsIcon from '@assets/images/navigation/statistics.svg?react';
 
 type BottomNavigationProps = {
   location: string;

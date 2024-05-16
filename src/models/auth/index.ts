@@ -3,10 +3,8 @@
 export type UserLoginStatus = 'LoggedIn' | 'Trial' | 'LoggedOut';
 export type authState = {
   isLoggedIn: boolean;
-  userId: number | null;
 };
 export type AuthStoreType = authState & {
   setLoginState: () => void;
   setLogoutState: () => void;
-  setUserId: (id: number | null) => void;
 };

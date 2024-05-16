@@ -1,49 +1,36 @@
 // import axios from 'axios';
 import styled from 'styled-components';
-import { useAuthStore } from '@stores/authStore';
-import { useNavigate } from 'react-router-dom';
+import { flexCenter } from '@styles/CommonStyles';
 
-type ProviderName = 'naver' | 'kakao'; //| 'google'
-
-type ButtonProps = {
-  provider: ProviderName;
-};
+type ProviderName = 'naver' | 'kakao' | 'google';
 
 type SocialLoginProps = {
   provider: ProviderName;
 };
 
 const SocialLogin = ({ provider }: SocialLoginProps) => {
-  //   const AUTH_URL = `${import.meta.env.VITE_SPINLOG_SERVER_URL}/oauth2/authorization/${provider}`; // api 서버 돌아가면 변경할 것
-  // const AUTH_URL = `${import.meta.env.VITE_NGROK_URL}/oauth2/authorization/${provider}`;
-  const navigate = useNavigate();
-  const { setLoginState } = useAuthStore((state) => {
-    return { setLoginState: state.setLoginState };
-  });
+  const AUTH_URL = `${import.meta.env.VITE_BASE_URL}/users/login/${provider}`;
+  const isDevelopment = import.meta.env.MODE === 'development';
 
-  const handleClickLogin = () => {
-    // axios.get(AUTH_URL).then(() => {}); // 백쪽 서버 살아나는대로 변경할 것
-    setLoginState();
-    navigate('/');
-  };
-
-  return <Button provider={provider} onClick={handleClickLogin} />;
+  if (isDevelopment) {
+    // 로컬일 경우 바로 인증
+    return <Button href="/auth">{provider}</Button>;
+  } else {
+    // 소셜 로그인에 성공하면, 서버에서 "/auth" 페이지로 리다이렉트 시켜준다.
+    return <Button href={AUTH_URL}>{provider}</Button>;
+  }
 };
 
 export default SocialLogin;
 
-const Button = styled.button<ButtonProps>`
-  background-image: ${(props) =>
-    props.provider === 'kakao'
-      ? 'url("https://i.ibb.co/2cdRQ7x/kakao-login-large-wide.png")'
-      : props.provider === 'naver'
-        ? 'url("https://i.ibb.co/Pj8Mfpv/naver-login-large-wide.png")'
-        : ''}; // google 로그인 이미지 삽입
-  // : 'url("https://i.ibb.co/dsadsadsa/google-login-large-wide.png")'};
-  background-size: 100%;
+// 소셜 로그인 이미지 찾아야함 (피그마 svg 깨짐)
+const Button = styled.a`
+  ${flexCenter}
+  background-color: #b0aeae;
   cursor: pointer;
-  width: 21.874rem;
-  height: 3.125rem;
-  border-radius: 0.625rem;
+  width: 358px;
+  height: 60px;
+  border-radius: 6px;
   margin: 5px;
+  font-size: 20px;
 `;

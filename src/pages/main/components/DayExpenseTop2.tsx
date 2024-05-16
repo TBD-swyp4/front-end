@@ -43,16 +43,18 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
           {data.length > 2 && <ShowMoreBtn onClick={toggleModal} />}
         </DateInfo>
         <Summary>
-          {dataTop2.length === 0
-            ? '작성 내역이 없습니다.'
-            : dataTop2.map((x, i) => {
-                return (
-                  <div key={i}>
-                    <ExpenseSummary {...x} hideHeader={true} />
-                    {i != dataTop2.length - 1 && <Divider />}
-                  </div>
-                );
-              })}
+          {dataTop2.length === 0 ? (
+            <Info>작성 내역이 없습니다.</Info>
+          ) : (
+            dataTop2.map((x, i) => {
+              return (
+                <div key={i}>
+                  <ExpenseSummary {...x} />
+                  {i != dataTop2.length - 1 && <Divider />}
+                </div>
+              );
+            })
+          )}
         </Summary>
       </Container>
       {showModal && (
@@ -89,7 +91,9 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
 export default DayExpenseListTop2;
 
 const Container = styled.div`
-  ${flexColumnCenter}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 `;
 
@@ -186,4 +190,10 @@ const ExpenseBox = styled.div`
 
 const Divider = styled.div`
   ${divider}
+`;
+
+const Info = styled.div`
+  color: #9f9f9f;
+  font-size: 14px;
+  font-weight: 400;
 `;

@@ -7,12 +7,13 @@ import ProtectedRoute from './protectedRoute/ProtectedRoute';
 import MainPage from '../pages/main/MainPage';
 import LoginPage from '../pages/login/LoginPage';
 import ErrorPage from '../pages/error/ErrorPage';
+import AuthPage from '../pages/auth/AuthPage.tsx';
 import Loading from '@components/information/Loading';
+import ExpenseListViewPage from '../pages/expenseListView/ExpenseListViewPage';
 
 // 바로 로딩되지 않아도 되는 컴포넌트 lazy loading 추가
 const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage.tsx'));
 const AddExpensePage = lazy(() => import('../pages/addExpense/AddExpensePage'));
-const ExpenseListViewPage = lazy(() => import('../pages/expenseListView/ExpenseListViewPage'));
 const ExpenseDetailViewPage = lazy(
   () => import('../pages/expenseDetailView/ExpenseDetailViewPage'),
 );
@@ -97,6 +98,14 @@ export const router = createBrowserRouter([
                 <ProtectedRoute>
                   <SettingPage />
                 </ProtectedRoute>
+              </Suspense>
+            ),
+          },
+          {
+            path: '/auth',
+            element: (
+              <Suspense fallback={<Loading />}>
+                <AuthPage />
               </Suspense>
             ),
           },

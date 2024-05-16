@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
-import ErrorBird from '@assets/images/icon/bird/errorBird.svg?react';
+import ErrorBird from '@assets/images/bird/errorBird.svg?react';
 
 import { useNavigate } from 'react-router-dom';
 

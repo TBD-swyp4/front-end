@@ -7,7 +7,6 @@ import axiosInstance from '@api/axios';
  */
 export const deleteExpenseById = async (articleId: string | undefined) => {
   try {
-    alert(articleId);
     const { data } = await axiosInstance.delete(`/articles/${articleId}`);
     return data;
   } catch (error) {

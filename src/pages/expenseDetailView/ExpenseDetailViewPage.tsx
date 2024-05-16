@@ -207,7 +207,8 @@ const ExpenseDetailViewPage = () => {
   const commentMutation = useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
       console.log(commentData.data.aiComment);
-      methods.setValue('aiComment', commentData.data.aiComment);
+      // #20240516.syjang, aiComment->co
+      methods.setValue('aiComment', commentData.data.content);
     },
     onError: (error) => {
       console.log(`삭제 실패: ${error}`);
@@ -346,7 +347,7 @@ const ExpenseDetailViewPage = () => {
                     isDisable={true}></MultiText>
                   <AICommentButton
                     onClick={handleAIComment}
-                    className={`${isEditMode || aiComment ? '' : 'able'}`}>
+                    className={`${isEditMode || aiComment || commentMutation.isLoading ? '' : 'able'}`}>
                     <VolumeBtn />
                   </AICommentButton>
                 </Content>
