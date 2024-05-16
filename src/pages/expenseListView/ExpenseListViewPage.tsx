@@ -93,7 +93,7 @@ const ExpenseListViewPage = () => {
     word: inputRef.current ? inputRef.current.value : '',
   });
 
-  // 무한 스크롤 구현
+  // 무한 스크롤 구현, 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
   const {
     data: expensesData,
     isLoading,
@@ -147,8 +147,6 @@ const ExpenseListViewPage = () => {
     return () => scrollContainer.removeEventListener('scroll', onScroll);
   }, [hasNextPage, fetchNextPage, loadMore]);
 
-  // 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
-  //const showData = isDesc ? data.data : [...data.data].reverse();
   const toggleDesc = () => setIsDesc((prev) => !prev);
   const toggleModal = () => setShowModal((prev) => !prev);
 
@@ -179,6 +177,13 @@ const ExpenseListViewPage = () => {
     if (inputRef.current) inputRef.current.blur(); // 모바일 키보드 숨기기
     handleSearch(condition);
   };
+
+  // 최신순/오래된순 정렬에 따라 배열 뒤집기. (spendList는 렌더링 부분에서 한번 또 뒤집어야함)
+  const pagesData = expensesData
+    ? isDesc
+      ? expensesData.pages
+      : [...expensesData.pages].reverse()
+    : [];
 
   return (
     <NavigationLayout>
@@ -246,13 +251,14 @@ const ExpenseListViewPage = () => {
             ) : error ? (
               <div>Error...</div>
             ) : (
-              expensesData?.pages?.map((page) =>
-                page.data?.spendList?.map((expenseSummary: ExpenseSummaryType) => (
+              pagesData?.map((page) => {
+                const spendList = isDesc ? page.data.spendList : [...page.data.spendList].reverse();
+                return spendList.map((expenseSummary: ExpenseSummaryType) => (
                   <ExpenseBox key={expenseSummary.articleId}>
                     <ExpenseSummary {...expenseSummary} />
                   </ExpenseBox>
-                )),
-              )
+                ));
+              })
             )}
           </ExpenseListContent>
         </ExpenseListContainer>

@@ -74,3 +74,16 @@ export const fetchExpensesByCondition = async (page: number = 0, params: Expense
     throw new Error('[서버 통신 오류] fetchExpensesByCondition : ' + error);
   }
 };
+
+/**
+ * 환경설정(내 정보) 데이터
+ * @returns email, mbti, gender, budget
+ */
+export const fetchUserData = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/users/details`);
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchUserData : ' + error);
+  }
+};
