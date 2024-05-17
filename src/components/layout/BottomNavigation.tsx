@@ -77,7 +77,7 @@ const Wrapper = styled.nav`
   flex-shrink: 0;
 
   width: 100%;
-  height: 80px; // 하단 네비게이션 바 높이
+  height: 85px; // 하단 네비게이션 바 높이
 
   background-color: ${(props) => props.theme.colors.navBackground};
   box-shadow: ${(props) => props.theme.shadows.on};

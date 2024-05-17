@@ -178,6 +178,7 @@ const ExpenseDetailViewPage = () => {
     error: errorExpenseData,
   } = useQuery(['expense', id], () => fetchExpenseById(id), {
     enabled: !!id, // id가 있을 때만 쿼리 실행
+    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
   });
 
   const saveMutation = useMutation({
@@ -207,7 +208,7 @@ const ExpenseDetailViewPage = () => {
   const commentMutation = useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
       console.log(commentData.data.aiComment);
-      // #20240516.syjang, aiComment->co
+      // #20240516.syjang, aiComment->content로 변경
       methods.setValue('aiComment', commentData.data.content);
     },
     onError: (error) => {

@@ -36,7 +36,7 @@ const LayoutContainer = styled.div`
     height: 100vh;
   }
 
-  @media (max-height: 844px) {
+  @media (max-height: 850px) {
     //width: 100vw;
     height: 100vh;
   }

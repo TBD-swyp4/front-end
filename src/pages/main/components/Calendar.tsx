@@ -46,6 +46,10 @@ const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
     if (todayData) {
       setDaySpend(todayData.daySpend);
       setDaySave(todayData.daySave);
+    } else {
+      // 데이터가 없는 경우, 라벨 0으로 초기화
+      setDaySpend(0);
+      setDaySave(0);
     }
   }, [currentDate, data]);
 
