@@ -38,7 +38,7 @@ const EmotionWrapper = styled.div`
   ${flexColumnCenter}
   margin-bottom: 5px;
   cursor: pointer;
-
+  width: 90px;
   position: relative;
 `;
 

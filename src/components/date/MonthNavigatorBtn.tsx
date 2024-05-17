@@ -40,7 +40,7 @@ const Wrapper = styled.div<{ color: string }>`
   ${flexBetween}
   font-size: 16px;
   font-weight: 600;
-  width: 230px;
+  width: 235px;
 
   color: ${(props) => props.color};
 `;
