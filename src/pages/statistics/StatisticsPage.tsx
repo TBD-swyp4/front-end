@@ -88,5 +88,4 @@ const Content = styled.div`
   justify-content: center;
   width: 100%;
   height: 1000px; // 스크롤 생기는것 확인하시라고 예시로 1000px 넣어뒀습니다.
-  padding-top: 4px; // indigator 영역만큼 padding 주기 ( 패딩 더 추가하시려면, 4px 더해서 계산하면 됩니다. )
 `;
