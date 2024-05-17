@@ -68,7 +68,11 @@ const TabLayout = ({
       </TabHeaders>
       <TabIndicatorRail color={indicatorRailColor} />
       <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
-      {tabs.map((tab) => selectedTab === tab.id && <TabPanel key={tab.id}>{tab.content}</TabPanel>)}
+      <ContentContainer>
+        {tabs.map(
+          (tab) => selectedTab === tab.id && <TabPanel key={tab.id}>{tab.content}</TabPanel>,
+        )}
+      </ContentContainer>
     </TabsContainer>
   );
 };
@@ -129,4 +133,12 @@ const TabPanel = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 10px;
 `;

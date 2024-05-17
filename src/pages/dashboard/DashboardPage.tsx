@@ -103,6 +103,4 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  /* height: 1000px; */
-  padding-top: 4px; // indigator 영역만큼 padding 주기
 `;
