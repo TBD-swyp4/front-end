@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     TemporaryAuth: 'OurAuthValue', // 임시 헤더 -> 로컬 요청 처리
   },
+  withCredentials: true,
 });
 
 // 응답 인터셉터 추가
