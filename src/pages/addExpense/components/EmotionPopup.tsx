@@ -64,8 +64,8 @@ export default EmotionPopup;
 
 const Container = styled.div`
   ${overflowWithoutScroll}
-  width: 358px;
-  height: 650px;
+  width: 370px;
+  height: 670px;
 
   padding: 20px;
 
