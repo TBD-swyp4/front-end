@@ -9,10 +9,11 @@ import { useState } from 'react';
 import SlideButton from './components/SlideButton';
 import { format, subDays } from 'date-fns';
 import CategoriesView from './components/CategoriesView';
+import Memo from './components/Memo';
+import { Register } from '@models/index';
 
 const EmotionComponent = () => <div>감정 컴포넌트</div>;
 const DailyComponent = () => <div>일별 컴포넌트</div>;
-const MemoComponent = () => <div>메모 컴포넌트</div>;
 const SatisfactionComponent = () => <div>만족모 컴포넌트</div>;
 
 type NavLayoutProps = {
@@ -46,7 +47,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 };
 
 const StatisticsPage = () => {
-  const [registerType, setRegisterType] = useState<'SPEND' | 'SAVE'>('SPEND');
+  const [registerType, setRegisterType] = useState<Register>('SPEND');
   const [selectedTab, setSelectedTab] = useState<string>('TAB_MBTI');
 
   const today = format(new Date(), 'yyyy.MM.dd');
@@ -62,7 +63,7 @@ const StatisticsPage = () => {
   const categories: { id: string; name: string; component: JSX.Element }[] = [
     { id: 'categoryEmotion', name: '감정', component: <EmotionComponent /> },
     { id: 'categoryDaily', name: '일별', component: <DailyComponent /> },
-    { id: 'categoryMemo', name: '메모', component: <MemoComponent /> },
+    { id: 'categoryMemo', name: '메모', component: <Memo /> },
     { id: 'categorySatisfaction', name: '만족도', component: <SatisfactionComponent /> },
   ];
 
