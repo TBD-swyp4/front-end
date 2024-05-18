@@ -1,6 +1,7 @@
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
 import { flexCenter } from '@styles/CommonStyles';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { TabOption } from 'src/pages/statistics/type';
 import styled from 'styled-components';
 
 type TabProps = {
@@ -12,7 +13,7 @@ type TabProps = {
 type TabsProps = {
   tabs: TabProps[];
   selectedTab: string;
-  onTabSelect: (tabId: string) => void;
+  onTabSelect: (tabId: TabOption) => void;
   tabHeaderColor?: string;
   activeTabHeaderColor?: string;
   indicatorColor?: string;

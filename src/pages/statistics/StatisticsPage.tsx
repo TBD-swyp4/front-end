@@ -9,8 +9,9 @@ import { useState } from 'react';
 import SlideButton from './components/SlideButton';
 import { format, subDays } from 'date-fns';
 import CategoriesView from './components/CategoriesView';
-import Memo from './components/Memo';
 import { Register } from '@models/index';
+import { TabOption } from './type';
+import MemoContainer from './components/Memo/MemoContainer';
 
 const EmotionComponent = () => <div>감정 컴포넌트</div>;
 const DailyComponent = () => <div>일별 컴포넌트</div>;
@@ -48,7 +49,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 
 const StatisticsPage = () => {
   const [registerType, setRegisterType] = useState<Register>('SPEND');
-  const [selectedTab, setSelectedTab] = useState<string>('TAB_MBTI');
+  const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_MBTI');
 
   const today = format(new Date(), 'yyyy.MM.dd');
   const nintyDaysBefore = format(subDays(new Date(), 90), 'yyyy.MM.dd');
@@ -56,14 +57,18 @@ const StatisticsPage = () => {
   const handleRegisterTypeClick = (isSpend: boolean) => {
     setRegisterType(isSpend ? 'SAVE' : 'SPEND');
   };
-  const handleTabSelect = (tabId: string) => {
+  const handleTabSelect = (tabId: TabOption) => {
     setSelectedTab(tabId);
   };
 
   const categories: { id: string; name: string; component: JSX.Element }[] = [
     { id: 'categoryEmotion', name: '감정', component: <EmotionComponent /> },
     { id: 'categoryDaily', name: '일별', component: <DailyComponent /> },
-    { id: 'categoryMemo', name: '메모', component: <Memo /> },
+    {
+      id: 'categoryMemo',
+      name: '메모',
+      component: <MemoContainer tabOption={selectedTab} register={registerType} />,
+    },
     { id: 'categorySatisfaction', name: '만족도', component: <SatisfactionComponent /> },
   ];
 
@@ -76,11 +81,9 @@ const StatisticsPage = () => {
     {
       id: 'TAB_GENDER',
       label: '성별',
-      content: <Content>성별</Content>,
+      content: <CategoriesView categories={categories} />,
     },
   ];
-
-  console.log(registerType); //FIXME: 임시 탭 action
 
   return (
     <NavigationLayout>
@@ -123,11 +126,4 @@ const StatisticsContainer = styled.div`
   overflow: hidden;
   margin-top: 10px;
   padding: 0 15px 0 15px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 1000px; // 스크롤 생기는것 확인하시라고 예시로 1000px 넣어뒀습니다.
 `;

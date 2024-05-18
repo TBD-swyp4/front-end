@@ -1,4 +1,3 @@
-import { absoluteCenter } from '@styles/CommonStyles';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -40,6 +39,8 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  gap: 30px;
 `;
 
 const ButtonContainer = styled.div`
@@ -62,5 +63,5 @@ const CategoryButton = styled.button<{ $isSelected: boolean }>`
 `;
 
 const ContentContainer = styled.div`
-  ${absoluteCenter}
+  width: 100%;
 `;
