@@ -87,3 +87,16 @@ export const fetchUserData = async () => {
     throw new Error('[서버 통신 오류] fetchUserData : ' + error);
   }
 };
+
+export const fetchWordFrequencyByMbti = async (registerType: string) => {
+  try {
+    const { data } = await axiosInstance.get('/statistics/mbti/word/frequencies', {
+      params: {
+        registerType,
+      },
+    });
+    return data.data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchWordFrequencyByMbti : ' + error);
+  }
+};
