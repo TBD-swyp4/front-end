@@ -25,7 +25,9 @@ const CategoriesView = ({ categories }: CategoriesViewProps) => {
           </CategoryButton>
         ))}
       </ButtonContainer>
-      {categories.map((category) => selectedCategory === category.id && category.component)}
+      <ContentContainer>
+        {categories.map((category) => selectedCategory === category.id && category.component)}
+      </ContentContainer>
     </Container>
   );
 };
@@ -36,6 +38,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  height: 100%;
+  position: relative;
+  gap: 30px;
 `;
 
 const ButtonContainer = styled.div`
@@ -54,5 +59,9 @@ const CategoryButton = styled.button<{ $isSelected: boolean }>`
   border-radius: 6px;
   background-color: ${(props) => (props.$isSelected ? '#47cfb0' : '#E3E3E3')};
   color: ${(props) => (props.$isSelected ? '#ffffff' : '#9F9F9F')};
+  width: 100%;
+`;
+
+const ContentContainer = styled.div`
   width: 100%;
 `;

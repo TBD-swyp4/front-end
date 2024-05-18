@@ -87,3 +87,37 @@ export const fetchUserData = async () => {
     throw new Error('[서버 통신 오류] fetchUserData : ' + error);
   }
 };
+
+/**
+ * mbti 단어별 빈도수 (wordcloud용) 데이터
+ * */
+
+export const fetchWordFrequencyByMbti = async (registerType: string) => {
+  try {
+    const { data } = await axiosInstance.get('/statistics/mbti/word/frequencies', {
+      params: {
+        registerType,
+      },
+    });
+    return data.data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchWordFrequencyByMbti : ' + error);
+  }
+};
+
+/**
+ * 성별 단어별 빈도수 (wordcloud용) 데이터
+ */
+
+export const fetchWordFrequencyByGender = async (registerType: string) => {
+  try {
+    const { data } = await axiosInstance.get('/statistics/gender/word/frequencies', {
+      params: {
+        registerType,
+      },
+    });
+    return data.data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchWordFrequencyByGender : ' + error);
+  }
+};
