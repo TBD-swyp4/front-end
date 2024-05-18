@@ -7,13 +7,13 @@ import ProtectedRoute from './protectedRoute/ProtectedRoute';
 import MainPage from '../pages/main/MainPage';
 import LoginPage from '../pages/login/LoginPage';
 import ErrorPage from '../pages/error/ErrorPage';
-import AuthPage from '../pages/auth/AuthPage.tsx';
+import AuthPage from '../pages/auth/AuthPage';
 import Loading from '@components/information/Loading';
 
 // 바로 로딩되지 않아도 되는 컴포넌트 lazy loading 추가
 const ExpenseListViewPage = lazy(() => import('../pages/expenseListView/ExpenseListViewPage'));
 const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'));
-const AddExpensePage = lazy(() => import('../pages/addExpense/AddExpensePage.tsx'));
+const AddExpensePage = lazy(() => import('../pages/addExpense/AddExpensePage'));
 const ExpenseDetailViewPage = lazy(
   () => import('../pages/expenseDetailView/ExpenseDetailViewPage'),
 );

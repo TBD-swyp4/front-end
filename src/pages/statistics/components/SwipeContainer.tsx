@@ -35,7 +35,6 @@ export default SwipeContainer;
 
 const StyledSwiper = styled(Swiper)`
   height: 500px;
-  width: 400px;
 
   .swiper-slide {
     text-align: center;
