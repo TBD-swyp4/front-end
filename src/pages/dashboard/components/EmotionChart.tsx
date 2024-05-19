@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 import type { EmotionAmountTotalType } from '@models/api/dashboard';
@@ -25,7 +24,7 @@ const EmotionChart = ({ data }: EmotionChartProps) => {
   // 전체 값의 합계 계산
   const total = chartSeries.reduce((acc, value) => acc + value, 0);
 
-  const [chartOptions] = useState<ChartOptions>({
+  const chartOptions: ChartOptions = {
     series: chartSeries,
     options: {
       chart: {
@@ -84,20 +83,20 @@ const EmotionChart = ({ data }: EmotionChartProps) => {
       states: {
         hover: {
           filter: {
-            type: 'darken', // 호버 시 어두워지는 효과 적용
-            value: 0.15, // 어두워지는 정도
+            type: 'lighten', // 호버 시 밝아지는 효과 적용
+            value: 0.05,
           },
         },
         active: {
           allowMultipleDataPointsSelection: false, // 여러 데이터 포인트를 동시에 선택하지 않음
           filter: {
-            type: 'darken', // 클릭 시 어두워지는 효과 적용
-            value: 0.15, // 어두워지는 정도
+            type: 'lighten',
+            value: 0.05,
           },
         },
       },
     },
-  });
+  };
 
   return (
     <Container>

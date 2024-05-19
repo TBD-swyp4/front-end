@@ -6,14 +6,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
-import TabLayout from '@components/layout/TabLayout';
+import TabLayout, { TabProps } from '@components/layout/TabLayout';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import TabContent from './components/TabContent';
+import Spinner from '@components/information/Spinner';
+
 import { useQuery } from 'react-query';
 import { fetchDashboardData } from '@api/get';
-import { formatYMD } from '@utils/index';
-import Spinner from '@components/information/Spinner';
+
 import type { TabOption } from './type';
+import { formatYMD } from '@utils/index';
 
 type DashboardNavProps = {
   currentDate: Date;
@@ -88,7 +90,7 @@ const DashboardPage = () => {
     },
   );
 
-  const tabData = [
+  const tabData: TabProps<TabOption>[] = [
     {
       id: 'TAB_SPEND',
       label: '지출',
@@ -113,7 +115,9 @@ const DashboardPage = () => {
   return (
     <NavigationLayout {...monthNav}>
       <DashboardContainer>
-        <TabLayout tabs={tabData} selectedTab={selectedTab} onTabSelect={handleTabSelect} />
+        <TabWrapper>
+          <TabLayout tabs={tabData} selectedTab={selectedTab} onTabSelect={handleTabSelect} />
+        </TabWrapper>
       </DashboardContainer>
     </NavigationLayout>
   );
@@ -124,9 +128,14 @@ export default DashboardPage;
 const DashboardContainer = styled.div`
   width: 100%;
   height: 100%;
-  overflow: hidden;
+
   margin-top: 10px;
-  padding: 0 15px 0 15px;
+
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -134,4 +143,11 @@ const InfoWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 90%;
+`;
+
+const TabWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 15px 0 15px;
 `;

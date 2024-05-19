@@ -54,7 +54,7 @@ const Container = styled.div`
   ${flexColumnCenter}
   justify-content: flex-start;
   width: 100%;
-  height: 200px;
+
   gap: 12px;
 `;
 
@@ -68,16 +68,21 @@ const Total = styled.div`
   width: 100%;
   color: #9f9f9f;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   padding: 0 10px 0 10px;
 `;
 
 const List = styled.div`
-  ${flexColumnCenter}
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  gap: 12px;
-  overflow-y: auto;
+  max-height: 130px;
+
   padding: 0 10px 0 10px;
+  gap: 15px;
+
+  overflow-y: auto;
+  scrollbar-width: thin;
 `;
 
 const ListWrapper = styled.div`
@@ -88,7 +93,7 @@ const ListWrapper = styled.div`
 const EmotionInfo = styled.div`
   ${flexCenter}
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 300;
   color: #333331;
 
   & > span.percent {
@@ -98,7 +103,7 @@ const EmotionInfo = styled.div`
 `;
 const AmountInfo = styled.div`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 `;
 
 const EmotionIcon = styled.div`

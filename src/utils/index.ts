@@ -1,4 +1,12 @@
-import { parse, isSameDay, format, parseISO } from 'date-fns';
+import {
+  parse,
+  isSameDay,
+  format,
+  parseISO,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+} from 'date-fns';
 
 // 숫자에 3자리씩 ',' 찍어주는 함수
 export const addCommasToNumber = (number: number): string => {
@@ -58,6 +66,13 @@ export const formatToServer = (date: Date) => {
 export const formatFromServer = (dateString: string) => {
   if (!dateString) return new Date();
   return parseISO(dateString);
+};
+
+// Date 객체 -> 해당 월의 1일~말일의 Date 객체로 변환
+export const getDateObjArray = (date: Date) => {
+  const start = startOfMonth(date);
+  const end = endOfMonth(date);
+  return eachDayOfInterval({ start, end });
 };
 
 // 날짜, 내용, 금액, 지출 여부를 글로 돌려주는 함수 (spendDate = `yyyy-MM-ddThh:mm:ss` 형태)
