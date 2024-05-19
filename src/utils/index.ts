@@ -69,3 +69,9 @@ export const getSpendSumamryText = (
 ) => {
   return `${formatYMD(formatFromServer(spendDate))}, "${content}"에 ${addCommasToNumber(amount)}원 ${regiesterType === 'SPEND' ? '지출' : '절약'}`;
 };
+
+// 숫자 배열을 받으면, 각 항목이 전체에서 차지하는 비율 배열을 돌려준다.
+export const calculatePercentages = (data: number[]): number[] => {
+  const total = data.reduce((sum, value) => sum + value, 0);
+  return data.map((value) => parseFloat(((value / total) * 100).toFixed(1)));
+};

@@ -1,6 +1,6 @@
 import axiosInstance from '@api/axios';
 import { ExpenseFilterType } from '@models/expense';
-import { EmotionKeys, Registers } from '@models/index';
+import { EmotionKeys, Register, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
 
 /**
@@ -119,5 +119,23 @@ export const fetchWordFrequencyByGender = async (registerType: string) => {
     return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchWordFrequencyByGender : ' + error);
+  }
+};
+
+/**
+ * 대시보드 데이터
+ * @returns satisfactionAverage, emotionAmountTotal, dailyAmount
+ */
+export const fetchDashboardData = async (selectDate: string, registerType: Register) => {
+  try {
+    const { data } = await axiosInstance.get(`/articles/dashboard`, {
+      params: {
+        selectDate,
+        registerType,
+      },
+    });
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] fetchDashboardData : ' + error);
   }
 };

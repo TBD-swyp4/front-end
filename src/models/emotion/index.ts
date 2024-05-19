@@ -31,18 +31,18 @@ const getStyledComponent = (icon: React.ComponentType) => {
 };
 
 export const Emotions: Readonly<EmotionMap> = Object.freeze({
-  ANNOYED: { text: '짜증/화남', color: '#FFD1DC', icon: getStyledComponent(Annoyed) },
-  NERVOUS: { text: '불안/두려움', color: '#FBCBAA', icon: getStyledComponent(Nervous) },
-  LONELY: { text: '외로움/고독', color: '#F6DDCC', icon: getStyledComponent(Lonely) },
-  TIRED: { text: '피곤/지침', color: '#E8C7C0', icon: getStyledComponent(Tired) },
-  DEPRESSED: { text: '우울/권태', color: '#ECE4DB', icon: getStyledComponent(Depressed) },
-  SAD: { text: '슬픔/절망', color: '#FAD2E1', icon: getStyledComponent(Sad) },
-  SHY: { text: '부끄러움/민망', color: '#B7C3F3', icon: getStyledComponent(Shy) },
-  SORRY: { text: '죄책감/미안함', color: '#CEE7E6', icon: getStyledComponent(Sorry) },
-  EXCITED: { text: '기분좋은/신나는', color: '#D7E3FC', icon: getStyledComponent(Excited) },
-  FLUTTER: { text: '설렘/기대', color: '#C3FDB8', icon: getStyledComponent(Flutter) },
-  PROUD: { text: '뿌듯/성취', color: '#F3E5AB', icon: getStyledComponent(Proud) },
-  EVADED: { text: '모르겠어요', color: '#FFB6C1', icon: getStyledComponent(Evaded) },
+  ANNOYED: { text: '짜증/화남', color: '#FC4873', icon: getStyledComponent(Annoyed) },
+  NERVOUS: { text: '불안/두려움', color: '#000000', icon: getStyledComponent(Nervous) },
+  LONELY: { text: '외로움/고독', color: '#754C35', icon: getStyledComponent(Lonely) },
+  TIRED: { text: '피곤/지침', color: '#111F68', icon: getStyledComponent(Tired) },
+  DEPRESSED: { text: '우울/권태', color: '#867BF4', icon: getStyledComponent(Depressed) },
+  SAD: { text: '슬픔/절망', color: '#2E4FFF', icon: getStyledComponent(Sad) },
+  SHY: { text: '부끄러움/민망', color: '#FFB49C', icon: getStyledComponent(Shy) },
+  SORRY: { text: '죄책감/미안함', color: '#333331', icon: getStyledComponent(Sorry) },
+  EXCITED: { text: '기분좋은/신나는', color: '#FFC700', icon: getStyledComponent(Excited) },
+  FLUTTER: { text: '설렘/기대', color: '#FF84AA', icon: getStyledComponent(Flutter) },
+  PROUD: { text: '뿌듯/성취', color: '#FF9A03', icon: getStyledComponent(Proud) },
+  EVADED: { text: '모르겠어요', color: '#BCBCBC', icon: getStyledComponent(Evaded) },
 } as const);
 
 export const EmotionTexts = Object.values(Emotions).map((x) => x.text);
