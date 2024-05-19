@@ -9,7 +9,6 @@ import { Register } from '@models/index';
 const getFrequencyContentsForMbti = (data: any) => {
   let maxFrequencyWordOfAll = '';
   let maxFrequencyOfAll = 0;
-  console.log(data);
 
   const allWordFrequencies = data
     ? data.allWordFrequencies.map((item: { word: string; frequency: number }) => {
@@ -60,7 +59,6 @@ const getFrequencyContentsForMbti = (data: any) => {
 const getFrequencyContentsForGender = (data: any) => {
   let maxFrequencyWordOfFemale = '';
   let maxFrequencyOfFemale = 0;
-  console.log(data);
 
   const femaleWordFrequencies = data
     ? data.femaleWordFrequencies.map((item: { word: string; frequency: number }) => {
@@ -114,14 +112,14 @@ type MemoContainerProps = {
 
 const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
   const { data: memoForMbti, isLoading: isMeoForMbtiLoading } = useQuery(
-    'fetchWordFrequencyByMbtiQueryKey',
+    ['fetchWordFrequencyByMbtiQueryKey', register],
     () => fetchWordFrequencyByMbti(register),
     {
       enabled: tabOption === 'TAB_MBTI',
     },
   );
   const { data: memoForGender, isLoading: isMeoForGenderLoading } = useQuery(
-    'fetchWordFrequencyByGenderQueryKey',
+    ['fetchWordFrequencyByGenderQueryKey', register],
     () => fetchWordFrequencyByGender(register),
     {
       enabled: tabOption === 'TAB_GENDER',
