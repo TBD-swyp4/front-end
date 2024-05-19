@@ -81,11 +81,11 @@ const DashboardPage = () => {
   const registerType = selectedTab === 'TAB_SPEND' ? 'SPEND' : 'SAVE';
 
   // react-query가 반응해야 하는 것 : slelectedTab 변경, monthNav.currentDate.getMonth()
+  // monthNav.currentDate, selectedTab 모두 빈 값일 경우가 없어서 enabled 옵션 제거
   const { data, isLoading, error } = useQuery(
     ['dashboardData', monthNav.currentDate.getMonth(), selectedTab],
     () => fetchDashboardData(selectDate, registerType),
     {
-      enabled: !!selectDate && !!selectedTab, // selectDate와 selectedTab 모두 유효한 경우에만 쿼리 활성화
       refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
     },
   );
