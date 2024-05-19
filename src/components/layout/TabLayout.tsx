@@ -65,9 +65,9 @@ const TabLayout = <T extends string>({
             {tab.label}
           </TabHeader>
         ))}
+        <TabIndicatorRail color={indicatorRailColor} />
+        <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
       </TabHeaders>
-      <TabIndicatorRail color={indicatorRailColor} />
-      <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
       <ContentContainer>
         {tabs.map(
           (tab) => selectedTab === tab.id && <TabPanel key={tab.id}>{tab.content}</TabPanel>,
@@ -80,15 +80,17 @@ const TabLayout = <T extends string>({
 export default TabLayout;
 
 const TabsContainer = styled.div`
-  position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TabHeaders = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
+  position: relative;
 `;
 
 const TabHeader = styled.div<{
@@ -110,6 +112,7 @@ const TabIndicatorRail = styled.div<{ color: string }>`
   position: absolute;
   width: 100%;
   height: 4px;
+  bottom: -4px;
   background-color: ${(props) => props.color};
 `;
 
@@ -127,6 +130,7 @@ const TabIndicator = styled.div<{
   transition:
     left 0.3s ease,
     width 0.3s ease;
+  bottom: -4px;
 `;
 
 const TabPanel = styled.div`

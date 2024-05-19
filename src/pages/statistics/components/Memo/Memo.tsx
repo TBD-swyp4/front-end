@@ -17,12 +17,12 @@ const Memo = ({ contents }: MemoProps) => {
     <SwipeContainer>
       {contents.map(({ topWord, words, user }, index) => {
         return (
-          <div key={index}>
+          <MemoContainer key={index}>
             <Message>{`최근 1개월 내 ${user}는 소비내역 중 내용 부분에 '${topWord}'라는 단어를 가장 많이 썼어요 `}</Message>
             <WordcloudContainer>
               <ReactWordcloud words={words} />
             </WordcloudContainer>
-          </div>
+          </MemoContainer>
         );
       })}
     </SwipeContainer>
@@ -30,6 +30,10 @@ const Memo = ({ contents }: MemoProps) => {
 };
 
 export default Memo;
+
+const MemoContainer = styled.div`
+  background-color: #ffffff;
+`;
 
 const Message = styled.div`
   width: 230px;
