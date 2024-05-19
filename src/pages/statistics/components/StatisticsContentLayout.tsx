@@ -26,12 +26,13 @@ const ContentContainer = styled.div`
 `;
 
 const Message = styled.div`
-  width: 230px;
+  width: 100%;
   font-size: 16px;
   text-align: left;
   line-height: 23px;
   word-break: keep-all;
   font-weight: 700;
+  white-space: pre-wrap;
 `;
 
 const Content = styled.div`
