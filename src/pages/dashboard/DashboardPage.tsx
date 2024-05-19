@@ -149,5 +149,5 @@ const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 15px 0 15px;
+  padding: 0 15px;
 `;
