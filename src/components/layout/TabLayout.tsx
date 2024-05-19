@@ -1,26 +1,25 @@
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
 import { flexCenter } from '@styles/CommonStyles';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { TabOption } from 'src/pages/statistics/type';
 import styled from 'styled-components';
 
-type TabProps = {
-  id: string;
+export type TabProps<T extends string> = {
+  id: T;
   label: string;
   content: React.ReactNode; // 탭의 내용을 React 노드로 정의
 };
 
-type TabsProps = {
-  tabs: TabProps[];
+type TabsProps<T extends string> = {
+  tabs: TabProps<T>[];
   selectedTab: string;
-  onTabSelect: (tabId: TabOption) => void;
+  onTabSelect: (tabId: TabProps<T>['id']) => void;
   tabHeaderColor?: string;
   activeTabHeaderColor?: string;
   indicatorColor?: string;
   indicatorRailColor?: string;
 };
 
-const TabLayout = ({
+const TabLayout = <T extends string>({
   tabs,
   selectedTab,
   onTabSelect,
@@ -28,7 +27,7 @@ const TabLayout = ({
   activeTabHeaderColor = '#575755',
   indicatorColor = '#575755',
   indicatorRailColor = '#DDDDDD',
-}: TabsProps) => {
+}: TabsProps<T>) => {
   const tabRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [indicatorOffset, setIndicatorOffset] = useState<number>(0);
@@ -66,9 +65,9 @@ const TabLayout = ({
             {tab.label}
           </TabHeader>
         ))}
+        <TabIndicatorRail color={indicatorRailColor} />
+        <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
       </TabHeaders>
-      <TabIndicatorRail color={indicatorRailColor} />
-      <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
       <ContentContainer>
         {tabs.map(
           (tab) => selectedTab === tab.id && <TabPanel key={tab.id}>{tab.content}</TabPanel>,
@@ -81,15 +80,17 @@ const TabLayout = ({
 export default TabLayout;
 
 const TabsContainer = styled.div`
-  position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TabHeaders = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
+  position: relative;
 `;
 
 const TabHeader = styled.div<{
@@ -111,6 +112,7 @@ const TabIndicatorRail = styled.div<{ color: string }>`
   position: absolute;
   width: 100%;
   height: 4px;
+  bottom: -4px;
   background-color: ${(props) => props.color};
 `;
 
@@ -128,6 +130,7 @@ const TabIndicator = styled.div<{
   transition:
     left 0.3s ease,
     width 0.3s ease;
+  bottom: -4px;
 `;
 
 const TabPanel = styled.div`

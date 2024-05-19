@@ -4,7 +4,7 @@ import BottomNavigation from '@layout/BottomNavigation';
 
 import { useNavigate } from 'react-router-dom';
 
-import TabLayout from '@components/layout/TabLayout';
+import TabLayout, { TabProps } from '@components/layout/TabLayout';
 import { useState } from 'react';
 import SlideButton from './components/SlideButton';
 import { format, subDays } from 'date-fns';
@@ -72,7 +72,7 @@ const StatisticsPage = () => {
     { id: 'categorySatisfaction', name: '만족도', component: <SatisfactionComponent /> },
   ];
 
-  const tabData = [
+  const tabData: TabProps<TabOption>[] = [
     {
       id: 'TAB_MBTI',
       label: 'MBTI별',

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Bird from '@assets/images/bird/satisfactionBird.svg?react';
 
 type Category = { id: string; name: string; component: JSX.Element };
 
@@ -26,6 +27,7 @@ const CategoriesView = ({ categories }: CategoriesViewProps) => {
         ))}
       </ButtonContainer>
       <ContentContainer>
+        <StyleBird />
         {categories.map((category) => selectedCategory === category.id && category.component)}
       </ContentContainer>
     </Container>
@@ -40,7 +42,7 @@ const Container = styled.div`
   flex-direction: column;
   height: 100%;
   position: relative;
-  gap: 30px;
+  gap: 50px;
 `;
 
 const ButtonContainer = styled.div`
@@ -64,4 +66,13 @@ const CategoryButton = styled.button<{ $isSelected: boolean }>`
 
 const ContentContainer = styled.div`
   width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+const StyleBird = styled(Bird)`
+  position: absolute;
+  right: 30px;
+  top: -38px;
+  z-index: -1;
 `;

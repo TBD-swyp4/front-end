@@ -39,8 +39,6 @@ const StyledSwiper = styled(Swiper)`
   .swiper-slide {
     text-align: center;
     font-size: 18px;
-    background: #fff;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,16 +79,18 @@ const StyledSwiper = styled(Swiper)`
     background-image: url(${PrevIcon});
     background-repeat: no-repeat;
     background-position: center;
+    left: 5px;
   }
   .swiper-button-next {
     background-image: url(${NextIcon});
     background-repeat: no-repeat;
     background-position: center;
+    right: 5px;
   }
 `;
 
 const ContentContainer = styled.div`
   height: 100%;
   width: 100%;
-  padding: 20px 30px;
+  padding: 0px 20px;
 `;
