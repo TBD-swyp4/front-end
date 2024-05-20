@@ -57,7 +57,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
           <TopNavigation.TopBar
             centerContent={
               <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffff' }}>
-                소비 내역 조회
+                내역 조회
               </TopNavigation.TopBar.CenterTitle>
             }
             rightContent={

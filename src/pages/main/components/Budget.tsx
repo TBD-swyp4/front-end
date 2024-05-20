@@ -16,7 +16,7 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
   const percent: string = `${Math.ceil((monthSpend / monthBudget) * 100)}%`;
   const remain: number = Math.floor(monthBudget - monthSpend);
   const recommend: number = Math.floor(monthBudget / 30);
-
+  const isBudgetZero = monthBudget === 0;
   return (
     <>
       <Remain>
@@ -36,11 +36,15 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
         </GoSetting>
       </Remain>
       <Bar>
-        <BarDetail percent={percent}>
-          <span className="bar-mark"></span>
-          <span className="bar-percent"></span>
-          <span className="bar-text">{percent}</span>
-        </BarDetail>
+        {isBudgetZero ? (
+          '설정에서 예산을 입력해주세요'
+        ) : (
+          <BarDetail percent={percent}>
+            <span className="bar-mark"></span>
+            <span className="bar-percent"></span>
+            <span className="bar-text">{percent}</span>
+          </BarDetail>
+        )}
       </Bar>
       <Info>
         <InfoItem>
@@ -121,6 +125,9 @@ const Bar = styled.div`
   width: 100%;
   height: 20%;
   padding: 5px;
+
+  font-size: 14px;
+  color: #333331;
 `;
 
 // @keyframes를 사용하여 애니메이션 정의
