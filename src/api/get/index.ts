@@ -92,7 +92,7 @@ export const fetchUserData = async () => {
  * mbti 단어별 빈도수 (wordcloud용) 데이터
  * */
 
-export const fetchWordFrequencyByMbti = async (registerType: string) => {
+export const fetchWordFrequencyByMbti = async (registerType: Register) => {
   try {
     const { data } = await axiosInstance.get('/statistics/mbti/word/frequencies', {
       params: {
@@ -109,7 +109,7 @@ export const fetchWordFrequencyByMbti = async (registerType: string) => {
  * 성별 단어별 빈도수 (wordcloud용) 데이터
  */
 
-export const fetchWordFrequencyByGender = async (registerType: string) => {
+export const fetchWordFrequencyByGender = async (registerType: Register) => {
   try {
     const { data } = await axiosInstance.get('/statistics/gender/word/frequencies', {
       params: {
@@ -144,7 +144,7 @@ export const fetchDashboardData = async (selectDate: string, registerType: Regis
  * MBTI별 만족도
  */
 
-export const fetchSatisfactionByMbti = async (registerType: string) => {
+export const fetchSatisfactionByMbti = async (registerType: Register) => {
   try {
     const { data } = await axiosInstance.get('/statistics/mbti/satisfactions/average', {
       params: {
@@ -161,7 +161,7 @@ export const fetchSatisfactionByMbti = async (registerType: string) => {
  * 성별 만족도
  */
 
-export const fetchSatisfactionByGender = async (registerType: string) => {
+export const fetchSatisfactionByGender = async (registerType: Register) => {
   try {
     const { data } = await axiosInstance.get('/statistics/gender/satisfactions/average', {
       params: {

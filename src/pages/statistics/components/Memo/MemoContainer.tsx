@@ -4,6 +4,7 @@ import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/get';
 import Memo from './Memo';
 import Spinner from '@components/information/Spinner';
 import { Register } from '@models/index';
+import styled from 'styled-components';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFrequencyContentsForMbti = (data: any) => {
@@ -127,7 +128,11 @@ const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
   );
 
   if (isMeoForMbtiLoading || isMeoForGenderLoading) {
-    return <Spinner />;
+    return (
+      <LoadingContainer>
+        <Spinner />
+      </LoadingContainer>
+    );
   }
 
   const contents =
@@ -139,3 +144,9 @@ const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
 };
 
 export default MemoContainer;
+
+const LoadingContainer = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;

@@ -4,6 +4,7 @@ import { fetchSatisfactionByGender, fetchSatisfactionByMbti } from '@api/get';
 import { TabOption } from '../../type';
 import { Gender, Register } from '@models/index';
 import Spinner from '@components/information/Spinner';
+import styled from 'styled-components';
 
 const transformMbtiData = (
   input: {
@@ -93,7 +94,11 @@ const SatisfactionContainer = ({ tabOption, register }: SatisfactionContainerPro
     },
   );
   if (isMbtiDataLoading || isGenderDataLoading) {
-    return <Spinner />;
+    return (
+      <LoadingContainer>
+        <Spinner />;
+      </LoadingContainer>
+    );
   }
   const satisfactions =
     tabOption === 'TAB_GENDER'
@@ -103,3 +108,9 @@ const SatisfactionContainer = ({ tabOption, register }: SatisfactionContainerPro
 };
 
 export default SatisfactionContainer;
+
+const LoadingContainer = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;

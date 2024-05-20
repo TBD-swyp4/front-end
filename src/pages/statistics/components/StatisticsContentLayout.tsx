@@ -23,6 +23,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   gap: 30px;
   margin: 0 20px;
+  box-shadow: 0 5px 14.56px 0 #5252521a;
 `;
 
 const Message = styled.div`
