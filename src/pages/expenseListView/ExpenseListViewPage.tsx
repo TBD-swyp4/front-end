@@ -193,7 +193,7 @@ const ExpenseListViewPage = () => {
             <span className="filter-btn" onClick={toggleModal}>
               <FilterBtn />
             </span>
-            <SelectList>
+            <SelectList onClick={toggleModal}>
               <Select>{`${formatYMD(condition.from)}-${formatYMD(condition.to)}`}</Select>
               {condition.registerType.length > 0 && (
                 <Select>
@@ -412,7 +412,7 @@ const Arrow = styled(PrevBtn)<{ deg: string }>`
 
   &:hover {
     color: #9f9f9f;
-    transform: rotate(90deg);
+    transform: rotate(${(props) => props.deg});
     stroke-width: 4;
   }
 `;
