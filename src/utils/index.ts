@@ -6,6 +6,7 @@ import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
+  subDays,
 } from 'date-fns';
 
 // 숫자에 3자리씩 ',' 찍어주는 함수
@@ -69,10 +70,16 @@ export const formatFromServer = (dateString: string) => {
 };
 
 // Date 객체 -> 해당 월의 1일~말일의 Date 객체로 변환
-export const getDateObjArray = (date: Date) => {
+export const getTargetMonthDateObjArray = (date: Date) => {
   const start = startOfMonth(date);
   const end = endOfMonth(date);
   return eachDayOfInterval({ start, end });
+};
+
+export const getNinetyDaysDateObjArray = (date: Date) => {
+  const startDate = subDays(date, 90); // 90일 전 날짜
+
+  return eachDayOfInterval({ start: startDate, end: date });
 };
 
 // 날짜, 내용, 금액, 지출 여부를 글로 돌려주는 함수 (spendDate = `yyyy-MM-ddThh:mm:ss` 형태)
