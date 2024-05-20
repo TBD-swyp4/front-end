@@ -57,8 +57,8 @@ const StatisticsPage = () => {
   const handleRegisterTypeClick = (isSpend: boolean) => {
     setRegisterType(isSpend ? 'SAVE' : 'SPEND');
   };
-  const handleTabSelect = (tabId: TabOption) => {
-    setSelectedTab(tabId);
+  const handleTabSelect = (tabId: string) => {
+    setSelectedTab(tabId as TabOption);
   };
 
   const categories: { id: string; name: string; component: JSX.Element }[] = [

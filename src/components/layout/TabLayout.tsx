@@ -1,5 +1,5 @@
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
-import { flexCenter } from '@styles/CommonStyles';
+import { flexCenter, overflowWithoutScroll } from '@styles/CommonStyles';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -134,9 +134,9 @@ const TabIndicator = styled.div<{
 `;
 
 const TabPanel = styled.div`
+  ${overflowWithoutScroll}
   width: 100%;
   height: 100%;
-  overflow: auto;
 `;
 
 const ContentContainer = styled.div`

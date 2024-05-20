@@ -1,4 +1,12 @@
-import { parse, isSameDay, format, parseISO } from 'date-fns';
+import {
+  parse,
+  isSameDay,
+  format,
+  parseISO,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+} from 'date-fns';
 
 // 숫자에 3자리씩 ',' 찍어주는 함수
 export const addCommasToNumber = (number: number): string => {
@@ -60,6 +68,13 @@ export const formatFromServer = (dateString: string) => {
   return parseISO(dateString);
 };
 
+// Date 객체 -> 해당 월의 1일~말일의 Date 객체로 변환
+export const getDateObjArray = (date: Date) => {
+  const start = startOfMonth(date);
+  const end = endOfMonth(date);
+  return eachDayOfInterval({ start, end });
+};
+
 // 날짜, 내용, 금액, 지출 여부를 글로 돌려주는 함수 (spendDate = `yyyy-MM-ddThh:mm:ss` 형태)
 export const getSpendSumamryText = (
   spendDate: string,
@@ -68,4 +83,10 @@ export const getSpendSumamryText = (
   regiesterType: string,
 ) => {
   return `${formatYMD(formatFromServer(spendDate))}, "${content}"에 ${addCommasToNumber(amount)}원 ${regiesterType === 'SPEND' ? '지출' : '절약'}`;
+};
+
+// 숫자 배열을 받으면, 각 항목이 전체에서 차지하는 비율 배열을 돌려준다.
+export const calculatePercentages = (data: number[]): number[] => {
+  const total = data.reduce((sum, value) => sum + value, 0);
+  return data.map((value) => parseFloat(((value / total) * 100).toFixed(1)));
 };
