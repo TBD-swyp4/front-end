@@ -43,6 +43,7 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
           if (value === overallMaxValue) return '최댓값';
           return '';
         };
+
         return (
           <StatisticsContentLayout
             key={index}
@@ -85,6 +86,7 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                       fontWeight: 500,
                       colors: chartLabels.map((_, i) => (i % 15 === 0 ? '#9F9F9F' : 'transparent')),
                     },
+                    formatter: (_, i) => (i ? chartLabels[i] : ''),
                   },
                 },
                 yaxis: {
@@ -119,7 +121,7 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                         fillColor: colors[seriesIndex],
                         seriesIndex,
                         dataPointIndex: index,
-                        size: 3, // 작은 마커의 크기를 5로 설정
+                        size: 3,
                       })),
                     ),
                   ],
