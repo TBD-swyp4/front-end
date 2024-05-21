@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts';
 import type { DailyAmountType } from '@models/api/dashboard';
 
 import { getDate } from 'date-fns';
-import { addCommasToNumber, compareYMDString, getDateObjArray } from '@utils/index';
+import { addCommasToNumber, compareYMDString, getTargetMonthDateObjArray } from '@utils/index';
 
 // 차트 옵션과 시리즈 데이터 타입 정의
 type ChartOptions = {
@@ -20,7 +20,7 @@ type DailyChartProps = {
 
 const DailyChart = ({ date, data }: DailyChartProps) => {
   // 선택 월의 1일~말일 Date객체 구하기
-  const dateInMonthArray: Date[] = getDateObjArray(date);
+  const dateInMonthArray: Date[] = getTargetMonthDateObjArray(date);
 
   // 라벨에 담기는 것 : 0~말일의 "일" 숫자 배열
   // 시리즈 데이터에 담기는 것 : 각각에 해당하는 금액 배열
