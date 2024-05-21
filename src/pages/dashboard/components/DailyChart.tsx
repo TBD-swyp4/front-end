@@ -108,7 +108,7 @@ const DailyChart = ({ date, data }: DailyChartProps) => {
         },
       },
       markers: {
-        size: 5,
+        // size: 1, // 우선 없애기로 협의 (with 기획자)
         colors: ['#BCBCBC'],
         discrete: chartLabels
           .map((_, i) =>
@@ -118,7 +118,7 @@ const DailyChart = ({ date, data }: DailyChartProps) => {
                   dataPointIndex: i,
                   fillColor: '#575755',
                   strokeColor: '#575755',
-                  size: 6,
+                  size: 1, // 1 사이즈 마커로 표시하기로 협의 (with 기획자)
                 }
               : {},
           )

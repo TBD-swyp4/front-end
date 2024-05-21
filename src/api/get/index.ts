@@ -53,7 +53,7 @@ export const fetchExpensesByCondition = async (page: number = 0, params: Expense
     if (registerType === '') registerType = Registers.join(',');
 
     let satisfaction = params.satisfaction.join(',');
-    if (satisfaction === '') satisfaction = Registers.join(',');
+    if (satisfaction === '') satisfaction = [1, 2, 3, 4, 5].join(',');
 
     let emotion = params.emotion.join(',');
     if (emotion === '') emotion = EmotionKeys.join(',');
