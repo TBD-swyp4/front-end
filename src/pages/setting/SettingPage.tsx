@@ -5,7 +5,7 @@ import TopBar from '@components/layout/TopBar';
 import TopNavigation from '@layout/TopNavigation';
 
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -25,18 +25,18 @@ type NavLayoutProps = {
 const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
+  const isFirstLogin = searchParams.get('isFirstLogin');
+  const handlePrev = () => {
+    if (isFirstLogin === 'true') navigate('/');
+    else navigate(-1);
+  };
   return (
     <>
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            leftContent={
-              <TopBar.PrevButton
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
-            }
+            leftContent={<TopBar.PrevButton onClick={handlePrev} />}
             centerContent={<div>내 정보</div>}
           />
         }
