@@ -2,7 +2,7 @@ import StatisticsContentLayout from '../StatisticsContentLayout';
 
 import Chart from 'react-apexcharts';
 import SwipeContainer from '../SwipeContainer';
-import { getNinetyDaysDateObjArray } from '@utils/index';
+import { addCommasToNumber, getNinetyDaysDateObjArray } from '@utils/index';
 import { format } from 'date-fns';
 import { DailyAmountsChartData } from './types';
 
@@ -47,7 +47,7 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 3개월 내 감정 소비를 가장 많이 한 날은\n${dailyAmount[0].name}는 ${chartLabels[maxValues[0].index]}, ${dailyAmount[1].name}는 ${chartLabels[maxValues[1].index]} 이에요`}>
+            message={`최근 90일 내 감정 소비를 가장 많이 한 날은\n${dailyAmount[0].name}는 ${chartLabels[maxValues[0].index]}, ${dailyAmount[1].name}는 ${chartLabels[maxValues[1].index]} 이에요`}>
             <Chart
               height={'100%'}
               width={'100%'}
@@ -62,12 +62,13 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                 },
                 legend: { position: 'top' },
                 colors: colors,
+                tooltip: { enabled: false },
                 dataLabels: {
                   enabled: true,
                   formatter: function (val, opts) {
                     const seriesIndex = opts.seriesIndex;
                     const maxValue = maxValues[seriesIndex].value;
-                    return val === maxValue ? val : '';
+                    return val === maxValue ? addCommasToNumber(val) : '';
                   },
                   offsetY: -5,
                   style: { colors: ['black'] },
