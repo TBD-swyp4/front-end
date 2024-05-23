@@ -57,8 +57,8 @@ const StatisticsPage = () => {
   const [registerType, setRegisterType] = useState<Register>('SPEND');
   const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_MBTI');
 
-  const today = format(new Date(), 'yyyy.MM.dd');
-  const nintyDaysBefore = format(subDays(new Date(), 90), 'yyyy.MM.dd');
+  const yesterday = subDays(new Date(), 1);
+  const nintyDaysBefore = subDays(yesterday, 89);
 
   const handleRegisterTypeClick = () => {
     setRegisterType(registerType === 'SPEND' ? 'SAVE' : 'SPEND');
@@ -107,7 +107,7 @@ const StatisticsPage = () => {
     <NavigationLayout>
       <OptionContainer>
         <SlideButton isChecked={registerType === 'SAVE'} onChange={handleRegisterTypeClick} />
-        <Period>{`${today}~${nintyDaysBefore}기준`}</Period>
+        <Period>{`${format(nintyDaysBefore, 'yy.MM.dd')}~${format(yesterday, 'yy.MM.dd')} 기준`}</Period>
       </OptionContainer>
       <StatisticsContainer>
         <TabLayout

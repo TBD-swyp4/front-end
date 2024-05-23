@@ -52,7 +52,7 @@ const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 3개월 내 소비시 가장 많이 느낀 감정은\n${leftKey}는 ${getEmotionText(leftTops[0])}, ${rightKey}는 ${getEmotionText(rightTops[0])} 이에요`}>
+            message={`최근 90일 내 소비시 가장 많이 느낀 감정은\n${leftKey}는 ${getEmotionText(leftTops[0])}, ${rightKey}는 ${getEmotionText(rightTops[0])} 이에요`}>
             <ChartContainer>
               <Yaxis />
               {data.map(({ type, left, right }, index) => {
