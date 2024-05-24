@@ -24,11 +24,11 @@ const Emotion = ({
   const EmotionSVG = getEmotionIcon(emotionKey);
   return (
     <EmotionWrapper>
-      <EmotionIcon onClick={onClick} size={`${iconSize}px`}>
+      <EmotionIcon onClick={onClick} $size={`${iconSize}px`}>
         <EmotionSVG />
-        {isSelect && <SelectMark size={`${selectSize}px`} />}
+        {isSelect && <SelectMark $size={`${selectSize}px`} />}
       </EmotionIcon>
-      <EmotionText size={`${textSize}px`}>{getEmotionText(emotionKey)}</EmotionText>
+      <EmotionText $size={`${textSize}px`}>{getEmotionText(emotionKey)}</EmotionText>
     </EmotionWrapper>
   );
 };
@@ -42,30 +42,30 @@ const EmotionWrapper = styled.div`
   width: 90px;
 `;
 
-const EmotionIcon = styled.div<{ size: string }>`
+const EmotionIcon = styled.div<{ $size: string }>`
   ${flexCenter}
   position: relative;
-  width: ${(props) => props.size};
-  height: ${(props) => props.size};
+  width: ${(props) => props.$size};
+  height: ${(props) => props.$size};
   border-radius: 50%;
   margin-bottom: 5px;
   cursor: pointer;
 `;
 
-const EmotionText = styled.div<{ size: string }>`
+const EmotionText = styled.div<{ $size: string }>`
   color: #9f9f9f;
-  font-size: ${(props) => props.size};
+  font-size: ${(props) => props.$size};
   font-weight: 500;
   white-space: nowrap;
 `;
 
-const SelectMark = styled(CheckIcon)<{ size: string }>`
+const SelectMark = styled(CheckIcon)<{ $size: string }>`
   position: absolute;
   top: 0;
   right: 0;
 
-  width: ${(props) => props.size};
-  height: ${(props) => props.size};
+  width: ${(props) => props.$size};
+  height: ${(props) => props.$size};
   background-color: #333331;
   border-radius: 50%;
 

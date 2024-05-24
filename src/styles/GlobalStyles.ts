@@ -51,10 +51,11 @@ const GlobalStyles = createGlobalStyle`
   input { 
     box-sizing: border-box;
     border: none;
-    outline:none
+    outline:none;
+    font: inherit;
   }
   input:checked {
-    border: none
+    border: none;
   }
   button {
     background: none;
@@ -85,6 +86,7 @@ const GlobalStyles = createGlobalStyle`
     ${flexCenter}
     background-image: url('./assets/background/background.svg');
     background-size: cover;
+    background-repeat: no-repeat;
     color: black;
     width: 100vw;
     height: 100vh;

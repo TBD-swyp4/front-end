@@ -112,7 +112,8 @@ const AddExpensePage = () => {
       navigate(`/expense/${articleId}?prev=add`);
     },
     onError: (error) => {
-      console.log('저장 실패: ' + error);
+      alert('다시 시도해주세요.');
+      console.error('저장 실패: ' + error);
     },
   });
 
@@ -173,11 +174,15 @@ const Button = styled.button`
   width: 80%;
   min-width: 358px;
   height: 60px;
-  background-color: #47cfb0;
+
   border-radius: 6px;
+  background-color: #47cfb0;
+
   color: #fff;
   font-size: 20px;
   font-weight: 600;
+
+  margin-bottom: 40px;
 
   &:hover {
     background-color: #6ad5bc;

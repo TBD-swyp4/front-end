@@ -103,15 +103,15 @@ const MainPage = () => {
     refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
   });
 
-  if (mainDataError) return <div>An error occurred</div>;
-
   return (
     <>
       <NavigationLayout {...monthNav}>
         <MainContainer>
-          <BudgetContainer isloading={isLoadingMainData.toString()}>
+          <BudgetContainer $isLoading={isLoadingMainData}>
             {isLoadingMainData ? (
               <Spinner />
+            ) : mainDataError ? (
+              <div>An error occurred</div>
             ) : !mainData.data.budget ? (
               <div>예산 데이터 없음</div>
             ) : (
@@ -121,6 +121,8 @@ const MainPage = () => {
           <CalendarWrapper>
             {isLoadingMainData ? (
               <Spinner />
+            ) : mainDataError ? (
+              <div>An error occurred</div>
             ) : !mainData.data.monthSpendList ? (
               <div>소비 데이터 없음</div>
             ) : (
@@ -128,10 +130,10 @@ const MainPage = () => {
             )}
           </CalendarWrapper>
           <DayListContainer>
-            {subDataError ? (
-              <div>Error..</div>
-            ) : isLoadingSubData ? (
+            {isLoadingSubData ? (
               <Spinner />
+            ) : subDataError ? (
+              <div>An error occurred</div>
             ) : !subData.data.daySpendList ? (
               <div>리스트 데이터 없음</div>
             ) : (
@@ -158,10 +160,10 @@ const MainContainer = styled.div`
   ${overflowWithoutScroll}
 `;
 
-const BudgetContainer = styled.section<{ isloading: string }>`
+const BudgetContainer = styled.section<{ $isLoading: boolean }>`
   ${mainSection}
   ${flexColumnBetween}
-  flex-direction:  ${(props) => (props.isloading === 'true' ? 'row' : 'column')};
+  flex-direction:  ${(props) => (props.$isLoading ? 'row' : 'column')};
   min-height: 250px;
   width: 100%;
   margin-bottom: 16px;

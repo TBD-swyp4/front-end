@@ -64,14 +64,14 @@ const VoiceMultiText = ({
         />
         <span className="count">{`${textValue?.length || 0}/${maxLength}`}</span>
       </TextAreaWrapper>
-      <VoiceButton listening={isListening.toString()} onClick={handleVoiceClick}>
+      <VoiceButton $listening={isListening} onClick={handleVoiceClick}>
         {isListening ? (
           <>
-            <Bar delay={0} />
-            <Bar delay={0.2} />
-            <Bar delay={0.4} />
-            <Bar delay={0.6} />
-            <Bar delay={0.8} />
+            <Bar $delay={0} />
+            <Bar $delay={0.2} />
+            <Bar $delay={0.4} />
+            <Bar $delay={0.6} />
+            <Bar $delay={0.8} />
           </>
         ) : (
           <MikeBtn />
@@ -97,7 +97,7 @@ const TextArea = styled.textarea`
   ${textArea}
 `;
 
-const VoiceButton = styled.div<{ listening: string }>`
+const VoiceButton = styled.div<{ $listening: boolean }>`
   ${flexCenter}
   justify-content: space-around;
   width: 50px;
@@ -105,10 +105,10 @@ const VoiceButton = styled.div<{ listening: string }>`
   flex-shrink: 0;
   border-radius: 6px;
   border-radius: 6px;
-  background-color: ${(props) => (props.listening === 'true' ? '#47CFB0' : '#dddddd')};
+  background-color: ${(props) => (props.$listening ? '#47CFB0' : '#dddddd')};
   box-shadow: ${(props) => props.theme.shadows.around};
   &:hover {
-    background-color: ${(props) => (props.listening === 'true' ? '#3bb095' : '#d1d1d1')};
+    background-color: ${(props) => (props.$listening ? '#3bb095' : '#d1d1d1')};
   }
 `;
 
@@ -119,11 +119,11 @@ const pulse = keyframes`
 `;
 
 // 음석 인식 중 개별 막대 스타일
-const Bar = styled.div<{ delay: number }>`
+const Bar = styled.div<{ $delay: number }>`
   width: 5px;
   height: 9px;
   border-radius: 100px;
   background-color: #fff;
   animation: ${pulse} 1s infinite ease-in-out;
-  animation-delay: ${(props) => props.delay}s;
+  animation-delay: ${(props) => props.$delay}s;
 `;

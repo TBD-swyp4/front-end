@@ -25,7 +25,7 @@ const Modal = ({ onClose, isFullScreen = false, children }: ModalProps) => {
   return (
     <ModalPortal>
       <Overlay>
-        <ModalWrap ref={modalRef} full={isFullScreen.toString()}>
+        <ModalWrap ref={modalRef} $full={isFullScreen}>
           {children}
         </ModalWrap>
       </Overlay>
@@ -45,11 +45,11 @@ const Overlay = styled.div`
   z-index: 9999;
 `;
 
-const ModalWrap = styled.div<{ full: string }>`
+const ModalWrap = styled.div<{ $full: boolean }>`
   ${flexCenter}
 
-  height: ${(props) => (props.full === 'true' ? '100%' : 'fit-content')};
-  width: ${(props) => (props.full === 'true' ? '100%' : 'fit-content')};
+  height: ${(props) => (props.$full ? '100%' : 'fit-content')};
+  width: ${(props) => (props.$full ? '100%' : 'fit-content')};
 
   position: absolute; // fixed 인 부모 요소 기준으로 위치
   top: 50%;

@@ -20,9 +20,9 @@ type TopBarProps = {
 const TopBar = ({ leftContent, centerContent, rightContent }: TopBarProps) => {
   return (
     <Wrapper>
-      <Item type="flex-start">{leftContent}</Item>
-      <Item type="center">{centerContent}</Item>
-      <Item type="flex-end">{rightContent}</Item>
+      <Item $type="flex-start">{leftContent}</Item>
+      <Item $type="center">{centerContent}</Item>
+      <Item $type="flex-end">{rightContent}</Item>
     </Wrapper>
   );
 };
@@ -34,12 +34,12 @@ const Wrapper = styled.div`
 `;
 
 // 각각 1/3 비율씩 갖도록..
-const Item = styled.div<{ type: string }>`
+const Item = styled.div<{ $type: string }>`
   flex: calc(100% / 3);
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: ${(props) => props.type};
+  justify-content: ${(props) => props.$type};
   margin: 10px;
 `;
 

@@ -46,7 +46,7 @@ const SatisfactionRange = ({ emotion, satisfaction, isEdit = false }: Satisfacti
 
   return (
     <Wrapper>
-      <RangeBackgroundBar radius={radius} />
+      <RangeBackgroundBar $radius={radius} />
       <Left>
         <EmotionSVG />
       </Left>
@@ -54,16 +54,16 @@ const SatisfactionRange = ({ emotion, satisfaction, isEdit = false }: Satisfacti
         <RangeSection ref={rangeRef}>
           <FollowText style={{ left: calculateLeft(value) }}>{value}</FollowText>
           <FollowShape style={{ left: calculateLeft(value) }} />
-          <RangeCustomRail height={height} radius={radius} fill={getNomalized(value) * 100} />
+          <RangeCustomRail $height={height} $radius={radius} $fill={getNomalized(value) * 100} />
           <RangeInput
             type="range"
             value={value}
             min={min}
             max={max}
             step={0.1}
-            height={height}
-            thumb={thumb}
             disabled={!isEdit}
+            $height={height}
+            $thumb={thumb}
           />
           <RangeButtonContainer>
             {[1, 2, 3, 4, 5].map((score, i) => (
@@ -110,22 +110,22 @@ const RangeSection = styled.div`
   background-color: transparent;
 `;
 
-const RangeCustomRail = styled.div<{ height: number; radius: number; fill: number }>`
+const RangeCustomRail = styled.div<{ $height: number; $radius: number; $fill: number }>`
   ${absoluteCenter}
   width: 100%;
-  height: ${(props) => props.height}px;
-  border-radius: ${(props) => props.radius}px;
+  height: ${(props) => props.$height}px;
+  border-radius: ${(props) => props.$radius}px;
   background: linear-gradient(
     90deg,
-    #bcbcbc ${(props) => props.fill}%,
-    #f2f2f2 ${(props) => props.fill}%
+    #bcbcbc ${(props) => props.$fill}%,
+    #f2f2f2 ${(props) => props.$fill}%
   );
 `;
-const RangeInput = styled.input<{ height: number; thumb: number }>`
+const RangeInput = styled.input<{ $height: number; $thumb: number }>`
   ${absoluteCenter}
 
   width: 100%;
-  height: ${(props) => props.height}px; //20px;
+  height: ${(props) => props.$height}px; //20px;
 
   background: transparent;
 
@@ -136,8 +136,8 @@ const RangeInput = styled.input<{ height: number; thumb: number }>`
   &::-webkit-slider-thumb {
     appearance: none;
     background: white;
-    width: ${(props) => props.thumb}px; //16px;
-    height: ${(props) => props.thumb}px; //16px;
+    width: ${(props) => props.$thumb}px; //16px;
+    height: ${(props) => props.$thumb}px; //16px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0px 1px 3px 1px #5252521a;
@@ -169,12 +169,12 @@ const FollowText = styled.div`
   font-weight: 600;
 `;
 
-const RangeBackgroundBar = styled.div<{ radius: number }>`
+const RangeBackgroundBar = styled.div<{ $radius: number }>`
   ${absoluteCenter}
   width: 95%;
   height: 10px;
 
-  border-radius: ${(props) => props.radius}px;
+  border-radius: ${(props) => props.$radius}px;
 
   background: linear-gradient(90deg, #bcbcbc 50%, #f2f2f2 50%);
 `;

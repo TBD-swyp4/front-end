@@ -2,8 +2,6 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 import styled from 'styled-components';
-import PrevIcon from '@assets/images/icon/slidePrev.svg';
-import NextIcon from '@assets/images/icon/slideNext.svg';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -52,7 +50,7 @@ const StyledSwiper = styled(Swiper)`
   }
 
   .swiper-pagination-bullet {
-    background-color: #d9d9d9;
+    background-color: #9f9f9f;
   }
 
   .swiper-pagination-bullet-active {
@@ -64,28 +62,36 @@ const StyledSwiper = styled(Swiper)`
     background-color: #dddddd;
     width: 30px;
     height: 30px;
-    opacity: 0.5;
-    border-radius: 20px;
-    color: black !important;
+    opacity: 0.7;
+    border-radius: 50%;
+    overflow: visible;
     &::after {
-      display: none;
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-top: 2px solid #9f9f9f;
+      border-right: 2px solid #9f9f9f;
+      transform: translate(-50%, -50%) rotate(-135deg);
+      position: absolute;
+      top: 50%;
+      left: 50%;
     }
   }
 
   .swiper-button-disabled {
     display: none;
   }
+
   .swiper-button-prev {
-    background-image: url(${PrevIcon});
-    background-repeat: no-repeat;
-    background-position: center;
     left: 5px;
   }
+
   .swiper-button-next {
-    background-image: url(${NextIcon});
-    background-repeat: no-repeat;
-    background-position: center;
     right: 5px;
+    &::after {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
   }
 `;
 

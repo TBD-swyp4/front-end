@@ -52,7 +52,7 @@ const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 90일 내 소비시 가장 많이 느낀 감정은\n${leftKey}는 ${getEmotionText(leftTops[0])}, ${rightKey}는 ${getEmotionText(rightTops[0])} 이에요`}>
+            message={`최근 30일 내 소비시 가장 많이 느낀 감정은\n${leftKey}는 ${getEmotionText(leftTops[0])}, ${rightKey}는 ${getEmotionText(rightTops[0])} 이에요`}>
             <ChartContainer>
               <Yaxis />
               {data.map(({ type, left, right }, index) => {
@@ -70,7 +70,7 @@ const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
                         {boldLeft && <EmotionText>{text}</EmotionText>}
                       </LeftBar>
                       {boldLeft && (
-                        <LabelContainer>
+                        <LabelContainer $isLeft={true}>
                           <Rank>{`${leftIndex}위`}</Rank>
                           <Label>{addCommasToNumber(left)}</Label>
                         </LabelContainer>
@@ -86,7 +86,7 @@ const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
                         {boldRight && <EmotionText>{text}</EmotionText>}
                       </RightBar>
                       {boldRight && (
-                        <LabelContainer>
+                        <LabelContainer $isLeft={false}>
                           <Label>{addCommasToNumber(right)}</Label>
                           <Rank>{`${rightIndex}위`}</Rank>
                         </LabelContainer>
@@ -185,8 +185,11 @@ const EmotionText = styled.div`
   margin: 0 3px;
 `;
 
-const LabelContainer = styled.div`
+const LabelContainer = styled.div<{ $isLeft: boolean }>`
   display: flex;
+  flex-direction: ${(props) => (props.$isLeft ? 'column' : 'column-reverse')};
+  align-items: ${(props) => (props.$isLeft ? 'flex-start' : 'flex-end')};
+
   gap: 2px;
   font-family: 'SUIT';
   font-size: 12px;

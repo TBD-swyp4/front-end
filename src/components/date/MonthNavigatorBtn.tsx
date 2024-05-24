@@ -22,7 +22,7 @@ const MonthNavigatorBtn = ({
   const endDate: Date = endOfMonth(currentDate);
 
   return (
-    <Wrapper color={color}>
+    <Wrapper $color={color}>
       <BtnWrapper>
         <NavBtn color={color} onClick={previousMonth} />
       </BtnWrapper>
@@ -36,13 +36,13 @@ const MonthNavigatorBtn = ({
 
 export default MonthNavigatorBtn;
 
-const Wrapper = styled.div<{ color: string }>`
+const Wrapper = styled.div<{ $color: string }>`
   ${flexBetween}
   font-size: 16px;
   font-weight: 600;
   width: 240px;
 
-  color: ${(props) => props.color};
+  color: ${(props) => props.$color};
 `;
 const BtnWrapper = styled.div`
   ${flexCenter}

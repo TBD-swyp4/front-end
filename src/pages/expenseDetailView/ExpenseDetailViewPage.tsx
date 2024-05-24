@@ -192,35 +192,38 @@ const ExpenseDetailViewPage = () => {
   const saveMutation = useMutation({
     mutationFn: (data: ExpenseFormType) => saveExpenseData(id, data),
     onSuccess: () => {
-      console.log('저장 성공!');
+      alert('수정했습니다.');
     },
     onError: (error) => {
-      console.log(`저장 실패: ${error}`);
+      alert('다시 시도해주세요.');
+      console.error(`저장 실패: ${error}`);
     },
   });
 
   const deleteMutation = useMutation(deleteExpenseById, {
     onSuccess: () => {
-      console.log(`${id} 삭제 성공`);
       if (query == 'add') {
         navigate('/');
       } else {
         navigate(-1);
       }
+      alert('삭제되었습니다.');
+      console.log(`삭제 성공 : ${id}`);
     },
     onError: (error) => {
-      console.log(`삭제 실패: ${error}`);
+      alert('다시 시도해주세요.');
+      console.error(`삭제 실패: ${error}`);
     },
   });
 
   const commentMutation = useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
-      console.log(commentData.data.aiComment);
       // #20240516.syjang, aiComment->content로 변경
       methods.setValue('aiComment', commentData.data.content);
     },
     onError: (error) => {
-      console.log(`삭제 실패: ${error}`);
+      alert('다시 시도해주세요.');
+      console.error(`삭제 실패: ${error}`);
     },
   });
 
@@ -232,7 +235,10 @@ const ExpenseDetailViewPage = () => {
   });
 
   const handleDelete = () => {
-    deleteMutation.mutate(id);
+    const confirmResult = confirm('삭제하시겠습니까?');
+    if (confirmResult) {
+      deleteMutation.mutate(id);
+    }
   };
 
   // articleId를 가지고 ai comment 요청.
@@ -248,7 +254,7 @@ const ExpenseDetailViewPage = () => {
     if (!isLoadingExpenseData && expenseData && expenseData.data) {
       const data = expenseData.data;
       // 서버에서 받는 예산 데이터는 숫자 형태이므로, 다시 #,##0 형태로 변환하여 세팅 필요
-      const formattedValue = formatAmountNumber(data.amount.toString() || ''); // data.amount가 서버에서 null값으로 오는 경우 처리
+      const formattedValue = formatAmountNumber(data.amount?.toString() || ''); // data.amount가 서버에서 null값으로 오는 경우 처리
       methods.reset({ ...data, amount: formattedValue });
 
       // 감정 state도 최신 데이터로 업데이트 필요

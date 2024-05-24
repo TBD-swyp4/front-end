@@ -17,27 +17,34 @@ type EmotionContentProps = {
 };
 
 const TabContent = ({ currentDate, registerType, data }: EmotionContentProps) => {
+  const isDataEmpty = data.dailyAmount.length === 0;
   const registerText = registerType == 'SPEND' ? '소비' : '절약';
   return (
     <Container>
-      <SatisfactionMessage>
-        <span>이번 달</span>
-        <span>
-          {`${registerText}만족도는 
+      {isDataEmpty ? (
+        <EmptyMessage>{`${formatYM(currentDate, 'word')}에는 등록한 ${registerText} 내역이 없습니다.`}</EmptyMessage>
+      ) : (
+        <>
+          <SatisfactionMessage>
+            <span>이번 달</span>
+            <span>
+              {`${registerText}만족도는 
         ${data.satisfactionAverage.toFixed(1)}`}
-          <span className="score"> / 5 </span>
-          점이에요
-        </span>
-        <span className="date">{`${formatYM(currentDate)} 기준`}</span>
-      </SatisfactionMessage>
-      <EmotionChart data={data.emotionAmountTotal} />
-      <EmotionList data={data.emotionAmountTotal} />
-      <Divider />
-      <DailyMessage>
-        <span>{`일별 감정${registerText}액`}</span>
-        <span className="date">{`${formatYM(currentDate)} 기준`}</span>
-      </DailyMessage>
-      <DailyChart date={currentDate} data={data.dailyAmount} />
+              <span className="score"> / 5 </span>
+              점이에요
+            </span>
+            <span className="date">{`${formatYM(currentDate)} 기준`}</span>
+          </SatisfactionMessage>
+          <EmotionChart data={data.emotionAmountTotal} />
+          <EmotionList data={data.emotionAmountTotal} />
+          <Divider />
+          <DailyMessage>
+            <span>{`일별 감정${registerText}액`}</span>
+            <span className="date">{`${formatYM(currentDate)} 기준`}</span>
+          </DailyMessage>
+          <DailyChart date={currentDate} data={data.dailyAmount} />
+        </>
+      )}
     </Container>
   );
 };
@@ -48,6 +55,13 @@ const Container = styled.div`
   ${flexColumnCenter}
   width: 100%;
   gap: 10px;
+`;
+
+const EmptyMessage = styled.div`
+  text-align: center;
+  font-size: 16px;
+  color: #767676;
+  margin-top: 280px;
 `;
 
 const SatisfactionMessage = styled.div`
