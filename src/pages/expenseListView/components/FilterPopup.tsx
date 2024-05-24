@@ -51,16 +51,19 @@ const FilterPopup = ({ onClose, prevCondition, updateCondition }: FilterPopupPro
 
   // 헤더를 마우스로 잡아끄는 높이를 계산하여 모달창의 높이를 구해준다.
   // 40은 헤더 높이때문에 보정값
-  const resizing = useCallback((e: globalThis.MouseEvent) => {
+  const resizing = useCallback((e: MouseEvent | TouchEvent) => {
+    const clientY = 'clientY' in e ? e.clientY : e.touches[0].clientY;
     if (resizeRef.current) {
-      setHeight(window.innerHeight - e.clientY - 40);
+      setHeight(window.innerHeight - clientY - 40);
     }
   }, []);
 
   // 드래그를 뗐을 때의 모달창 높이로, 새로 지정해준다.
   const stopResize = useCallback(() => {
     document.removeEventListener('mousemove', resizing as EventListener);
+    document.removeEventListener('touchmove', resizing as EventListener);
     document.removeEventListener('mouseup', stopResize as EventListener);
+    document.removeEventListener('touchend', stopResize as EventListener);
 
     // 현재 브라우저창이 700px 이하면, 그냥 기본 위치로 리턴시킨다.
     if (window.innerHeight < 700) {
@@ -85,18 +88,26 @@ const FilterPopup = ({ onClose, prevCondition, updateCondition }: FilterPopupPro
   }, [resizeRef, resizing, onClose]);
 
   const startResize = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      document.addEventListener('mousemove', resizing as EventListener);
-      document.addEventListener('mouseup', stopResize as EventListener);
+    (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+      if ('touches' in e) {
+        document.addEventListener('touchmove', resizing as EventListener);
+        document.addEventListener('touchend', stopResize as EventListener);
+      } else {
+        e.preventDefault();
+        document.addEventListener('mousemove', resizing as EventListener);
+        document.addEventListener('mouseup', stopResize as EventListener);
+      }
     },
     [resizing, stopResize],
   );
 
   return (
     <Container ref={resizeRef} style={{ height: `${height}px` }}>
-      <Header onMouseDown={startResize}>
+      <Header
+        onMouseDown={startResize as unknown as React.MouseEventHandler<HTMLDivElement>}
+        onTouchStart={startResize as unknown as React.TouchEventHandler<HTMLDivElement>}>
         <span className="title">필터</span>
+        <Draggable />
         <CloseBtn style={{ width: '15px', height: '15px' }} onClick={onClose} />
       </Header>
       <FormProvider {...methods}>
@@ -187,4 +198,12 @@ const ApplyButton = styled.button`
 
 const Divider = styled.div`
   ${divider}
+`;
+
+const Draggable = styled.div`
+  width: 40px;
+  height: 4px;
+  border-radius: 6px;
+  background-color: #bcbcbc;
+  margin-bottom: 60px;
 `;
