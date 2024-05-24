@@ -96,7 +96,7 @@ const DailyAmountsContainer = ({ tabOption, register }: DailyAmountsContainerPro
       ? transformGenderData(genderData)
       : transformMbtiData(mbtiData.mbtiDailyAmountSums);
 
-  // #20240521.syjang, 데이터는 오늘 포함이 아니라, "어제" 포함 90일이라 subDays로 어제 날짜 전달 필요
+  // #20240521.syjang, 데이터는 오늘 포함이 아니라, "어제" 포함 30일이라 subDays로 어제 날짜 전달 필요
   return <DailyAmounts dailyAmounts={dailyAmounts} date={subDays(new Date(), 1)} />;
 };
 

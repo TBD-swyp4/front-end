@@ -55,7 +55,7 @@ const GlobalStyles = createGlobalStyle`
     font: inherit;
   }
   input:checked {
-    border: none
+    border: none;
   }
   button {
     background: none;

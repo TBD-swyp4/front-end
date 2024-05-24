@@ -58,7 +58,7 @@ const StatisticsPage = () => {
   const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_MBTI');
 
   const yesterday = subDays(new Date(), 1);
-  const nintyDaysBefore = subDays(yesterday, 89);
+  const nintyDaysBefore = subDays(yesterday, 29);
 
   const handleRegisterTypeClick = () => {
     setRegisterType(registerType === 'SPEND' ? 'SAVE' : 'SPEND');

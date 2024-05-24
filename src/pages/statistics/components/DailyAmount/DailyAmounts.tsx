@@ -6,7 +6,7 @@ import StatisticsContentLayout from '../StatisticsContentLayout';
 import SwipeContainer from '../SwipeContainer';
 
 import { format } from 'date-fns';
-import { addCommasToNumber, getNinetyDaysDateObjArray } from '@utils/index';
+import { addCommasToNumber, getThirtyDaysDateObjArray } from '@utils/index';
 
 type DailyAmountProps = {
   date: Date;
@@ -30,20 +30,20 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
 
         const getSmallMarkers = (data: number[]) => {
           return data
-            .map((_, index) => (index % 15 === 0 ? index : null))
+            .map((_, index) => (index % 5 === 0 ? index : null))
             .filter((index) => index !== null) as number[];
         };
 
         const smallMarkers = series.map((s) => getSmallMarkers(s.data));
 
-        const chartLabels = getNinetyDaysDateObjArray(date).map((date) => format(date, 'M/d'));
+        const chartLabels = getThirtyDaysDateObjArray(date).map((date) => format(date, 'M/d'));
 
         const overallMaxValue = Math.max(...series.flatMap((s) => s.data));
 
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 90일 내 감정 소비를 가장 많이 한 날은\n${dailyAmount[0].name}는 ${chartLabels[maxValues[0].index]}, ${dailyAmount[1].name}는 ${chartLabels[maxValues[1].index]} 이에요`}>
+            message={`최근 30일 내 감정 소비를 가장 많이 한 날은\n${dailyAmount[0].name}는 ${chartLabels[maxValues[0].index]}, ${dailyAmount[1].name}는 ${chartLabels[maxValues[1].index]} 이에요`}>
             <Chart
               height={'100%'}
               width={'100%'}
@@ -55,7 +55,6 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                   height: 440,
                   width: 1000,
                   toolbar: { show: false },
-                  // offsetX: 110,
                 },
                 legend: {
                   position: 'top',
@@ -111,7 +110,7 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                       colors: '#9F9F9F',
                     },
                     // i는 1부터 시작
-                    formatter: (_, i) => (i && (i == 1 || i % 15 == 0) ? chartLabels[i - 1] : ''),
+                    formatter: (_, i) => (i && (i == 1 || i % 5 == 0) ? chartLabels[i - 1] : ''),
                   },
                 },
                 yaxis: {

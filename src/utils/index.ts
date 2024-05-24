@@ -105,9 +105,9 @@ export const getTargetMonthDateObjArray = (date: Date) => {
   return eachDayOfInterval({ start, end });
 };
 
-// Date 객체 -> 전달받은 날짜를 포함하여 90일 전까지의 Date배열을 return
-export const getNinetyDaysDateObjArray = (date: Date) => {
-  const startDate = subDays(date, 89); // 전달받은 날짜 포함이라 89일을 빼서 시작
+// Date 객체 -> 전달받은 날짜를 포함하여 30일 전까지의 Date배열을 return
+export const getThirtyDaysDateObjArray = (date: Date) => {
+  const startDate = subDays(date, 29); // 전달받은 날짜 포함이라 29일을 빼서 시작
   return eachDayOfInterval({ start: startDate, end: date });
 };
 
