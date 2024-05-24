@@ -12,6 +12,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Spinner from '@components/information/Spinner';
 import LoadingModal from '@components/modal/LoadingModal';
 import MetaThemeColor from '@components/background/MetaThemeColor';
+import { PrevBtn } from '@components/button';
 
 import type { UserFormType } from '@models/user';
 import { saveUserData } from '@api/post';
@@ -51,13 +52,13 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 const SettingPage = () => {
   // 조회 : query
   // 저장 : mutation
-  const { data: userData, isLoading: isLoadingUserData } = useQuery(
-    ['setting'],
-    () => fetchUserData(),
-    {
-      refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-    },
-  );
+  const {
+    data: userData,
+    isLoading: isLoadingUserData,
+    error,
+  } = useQuery(['setting'], () => fetchUserData(), {
+    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
+  });
 
   const methods = useForm<UserFormType>({
     mode: 'onSubmit',
@@ -74,12 +75,12 @@ const SettingPage = () => {
   });
   const saveMutation = useMutation(saveUserData, {
     onSuccess: (data) => {
-      console.log(`유저 저장 성공 : ${JSON.stringify(data)}`);
       alert('저장했습니다.');
+      console.log(`유저 저장 성공 : ${JSON.stringify(data)}`);
     },
     onError: (error) => {
-      console.log(`유저 저장 실패: ${error}`);
       alert('다시 시도해주세요.');
+      console.error(`유저 저장 실패: ${error}`);
     },
   });
   const handleSubmit = methods.handleSubmit((data: UserFormType) => {
@@ -97,7 +98,7 @@ const SettingPage = () => {
       const data = userData.data;
 
       // 서버에서 받는 예산 데이터는 숫자 형태이므로, 다시 #,##0 형태로 변환하여 세팅 필요
-      const formattedValue = formatAmountNumber(data.budget.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
+      const formattedValue = formatAmountNumber(data.budget?.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
 
       methods.reset({
         budget: formattedValue,
@@ -111,6 +112,7 @@ const SettingPage = () => {
   }, [userData, methods, isLoadingUserData]);
 
   const handleLogout = () => {
+    alert('로그아웃되었습니다.');
     useAuthStore.getState().setLogoutState();
   };
   return (
@@ -121,35 +123,37 @@ const SettingPage = () => {
           <BudgetContainer>
             {isLoadingUserData ? (
               <Spinner />
+            ) : error ? (
+              <div>An error occurred</div>
             ) : (
-              <>
-                <Controller
-                  name="budget"
-                  control={methods.control}
-                  defaultValue={''}
-                  rules={{ required: '예산을 입력해주세요.' }}
-                  render={({ field: { onChange, value, ...field }, fieldState: { error } }) => (
-                    <>
-                      <BudgetWrapper>
-                        <BudgetInput
-                          {...field}
-                          value={value}
-                          onChange={(event) => handleBudgetChange(event.target.value, onChange)}
-                          placeholder="0"
-                        />
-                        <span>원</span>
-                      </BudgetWrapper>
-                      <ErrorMessage>{error?.message}</ErrorMessage>
-                    </>
-                  )}
-                />
-              </>
+              <Controller
+                name="budget"
+                control={methods.control}
+                defaultValue={''}
+                rules={{ required: '예산을 입력해주세요.' }}
+                render={({ field: { onChange, value, ...field }, fieldState: { error } }) => (
+                  <>
+                    <BudgetWrapper>
+                      <BudgetInput
+                        {...field}
+                        value={value}
+                        onChange={(event) => handleBudgetChange(event.target.value, onChange)}
+                        placeholder="0"
+                      />
+                      <span>원</span>
+                    </BudgetWrapper>
+                    <ErrorMessage>{error?.message}</ErrorMessage>
+                  </>
+                )}
+              />
             )}
           </BudgetContainer>
           <Title>프로필</Title>
           <ProfileContainer>
             {isLoadingUserData ? (
               <Spinner />
+            ) : error ? (
+              <div>An error occurred</div>
             ) : (
               <>
                 <ProfileDiv>
@@ -248,6 +252,13 @@ const SettingPage = () => {
             )}
           </ProfileContainer>
           <Button disabled={!methods.formState.isValid}>저장</Button>
+          <InquiryButton
+            onClick={() => {
+              alert('문의하기 기능 준비중!');
+            }}>
+            <span>문의하기</span>
+            <InquiryArrow />
+          </InquiryButton>
         </Form>
         <Button onClick={handleLogout}>로그아웃</Button>
       </SettingContainer>
@@ -313,6 +324,7 @@ const Button = styled.button`
   ${flexCenter}
   width: 100%;
   height: 60px;
+  margin-bottom: 15px;
 
   color: #9f9f9f;
   background-color: #ffffff;
@@ -407,4 +419,35 @@ const ErrorMessage = styled.div`
   color: red;
   font-size: 14px;
   margin-bottom: 30px;
+`;
+
+const InquiryButton = styled.div`
+  ${flexBetween}
+  width: 100%;
+  height: 44px;
+
+  background-color: #fff;
+
+  padding: 16px;
+
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+
+  border-radius: 6px;
+  box-shadow: ${(props) => props.theme.shadows.around};
+`;
+
+const InquiryArrow = styled(PrevBtn)`
+  width: 10px;
+  height: 10px;
+  color: #9f9f9f;
+  stroke-width: 4;
+  transform: rotate(180deg);
+
+  &:hover {
+    color: #4b4949;
+    stroke-width: 3;
+    transform: rotate(180deg);
+  }
 `;

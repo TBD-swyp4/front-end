@@ -115,8 +115,13 @@ const ExpenseListViewPage = () => {
           return undefined;
         }
       },
-      onSuccess: (data) => console.log('Fetched data:', data),
-      onError: (error) => console.error('Error fetching data:', error),
+      onSuccess: (data) => {
+        console.log('ExpensesByCondition Fetched data:', data);
+      },
+      onError: (error) => {
+        alert('다시 시도해주세요.');
+        console.error('Error fetching data:', error);
+      },
       //enabled: false, // 새로운 조건이 적용된 쿼리를 자동으로 재시작하지 않도록 설정
       refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
     },

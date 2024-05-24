@@ -98,7 +98,7 @@ const DashboardPage = () => {
       label: '지출',
       content:
         isLoading || error ? (
-          <InfoWrapper>{error ? 'error' : <Spinner />}</InfoWrapper>
+          <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
           <TabContent currentDate={monthNav.currentDate} registerType={'SPEND'} data={data.data} />
         ),
@@ -108,7 +108,7 @@ const DashboardPage = () => {
       label: '절약',
       content:
         isLoading || error ? (
-          <InfoWrapper>{error ? 'error' : <Spinner />}</InfoWrapper>
+          <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
           <TabContent currentDate={monthNav.currentDate} registerType={'SAVE'} data={data.data} />
         ),

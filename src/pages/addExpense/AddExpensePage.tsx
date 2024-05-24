@@ -112,7 +112,8 @@ const AddExpensePage = () => {
       navigate(`/expense/${articleId}?prev=add`);
     },
     onError: (error) => {
-      console.log('저장 실패: ' + error);
+      alert('다시 시도해주세요.');
+      console.error('저장 실패: ' + error);
     },
   });
 
