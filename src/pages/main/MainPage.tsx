@@ -107,7 +107,7 @@ const MainPage = () => {
     <>
       <NavigationLayout {...monthNav}>
         <MainContainer>
-          <BudgetContainer isloading={isLoadingMainData.toString()}>
+          <BudgetContainer $isLoading={isLoadingMainData}>
             {isLoadingMainData ? (
               <Spinner />
             ) : mainDataError ? (
@@ -160,10 +160,10 @@ const MainContainer = styled.div`
   ${overflowWithoutScroll}
 `;
 
-const BudgetContainer = styled.section<{ isloading: string }>`
+const BudgetContainer = styled.section<{ $isLoading: boolean }>`
   ${mainSection}
   ${flexColumnBetween}
-  flex-direction:  ${(props) => (props.isloading === 'true' ? 'row' : 'column')};
+  flex-direction:  ${(props) => (props.$isLoading ? 'row' : 'column')};
   min-height: 250px;
   width: 100%;
   margin-bottom: 16px;

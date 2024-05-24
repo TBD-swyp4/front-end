@@ -174,7 +174,7 @@ const InputWrapper = styled.div`
   height: 70px;
 `;
 
-const AmountInput = styled.input.attrs({ type: 'text' })`
+const AmountInput = styled.input.attrs({ type: 'text', inputMode: 'numeric' })`
   ${textArea}
   text-align: right;
 `;

@@ -253,7 +253,7 @@ const ExpenseListViewPage = () => {
               )}
             </span>
           </ExpenseListHeader>
-          <ExpenseListContent ref={scrollContainerRef} isloading={isLoading.toString()}>
+          <ExpenseListContent ref={scrollContainerRef} $isLoading={isLoading}>
             {isLoading ? (
               <Spinner />
             ) : error ? (
@@ -393,9 +393,9 @@ const ExpenseListHeader = styled.div`
     }
   }
 `;
-const ExpenseListContent = styled.div<{ isloading: string }>`
+const ExpenseListContent = styled.div<{ $isLoading: boolean }>`
   ${flexColumnCenter}
-  justify-content: ${(props) => (props.isloading == 'true' ? '' : 'flex-start')};
+  justify-content: ${(props) => (props.$isLoading ? '' : 'flex-start')};
   ${overflowWithoutScroll}
   width: 100%;
   height: 100%;

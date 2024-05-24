@@ -14,7 +14,7 @@ const GoSetting = () => {
         <Text>서비스를 똑똑하게 이용할 수 있어요</Text>
       </Message>
       <Button
-        bottom="122px"
+        $bottom="122px"
         onClick={() => {
           navigate('/setting?isFirstLogin=true');
         }}>
@@ -22,7 +22,7 @@ const GoSetting = () => {
       </Button>
       <Button
         className="later"
-        bottom="50px"
+        $bottom="50px"
         onClick={() => {
           navigate('/');
         }}>
@@ -53,10 +53,10 @@ const Text = styled.div`
   font-weight: 700;
 `;
 
-const Button = styled.div<{ bottom: string }>`
+const Button = styled.div<{ $bottom: string }>`
   ${flexCenter}
   position: absolute;
-  bottom: ${(props) => props.bottom};
+  bottom: ${(props) => props.$bottom};
   width: 358px;
   height: 60px;
   border-radius: 6px;

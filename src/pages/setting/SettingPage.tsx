@@ -344,7 +344,7 @@ const Button = styled.button`
   }
 `;
 
-const BudgetInput = styled.input.attrs({ type: 'text' })`
+const BudgetInput = styled.input.attrs({ type: 'text', inputMode: 'numeric' })`
   height: 80px;
   width: 100%;
 

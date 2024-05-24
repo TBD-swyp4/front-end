@@ -261,7 +261,7 @@ const CalendarDay = styled.div`
 
   &.selected {
     background-color: #575755; // 선택된 날짜 배경색
-    color: rgb(255, 255, 255); // 선택된 날짜 글씨색
+    color: #fff; // 선택된 날짜 글씨색
     border-radius: 50%; // 동그란 형태
     font-size: 16px;
     font-weight: 700;

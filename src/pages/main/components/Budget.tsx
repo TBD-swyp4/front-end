@@ -51,7 +51,7 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
         </GoSetting>
       </Remain>
       <Bar>
-        <BarDetail percent={`${percent}%`}>
+        <BarDetail $percent={`${percent}%`}>
           <span className="bar-mark"></span>
           <span className="bar-percent"></span>
           <span className="bar-text">{percentText}</span>
@@ -151,8 +151,7 @@ const fillAnimation = keyframes`
   }
 `;
 
-const BarDetail = styled.div<{ percent: string }>`
-  //background-color: ${(props) => props.theme.colors.main};
+const BarDetail = styled.div<{ $percent: string }>`
   background-color: #e7e7e7;
   height: 25px;
   width: 100%;
@@ -179,7 +178,7 @@ const BarDetail = styled.div<{ percent: string }>`
     border-radius: 0 6px 6px;
 
     width: 0%; // 초기 너비 설정
-    --target-width: ${(props) => props.percent}; // CSS 변수로 퍼센트 설정
+    --target-width: ${(props) => props.$percent}; // CSS 변수로 퍼센트 설정
     animation: ${fillAnimation} 1s ease-in-out forwards; // 애니메이션 적용
     animation-delay: 0.1s;
   }

@@ -1,5 +1,5 @@
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
-import { flexCenter, overflowWithoutScroll } from '@styles/CommonStyles';
+import { flexCenter } from '@styles/CommonStyles';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -59,14 +59,14 @@ const TabLayout = <T extends string>({
             key={tab.id}
             onClick={() => onTabSelect(tab.id)}
             ref={(el) => (tabRefs.current[tab.id] = el)}
-            isactive={(selectedTab === tab.id).toString()}
-            activecolor={activeTabHeaderColor}
-            color={tabHeaderColor}>
+            $isActive={selectedTab === tab.id}
+            $activeColor={activeTabHeaderColor}
+            $color={tabHeaderColor}>
             {tab.label}
           </TabHeader>
         ))}
-        <TabIndicatorRail color={indicatorRailColor} />
-        <TabIndicator width={indicatorWidth} offset={indicatorOffset} color={indicatorColor} />
+        <TabIndicatorRail $color={indicatorRailColor} />
+        <TabIndicator $width={indicatorWidth} $offset={indicatorOffset} $color={indicatorColor} />
       </TabHeaders>
       <ContentContainer>
         {tabs.map(
@@ -94,9 +94,9 @@ const TabHeaders = styled.div`
 `;
 
 const TabHeader = styled.div<{
-  isactive: string;
-  activecolor: string;
-  color: string;
+  $isActive: boolean;
+  $activeColor: string;
+  $color: string;
 }>`
   ${flexCenter}
   position: relative;
@@ -104,29 +104,29 @@ const TabHeader = styled.div<{
   padding: 0 20px 0 20px;
   font-size: 16px;
   height: 30px;
-  color: ${(props) => (props.isactive === 'true' ? props.activecolor : props.color)};
-  font-weight: ${(props) => (props.isactive === 'true' ? 700 : 400)};
+  color: ${(props) => (props.$isActive ? props.$activeColor : props.$color)};
+  font-weight: ${(props) => (props.$isActive ? 700 : 400)};
 `;
 
-const TabIndicatorRail = styled.div<{ color: string }>`
+const TabIndicatorRail = styled.div<{ $color: string }>`
   position: absolute;
   width: 100%;
   height: 4px;
   bottom: -4px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.$color};
 `;
 
 const TabIndicator = styled.div<{
-  width: number;
-  offset: number;
-  color: string;
+  $width: number;
+  $offset: number;
+  $color: string;
 }>`
   height: 4px;
   border-radius: 6px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.$color};
   position: absolute;
-  left: ${(props) => props.offset}px;
-  width: ${(props) => props.width}px;
+  left: ${(props) => props.$offset}px;
+  width: ${(props) => props.$width}px;
   transition:
     left 0.3s ease,
     width 0.3s ease;
@@ -134,7 +134,6 @@ const TabIndicator = styled.div<{
 `;
 
 const TabPanel = styled.div`
-  ${overflowWithoutScroll}
   width: 100%;
   height: 100%;
 `;
