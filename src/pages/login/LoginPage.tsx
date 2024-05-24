@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { flexColumnCenter } from '@styles/CommonStyles';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '@stores/authStore';
 
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
@@ -15,12 +15,16 @@ import naverImg from '@assets/images/login/naver.png';
 import googleImg from '@assets/images/login/google.png';
 
 const LoginPage = () => {
-  // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  if (isLoggedIn) {
-    return <Navigate to="/" />;
-  }
+  const [searchParams] = useSearchParams();
+  const isLoginFail = searchParams.get('isLoginFail');
+
+  // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
+  if (isLoggedIn) return <Navigate to="/" />;
+
+  // todo: 토스트 메세지로 바꾸기
+  if (isLoginFail === 'true') alert('로그인에 실패했습니다. 다시 시도해주세요.');
 
   const AUTH_URL = `https://www.api-spinlog.shop/api/users/login`;
 
