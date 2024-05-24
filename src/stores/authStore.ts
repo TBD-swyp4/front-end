@@ -1,13 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { AuthStoreType } from '@models/auth';
+//type UserLoginStatus = 'LoggedIn' | 'Trial' | 'LoggedOut';
+
+type AuthStoreType = {
+  isLoggedIn: boolean;
+  setLoginState: () => void;
+  setLogoutState: () => void;
+};
 
 export const useAuthStore = create(
   persist<AuthStoreType>(
     (set) => ({
       isLoggedIn: false,
-      userId: null,
 
       setLoginState: () =>
         set(() => ({
@@ -25,3 +30,10 @@ export const useAuthStore = create(
     },
   ),
 );
+
+// 로컬스토리지에 이전에 저장한 토큰이 존재한다면, login state로 변경
+const initializeUser = () => {
+  const accessToken = window.localStorage.getItem('access_token');
+  accessToken ? useAuthStore.getState().setLoginState() : useAuthStore.getState().setLogoutState();
+};
+initializeUser();

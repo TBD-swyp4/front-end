@@ -1,13 +1,28 @@
 import { useAuthStore } from '@stores/authStore';
 import axios from 'axios';
+
 const axiosInstance = axios.create({
   baseURL: 'https://www.api-spinlog.shop/api',
   headers: {
     'Content-Type': 'application/json',
-    TemporaryAuth: 'OurAuthValue', // 임시 헤더 -> 로컬 요청 처리
+    //TemporaryAuth: 'OurAuthValue', // 임시 헤더 -> 로컬 요청 처리
   },
   withCredentials: true,
 });
+
+// 요청 인터셉터 추가
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = window.localStorage.getItem('access_token');
+    if (accessToken) {
+      config.headers['Authorization'] = `${accessToken}`;
+    } else {
+      delete config.headers['Authorization'];
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 // 응답 인터셉터 추가
 axiosInstance.interceptors.response.use(
@@ -18,6 +33,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // 401 오류가 발생했을 때의 처리 : 인증되지 않은 사용자의 요청
     if (error.response && error.response.status === 401) {
+      window.localStorage.removeItem('access_token');
       useAuthStore.getState().setLogoutState();
       window.location.href = '/login';
       alert('로그아웃 되었습니다.');

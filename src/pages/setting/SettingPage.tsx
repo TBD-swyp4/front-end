@@ -15,7 +15,7 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
 import type { UserFormType } from '@models/user';
-import { saveUserData } from '@api/post';
+import { logoutUser, saveUserData } from '@api/post';
 import { fetchUserData } from '@api/get';
 import { useAuthStore } from '@stores/authStore';
 import { formatAmountNumber } from '@utils/index';
@@ -83,6 +83,18 @@ const SettingPage = () => {
       console.error(`유저 저장 실패: ${error}`);
     },
   });
+  const logoutMutation = useMutation(logoutUser, {
+    onSuccess: (data) => {
+      window.localStorage.removeItem('access_token');
+      useAuthStore.getState().setLogoutState();
+      // todo: toast 메세지로 바꾸기
+      // alert('로그아웃되었습니다.');
+      console.log(`로그아웃 성공 : ${JSON.stringify(data)}`);
+    },
+    onError: (error) => {
+      console.error(`로그아웃 실패: ${error}`);
+    },
+  });
   const handleSubmit = methods.handleSubmit((data: UserFormType) => {
     // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
     saveMutation.mutate({ ...data, budget: data.budget.replace(/,/g, '') });
@@ -91,6 +103,10 @@ const SettingPage = () => {
   const handleBudgetChange = (value: string, onChange: (value: string) => void) => {
     const formattedValue = formatAmountNumber(value, true);
     onChange(formattedValue);
+  };
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
   };
 
   useEffect(() => {
@@ -111,10 +127,6 @@ const SettingPage = () => {
     }
   }, [userData, methods, isLoadingUserData]);
 
-  const handleLogout = () => {
-    alert('로그아웃되었습니다.');
-    useAuthStore.getState().setLogoutState();
-  };
   return (
     <NavigationLayout>
       <SettingContainer>

@@ -62,3 +62,18 @@ export const saveUserData = async (userData: UserFormType) => {
     throw new Error('[서버 통신 오류] saveUserData : ' + error);
   }
 };
+
+/**
+ * 로그아웃 (환경설정)
+ *
+ * @param
+ * @returns
+ */
+export const logoutUser = async () => {
+  try {
+    const { data } = await axiosInstance.post('/users/logout');
+    return data;
+  } catch (error) {
+    throw new Error('[서버 통신 오류] logoutUser : ' + error);
+  }
+};
