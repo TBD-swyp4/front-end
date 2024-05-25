@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { EmotionKey } from '@models/index';
 import SwipeContainer from '../SwipeContainer';
 import StatisticsContentLayout from '../StatisticsContentLayout';
+
+import type { EmotionKey, Register } from '@models/index';
 import { Emotions, getEmotionText } from '@models/emotion';
+
 import { addCommasToNumber } from '@utils/index';
 
 type EmotionalChartData = { type: EmotionKey; left: number; right: number }[];
@@ -12,9 +14,10 @@ type EmotionChartProps = {
     leftKey: string;
     rightKey: string;
   }[];
+  registerType: Register;
 };
 
-const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
+const EmotionalAmountChart = ({ dataList, registerType }: EmotionChartProps) => {
   const findMaxValueFromData = (data: EmotionalChartData) => {
     let maxLeft = -Infinity;
     let maxRight = -Infinity;
@@ -52,7 +55,19 @@ const EmotionalAmountChart = ({ dataList }: EmotionChartProps) => {
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 30일 내 소비시 가장 많이 느낀 감정은\n${leftKey}는 ${getEmotionText(leftTops[0])}, ${rightKey}는 ${getEmotionText(rightTops[0])} 이에요`}>
+            message={
+              <Message>
+                {registerType === 'SPEND' ? '지출' : '절약'} 시 많이 느끼는 감정은 <br />
+                <span className="green">
+                  {leftKey}는 {getEmotionText(leftTops[0])}
+                </span>
+                ,{' '}
+                <span className="red">
+                  {rightKey}는 {getEmotionText(rightTops[0])}
+                </span>{' '}
+                이에요
+              </Message>
+            }>
             <ChartContainer>
               <Yaxis />
               {data.map(({ type, left, right }, index) => {
@@ -202,4 +217,14 @@ const Label = styled.div`
 
 const Rank = styled.div`
   color: #9f9f9f;
+`;
+
+const Message = styled.div`
+  & > span.green {
+    color: #47cfb0;
+  }
+
+  & > span.red {
+    color: #fc4873;
+  }
 `;

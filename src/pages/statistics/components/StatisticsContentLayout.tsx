@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 type ContentProps = {
-  message: string;
+  message: React.ReactNode;
   children: React.ReactNode;
 };
 

@@ -1,9 +1,11 @@
+import styled from 'styled-components';
 import Chart from 'react-apexcharts';
-
-import type { DailyAmountsChartData } from './types';
 
 import StatisticsContentLayout from '../StatisticsContentLayout';
 import SwipeContainer from '../SwipeContainer';
+
+import type { Register } from '@models/index';
+import type { DailyAmountsChartData } from './types';
 
 import { format } from 'date-fns';
 import { addCommasToNumber, getThirtyDaysDateObjArray } from '@utils/index';
@@ -11,12 +13,13 @@ import { addCommasToNumber, getThirtyDaysDateObjArray } from '@utils/index';
 type DailyAmountProps = {
   date: Date;
   dailyAmounts: DailyAmountsChartData[][];
+  registerType: Register;
 };
 
 const getMaxValue = (data: number[]) => Math.max(...data);
 
-const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
-  const colors = ['#47CFB0', '#C3EBE2'];
+const DailyAmounts = ({ date, dailyAmounts, registerType }: DailyAmountProps) => {
+  const colors = ['#47CFB0', '#FC4873'];
 
   return (
     <SwipeContainer>
@@ -35,15 +38,26 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
         };
 
         const smallMarkers = series.map((s) => getSmallMarkers(s.data));
-
         const chartLabels = getThirtyDaysDateObjArray(date).map((date) => format(date, 'M/d'));
-
         const overallMaxValue = Math.max(...series.flatMap((s) => s.data));
 
         return (
           <StatisticsContentLayout
             key={index}
-            message={`최근 30일 내 감정 소비를 가장 많이 한 날은\n${dailyAmount[0].name}는 ${chartLabels[maxValues[0].index]}, ${dailyAmount[1].name}는 ${chartLabels[maxValues[1].index]} 이에요`}>
+            message={
+              <Message>
+                {registerType === 'SPEND' ? '지출' : '절약'}을 많이 한 날은
+                <br />
+                <span className="green">
+                  {dailyAmount[0].name}는 {chartLabels[maxValues[0].index]}
+                </span>
+                ,{' '}
+                <span className="red">
+                  {dailyAmount[1].name}는 {chartLabels[maxValues[1].index]}
+                </span>{' '}
+                이에요
+              </Message>
+            }>
             <Chart
               height={'100%'}
               width={'100%'}
@@ -86,22 +100,22 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                     const maxValue = maxValues[seriesIndex].value;
                     return val === maxValue ? addCommasToNumber(val) : ''; // 최댓값만 데이터 라벨 표시
                   },
-                  offsetX: -15,
                   offsetY: -10,
                   style: {
                     colors: ['black'],
                     fontFamily: 'SUIT',
                     fontSize: '12px',
-                    fontWeight: 500,
+                    fontWeight: 400,
                   },
                   background: { enabled: false },
                 },
                 stroke: {
-                  width: 3,
+                  width: 2,
                 },
                 xaxis: {
                   axisTicks: { show: false },
                   labels: {
+                    rotate: 0,
                     show: true,
                     style: {
                       fontSize: '9px',
@@ -139,14 +153,14 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
                       fillColor: colors[seriesIndex],
                       seriesIndex,
                       dataPointIndex: max.index,
-                      size: 6,
+                      size: 5,
                     })),
                     ...smallMarkers.flatMap((indices, seriesIndex) =>
                       indices.map((index) => ({
                         fillColor: colors[seriesIndex],
                         seriesIndex,
                         dataPointIndex: index,
-                        size: 4,
+                        size: 2,
                       })),
                     ),
                   ],
@@ -161,3 +175,13 @@ const DailyAmounts = ({ date, dailyAmounts }: DailyAmountProps) => {
 };
 
 export default DailyAmounts;
+
+const Message = styled.div`
+  & > span.green {
+    color: #47cfb0;
+  }
+
+  & > span.red {
+    color: #fc4873;
+  }
+`;
