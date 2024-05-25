@@ -1,10 +1,13 @@
-import { useQuery } from 'react-query';
-import SatisFaction from './Satisfaction';
-import { fetchSatisfactionByGender, fetchSatisfactionByMbti } from '@api/get';
-import { TabOption } from '../../type';
-import { Gender, Register } from '@models/index';
-import Spinner from '@components/information/Spinner';
 import styled from 'styled-components';
+
+import { useQuery } from 'react-query';
+import { fetchSatisfactionByGender, fetchSatisfactionByMbti } from '@api/get';
+
+import type { TabOption } from '../../type';
+import type { Gender, Register } from '@models/index';
+
+import Spinner from '@components/information/Spinner';
+import SatisFaction from './Satisfaction';
 
 const transformMbtiData = (
   input: {
@@ -104,7 +107,7 @@ const SatisfactionContainer = ({ tabOption, register }: SatisfactionContainerPro
     tabOption === 'TAB_GENDER'
       ? transformGenderData(genderData)
       : transformMbtiData(mbtiData.mbtiSatisfactionAverages);
-  return <SatisFaction satisfactions={satisfactions} />;
+  return <SatisFaction satisfactions={satisfactions} registerType={register} />;
 };
 
 export default SatisfactionContainer;

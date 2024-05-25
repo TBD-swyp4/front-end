@@ -1,10 +1,13 @@
+import styled from 'styled-components';
+
+import type { TabOption } from '../../type';
+import type { Register } from '@models/index';
+
 import { useQuery } from 'react-query';
-import { TabOption } from '../../type';
-import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/get';
 import Memo from './Memo';
 import Spinner from '@components/information/Spinner';
-import { Register } from '@models/index';
-import styled from 'styled-components';
+
+import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/get';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFrequencyContentsForMbti = (data: any) => {
@@ -92,14 +95,14 @@ const getFrequencyContentsForGender = (data: any) => {
 
   const contents = [
     {
-      user: '여자',
-      topWord: maxFrequencyWordOfFemale,
-      words: femaleWordFrequencies,
-    },
-    {
       user: '남자',
       topWord: maxFrequencyWordOfMale,
       words: maleWordFrequencies,
+    },
+    {
+      user: '여자',
+      topWord: maxFrequencyWordOfFemale,
+      words: femaleWordFrequencies,
     },
   ];
 
@@ -140,7 +143,7 @@ const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
       ? getFrequencyContentsForGender(memoForGender)
       : getFrequencyContentsForMbti(memoForMbti);
 
-  return <Memo contents={contents} />;
+  return <Memo contents={contents} registerType={register} />;
 };
 
 export default MemoContainer;

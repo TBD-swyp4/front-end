@@ -1,9 +1,12 @@
-import { EmotionKey, Gender, MbitFactor, Register } from '@models/index';
-import { TabOption } from '../../type';
+import styled from 'styled-components';
+
+import type { TabOption } from '../../type';
+import type { EmotionKey, Gender, MbitFactor, Register } from '@models/index';
+
 import useEmotionalAmount from './hooks/useEmotionalAmount';
 import Spinner from '@components/information/Spinner';
-import styled from 'styled-components';
 import EmotionalAmountChart from './EmotionalAmountChart';
+
 import { EmotionAmountsByMbtiDto, EmotionAmountsByGenderDto } from '@api/get';
 
 interface OutputData {
@@ -114,7 +117,7 @@ const EmotionalAmountChartContainer = ({
       ? transformGenderData(genderData ? genderData : [])
       : transformMbtiData(mbtiData ? mbtiData.mbtiEmotionAmountAverages : []);
 
-  return <EmotionalAmountChart dataList={emotionalAmounts} />;
+  return <EmotionalAmountChart dataList={emotionalAmounts} registerType={register} />;
 };
 
 export default EmotionalAmountChartContainer;
