@@ -24,13 +24,16 @@ const Memo = ({ contents, registerType }: MemoProps) => {
         return (
           <StatisticsContentLayout
             key={index}
+            isEmpty={user === 'NONE'}
             message={
               <Message $index={index}>
                 <span>{user}</span>는 {registerType === 'SPEND' ? '지출' : '절약'} 메모 중<br />
                 <span>&apos;{topWord}&apos;</span> 단어를 많이 썼어요
               </Message>
             }>
-            <ReactWordcloud words={words} />
+            <div style={{ height: '200px' }}>
+              <ReactWordcloud words={words} />
+            </div>
           </StatisticsContentLayout>
         );
       })}

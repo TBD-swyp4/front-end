@@ -122,7 +122,7 @@ export default EmotionalAmountChart;
 const ChartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   position: relative;
   width: 100%;
 `;
@@ -153,7 +153,7 @@ const LeftBarContainer = styled.div`
 
 const LeftBar = styled.div<{ $value: number; $isBold: boolean; $color: string }>`
   width: ${(props) => `${props.$value}%`};
-  height: ${(props) => `${props.$isBold ? '18px' : '10px'}`};
+  height: ${(props) => `${props.$isBold ? '15px' : '10px'}`};
   background-color: ${(props) => `${props.$isBold ? props.$color : '#dddddd'}`};
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -170,7 +170,7 @@ const RightBarContainer = styled.div`
 
 const RightBar = styled.div<{ $value: number; $isBold: boolean; $color: string }>`
   width: ${(props) => `${props.$value}%`};
-  height: ${(props) => `${props.$isBold ? '18px' : '10px'}`};
+  height: ${(props) => `${props.$isBold ? '15px' : '10px'}`};
   background-color: ${(props) => `${props.$isBold ? props.$color : '#dddddd'}`};
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;

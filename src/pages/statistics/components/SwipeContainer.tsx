@@ -98,5 +98,5 @@ const StyledSwiper = styled(Swiper)`
 const ContentContainer = styled.div`
   height: 100%;
   width: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 30px;
 `;

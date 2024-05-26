@@ -10,6 +10,11 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// 개발 모드일 때만 TemporaryAuth 헤더를 추가(테스트 계정으로 자동 로그인)
+if (import.meta.env.MODE === 'development') {
+  axiosInstance.defaults.headers.common['TemporaryAuth'] = 'OurAuthValue';
+}
+
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   (config) => {
