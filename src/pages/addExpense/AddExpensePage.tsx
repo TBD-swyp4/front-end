@@ -8,14 +8,11 @@ import type { ExpenseFormType } from '@models/expense';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
-
-import useToast from '@hooks/useToast';
+import useSaveExpense from './hooks/useSaveExpense';
 
 import WriteExpense from './components/WriteExpense';
 import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
-import { saveExpense } from '@api/post';
 
 import MetaThemeColor from '@components/background/MetaThemeColor';
 import LoadingModal from '@components/modal/LoadingModal';
@@ -63,9 +60,9 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
 };
 
 const AddExpensePage = () => {
-  const navigate = useNavigate();
-  const { showToast } = useToast();
-
+  // 저장 쿼리
+  const expenseMutation = useSaveExpense();
+  // 입력 form
   const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -108,20 +105,6 @@ const AddExpensePage = () => {
     setTitle(titleArr[currStep - 1]);
     setCurrStep(currStep - 1);
   };
-
-  // 저장 쿼리 실행
-  const expenseMutation = useMutation(saveExpense, {
-    onSuccess: (data) => {
-      const articleId = data.data.articleId;
-      showToast('저장했습니다.');
-      console.log('저장 성공: ' + articleId);
-      navigate(`/expense/${articleId}?prev=add`);
-    },
-    onError: (error) => {
-      alert('다시 시도해주세요.');
-      console.error('저장 실패: ' + error);
-    },
-  });
 
   // 제출
   const handleSubmit = (data: ExpenseFormType) => {

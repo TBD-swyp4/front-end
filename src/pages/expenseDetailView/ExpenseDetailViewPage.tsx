@@ -1,8 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import TopNavigation from '@layout/TopNavigation';
-
-import { useNavigate } from 'react-router-dom';
 import {
   flexCenter,
   flexColumnCenter,
@@ -10,25 +6,27 @@ import {
   overflowWithoutScroll,
   summaryArea,
 } from '@styles/CommonStyles';
+import TopNavigation from '@layout/TopNavigation';
+
+import { useNavigate } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
-import useToast from '@hooks/useToast';
+import { useParams, useSearchParams } from 'react-router-dom';
+
+import useExpenseData from './hooks/useExpenseData';
+import useUpdateExpense from './hooks/useUpdateExpense';
+import useDeleteExpense from './hooks/useDeleteExpense';
+import useAICommentData from './hooks/useAICommentData';
 
 import type { EmotionKey, Register } from '@models/index';
 import type { ExpenseFormType } from '@models/expense';
 
-import EditSummary from './components/EditSummary';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
 import MultiText from '@components/input/MultiText';
 import LoadingModal from '@components/modal/LoadingModal';
 import { VolumeBtn } from '@components/button';
-
-import { fetchExpenseById } from '@api/get';
-import { saveExpenseData } from '@api/patch';
-import { deleteExpenseById } from '@api/delete';
-import { fetchAIComment } from '@api/post';
+import EditSummary from './components/EditSummary';
 
 import { formatAmountNumber, getSpendSumamryText } from '@utils/index';
 import MetaThemeColor from '@components/background/MetaThemeColor';
@@ -40,6 +38,7 @@ type NavLayoutProps = {
   isValid: boolean;
   handleSubmit: () => void;
   handleDelete: () => void;
+  handleMovePrevPage: () => void;
   toggleEdit: () => void;
 };
 
@@ -49,11 +48,9 @@ const NavigationLayout = ({
   isValid,
   handleSubmit,
   handleDelete,
+  handleMovePrevPage,
   toggleEdit,
 }: NavLayoutProps) => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get('prev');
   return (
     <>
       <MetaThemeColor color="#F4F4F4" />
@@ -61,17 +58,7 @@ const NavigationLayout = ({
         _TopBar={
           <TopNavigation.TopBar
             leftContent={
-              !isEdit && (
-                <TopNavigation.TopBar.PrevButton
-                  onClick={() => {
-                    if (query == 'add') {
-                      navigate('/');
-                    } else {
-                      navigate(-1);
-                    }
-                  }}
-                />
-              )
+              !isEdit && <TopNavigation.TopBar.PrevButton onClick={handleMovePrevPage} />
             }
             centerContent={
               <TopNavigation.TopBar.CenterTitle>작성완료 내역</TopNavigation.TopBar.CenterTitle>
@@ -138,12 +125,19 @@ const SaveButton = styled.button`
 `;
 
 const ExpenseDetailViewPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { showToast } = useToast();
-
+  const { id: paramId } = useParams();
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('prev');
+  const searchParamPrev = searchParams.get('prev');
+  const navigate = useNavigate();
+
+  // 입력 페이지에서 넘어온 경우, 1. 뒤로가기 시 메인 화면으로 이동, 2. 삭제 시 메인화면으로 이동
+  const handleMovePrevPage = () => {
+    if (searchParamPrev == 'add') {
+      navigate('/');
+    } else {
+      navigate(-1);
+    }
+  };
 
   const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
@@ -186,60 +180,23 @@ const ExpenseDetailViewPage = () => {
     data: expenseData,
     isLoading: isLoadingExpenseData,
     error: errorExpenseData,
-  } = useQuery(['expense', id], () => fetchExpenseById(id), {
-    enabled: !!id, // id가 있을 때만 쿼리 실행
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
+  } = useExpenseData(paramId);
 
-  const saveMutation = useMutation({
-    mutationFn: (data: ExpenseFormType) => saveExpenseData(id, data),
-    onSuccess: () => {
-      showToast('수정했습니다.');
-    },
-    onError: (error) => {
-      alert('다시 시도해주세요.');
-      console.error(`저장 실패: ${error}`);
-    },
-  });
-
-  const deleteMutation = useMutation(deleteExpenseById, {
-    onSuccess: () => {
-      if (query == 'add') {
-        navigate('/');
-      } else {
-        navigate(-1);
-      }
-      showToast('삭제했습니다.');
-      console.log(`삭제 성공 : ${id}`);
-    },
-    onError: (error) => {
-      alert('다시 시도해주세요.');
-      console.error(`삭제 실패: ${error}`);
-    },
-  });
-
-  const commentMutation = useMutation(fetchAIComment, {
-    onSuccess: (commentData) => {
-      // #20240516.syjang, aiComment->content로 변경
-      methods.setValue('aiComment', commentData.data.content);
-    },
-    onError: (error) => {
-      alert('다시 시도해주세요.');
-      console.error(`삭제 실패: ${error}`);
-    },
-  });
+  const updateMutation = useUpdateExpense(paramId);
+  const deleteMutation = useDeleteExpense(paramId, handleMovePrevPage);
+  const commentMutation = useAICommentData(methods.setValue);
 
   const handleSubmit = methods.handleSubmit((data: ExpenseFormType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    saveMutation.mutate({ ...data, amount: numberAmount });
+    updateMutation.mutate({ ...data, amount: numberAmount });
     toggleEditMode();
   });
 
   const handleDelete = () => {
     const confirmResult = confirm('삭제하시겠습니까?');
     if (confirmResult) {
-      deleteMutation.mutate(id);
+      deleteMutation.mutate(paramId);
     }
   };
 
@@ -248,7 +205,7 @@ const ExpenseDetailViewPage = () => {
     // 수정모드일 경우 return
     // 이미 내용이 있거나(요청은 한번만 받을 수 있음), 메세지 창 띄워주는 사용성 개선 필요
     if (isEditMode || aiComment) return;
-    commentMutation.mutate(id);
+    commentMutation.mutate(paramId);
   };
 
   useEffect(() => {
@@ -275,7 +232,7 @@ const ExpenseDetailViewPage = () => {
 
   // ExpenseSummary Components Props
   const summaryProps = {
-    articleId: Number(id),
+    articleId: Number(paramId),
     registerType: registerTypeState as Register,
     amount: amountState,
     content: contentState,
@@ -297,9 +254,10 @@ const ExpenseDetailViewPage = () => {
       isEdit={isEditMode}
       handleSubmit={handleSubmit}
       handleDelete={handleDelete}
+      handleMovePrevPage={handleMovePrevPage}
       toggleEdit={toggleEditMode}>
       <ExpenseDetailContainer>
-        {isLoadingExpenseData || saveMutation.isLoading ? (
+        {isLoadingExpenseData || updateMutation.isLoading ? (
           <LoadingModal />
         ) : errorExpenseData ? (
           <div>Error...</div>

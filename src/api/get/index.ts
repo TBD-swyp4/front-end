@@ -1,14 +1,9 @@
 import axiosInstance from '@api/axios';
-import { ExpenseFilterType } from '@models/expense';
-import {
-  EmotionKey,
-  EmotionKeys,
-  Gender,
-  MBTI,
-  MbitFactor,
-  Register,
-  Registers,
-} from '@models/index';
+
+import { EmotionKeys, Registers } from '@models/index';
+import type { ExpenseFilterType } from '@models/expense';
+import type { Register, EmotionKey, Gender, MBTI, MbitFactor } from '@models/index';
+
 import { formatYMD } from '@utils/index';
 
 /**
@@ -28,20 +23,6 @@ export const fetchMainData = async (selectDate: string, isSelectDay = false) => 
     return data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchMainData : ' + error);
-  }
-};
-
-/**
- * 소비 상세 조회 데이터
- * @param articleId
- * @returns
- */
-export const fetchExpenseById = async (articleId: string | undefined) => {
-  try {
-    const { data } = await axiosInstance.get(`/articles/${articleId}`);
-    return data;
-  } catch (error) {
-    throw new Error('[서버 통신 오류] fetchExpenseById : ' + error);
   }
 };
 
@@ -84,19 +65,6 @@ export const fetchExpensesByCondition = async (page: number = 0, params: Expense
 };
 
 /**
- * 환경설정(내 정보) 데이터
- * @returns email, mbti, gender, budget
- */
-export const fetchUserData = async () => {
-  try {
-    const { data } = await axiosInstance.get(`/users/details`);
-    return data;
-  } catch (error) {
-    throw new Error('[서버 통신 오류] fetchUserData : ' + error);
-  }
-};
-
-/**
  * mbti 단어별 빈도수 (wordcloud용) 데이터
  * */
 
@@ -127,24 +95,6 @@ export const fetchWordFrequencyByGender = async (registerType: Register) => {
     return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchWordFrequencyByGender : ' + error);
-  }
-};
-
-/**
- * 대시보드 데이터
- * @returns satisfactionAverage, emotionAmountTotal, dailyAmount
- */
-export const fetchDashboardData = async (selectDate: string, registerType: Register) => {
-  try {
-    const { data } = await axiosInstance.get(`/articles/dashboard`, {
-      params: {
-        selectDate,
-        registerType,
-      },
-    });
-    return data;
-  } catch (error) {
-    throw new Error('[서버 통신 오류] fetchDashboardData : ' + error);
   }
 };
 
