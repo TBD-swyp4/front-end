@@ -10,6 +10,11 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// 개발 모드일 때만 TemporaryAuth 헤더를 추가(테스트 계정으로 자동 로그인)
+if (import.meta.env.MODE === 'development') {
+  axiosInstance.defaults.headers.common['TemporaryAuth'] = 'OurAuthValue';
+}
+
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -36,7 +41,7 @@ axiosInstance.interceptors.response.use(
       window.localStorage.removeItem('access_token');
       useAuthStore.getState().setLogoutState();
       window.location.href = '/login';
-      alert('로그아웃 되었습니다.');
+      alert('인증이 만료되어 로그아웃되었습니다.');
     }
     // 이외의 오류는 다시 throw 하여 호출자에게 전달
     return Promise.reject(error);

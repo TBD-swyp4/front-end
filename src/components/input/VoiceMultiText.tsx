@@ -41,7 +41,7 @@ const VoiceMultiText = ({
         startListen({ lang: 'ko', interimResults: false });
       }
     } catch (err) {
-      alert(err);
+      console.error(`음성 인식 오류: ${err}`);
       stopListen();
     }
   };

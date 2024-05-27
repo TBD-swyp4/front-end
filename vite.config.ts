@@ -9,6 +9,9 @@ export default defineConfig({
   define: {
     global: {},
   },
+  server: {
+    host: '0.0.0.0', // 모든 IP에서 접근 가능하게 설정
+  },
   resolve: {
     alias: {
       '@assets': path.resolve(__dirname, 'src/assets'),

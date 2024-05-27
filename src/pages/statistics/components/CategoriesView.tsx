@@ -77,7 +77,7 @@ const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 `;
 
 const StyleBird = styled(Bird)`

@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import { useForm, Controller } from 'react-hook-form';
+import useToast from '@hooks/useToast';
 
 import Spinner from '@components/information/Spinner';
-import LoadingModal from '@components/modal/LoadingModal';
 import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
@@ -40,7 +40,9 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
         _TopBar={
           <TopNavigation.TopBar
             leftContent={<TopBar.PrevButton onClick={handlePrev} />}
-            centerContent={<div>내 정보</div>}
+            centerContent={
+              <TopNavigation.TopBar.CenterTitle>내 정보</TopNavigation.TopBar.CenterTitle>
+            }
           />
         }
       />
@@ -52,6 +54,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 const SettingPage = () => {
   // 조회 : query
   // 저장 : mutation
+  const { showToast } = useToast();
   const {
     data: userData,
     isLoading: isLoadingUserData,
@@ -75,7 +78,7 @@ const SettingPage = () => {
   });
   const saveMutation = useMutation(saveUserData, {
     onSuccess: (data) => {
-      alert('저장했습니다.');
+      showToast('저장했습니다.');
       console.log(`유저 저장 성공 : ${JSON.stringify(data)}`);
     },
     onError: (error) => {
@@ -87,11 +90,12 @@ const SettingPage = () => {
     onSuccess: (data) => {
       window.localStorage.removeItem('access_token');
       useAuthStore.getState().setLogoutState();
-      // todo: toast 메세지로 바꾸기
-      // alert('로그아웃되었습니다.');
+
+      showToast('로그아웃되었습니다.');
       console.log(`로그아웃 성공 : ${JSON.stringify(data)}`);
     },
     onError: (error) => {
+      showToast('로그아웃에 실패했습니다.');
       console.error(`로그아웃 실패: ${error}`);
     },
   });
@@ -263,7 +267,7 @@ const SettingPage = () => {
               </>
             )}
           </ProfileContainer>
-          <Button disabled={!methods.formState.isValid}>저장</Button>
+          <Button disabled={!methods.formState.isValid || saveMutation.isLoading}>저장</Button>
           <InquiryButton
             onClick={() => {
               alert('문의하기 기능 준비중!');
@@ -274,7 +278,6 @@ const SettingPage = () => {
         </Form>
         <Button onClick={handleLogout}>로그아웃</Button>
       </SettingContainer>
-      {saveMutation.isLoading && <LoadingModal />}
     </NavigationLayout>
   );
 };

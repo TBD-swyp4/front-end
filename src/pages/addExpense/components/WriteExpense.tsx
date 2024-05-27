@@ -205,10 +205,17 @@ const DateContainer = styled.div`
 const DatetimeInput = styled.input.attrs({ type: 'datetime-local' })`
   ${mainSection}
   display: block;
+
+  width: 100%;
+  max-width: 100%; // 최대 너비 설정
+  height: 40px;
+
   outline: none;
   border: none;
-  width: 100%;
-  height: 40px;
+
   font-size: 14px;
   font-weight: 500;
+
+  -webkit-appearance: none; // iOS 스타일 제거
+  appearance: none;
 `;

@@ -10,6 +10,7 @@ import { CloseBtn } from '@components/button';
 
 import React, { useState, useRef, useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import useToast from '@hooks/useToast';
 
 import type { ExpenseFilterType } from '@models/expense';
 
@@ -27,6 +28,7 @@ type FilterPopupProps = {
 const FilterPopup = ({ onClose, prevCondition, updateCondition }: FilterPopupProps) => {
   const [height, setHeight] = useState<number>(500);
   const resizeRef = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
 
   // 필터의 설정값들을 모아다가, 적용 버튼 클릭 시 부모에게 돌려준다.
   // 서버로 보내야 할 조건 값들. 필수값은 없음. (비어있는 경우는 모든 조건이 포함된다는 뜻)
@@ -39,13 +41,13 @@ const FilterPopup = ({ onClose, prevCondition, updateCondition }: FilterPopupPro
   const handleSubmit = (data: ExpenseFilterType) => {
     // from이 to보다 이전 날짜인지 검증
     if (data.from > data.to) {
-      alert('끝 날짜는 시작 날짜보다 앞설 수 없습니다.');
+      showToast('끝 날짜는 시작 날짜보다 앞설 수 없습니다.');
       return;
     }
 
-    //alert('필터 선택 값' + JSON.stringify(data));
     console.log(`필터 선택 값: ${JSON.stringify(data)}`);
     updateCondition(data);
+    showToast('필터가 적용되었습니다.');
     onClose();
   };
 
@@ -187,6 +189,7 @@ const ApplyButton = styled.button`
   ${flexCenter}
   width: 100%;
   height: 60px;
+  margin-bottom: 10px;
   flex-shrink: 0;
   border-radius: 6px;
   background-color: ${(props) => props.theme.colors.main};

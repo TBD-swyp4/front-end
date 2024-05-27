@@ -261,11 +261,15 @@ const ExpenseListViewPage = () => {
             ) : (
               pagesData?.map((page) => {
                 const spendList = isDesc ? page.data.spendList : [...page.data.spendList].reverse();
-                return spendList.map((expenseSummary: ExpenseSummaryType) => (
-                  <ExpenseBox key={expenseSummary.articleId}>
-                    <ExpenseSummary {...expenseSummary} />
-                  </ExpenseBox>
-                ));
+                return spendList.length === 0 ? (
+                  <EmptyMessage>조회 결과가 없습니다.</EmptyMessage>
+                ) : (
+                  spendList.map((expenseSummary: ExpenseSummaryType) => (
+                    <ExpenseBox key={expenseSummary.articleId}>
+                      <ExpenseSummary {...expenseSummary} />
+                    </ExpenseBox>
+                  ))
+                );
               })
             )}
           </ExpenseListContent>
@@ -423,4 +427,11 @@ const Arrow = styled(PrevBtn)<{ deg: string }>`
     transform: rotate(${(props) => props.deg});
     stroke-width: 4;
   }
+`;
+
+const EmptyMessage = styled.div`
+  ${flexCenter}
+  height: 100%;
+  font-size: 16px;
+  color: #767676;
 `;

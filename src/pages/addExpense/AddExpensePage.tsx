@@ -1,21 +1,24 @@
 // 소비 입력 페이지
 import styled from 'styled-components';
+import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
+
 import TopNavigation from '@layout/TopNavigation';
 import type { ExpenseFormType } from '@models/expense';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useMutation } from 'react-query';
+
+import useToast from '@hooks/useToast';
 
 import WriteExpense from './components/WriteExpense';
 import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
-import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
-import { useMutation } from 'react-query';
 import { saveExpense } from '@api/post';
-import LoadingModal from '@components/modal/LoadingModal';
 
 import MetaThemeColor from '@components/background/MetaThemeColor';
+import LoadingModal from '@components/modal/LoadingModal';
 
 type AddNavProps = {
   title: string;
@@ -61,6 +64,8 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
 
 const AddExpensePage = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
   const methods = useForm<ExpenseFormType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -108,6 +113,7 @@ const AddExpensePage = () => {
   const expenseMutation = useMutation(saveExpense, {
     onSuccess: (data) => {
       const articleId = data.data.articleId;
+      showToast('저장했습니다.');
       console.log('저장 성공: ' + articleId);
       navigate(`/expense/${articleId}?prev=add`);
     },
