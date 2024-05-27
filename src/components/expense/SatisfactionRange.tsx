@@ -5,7 +5,7 @@ import { SpeechBubbleBtn } from '@components/button';
 import { useEffect, useRef, useState } from 'react';
 
 import useWindowWidthResize from '@hooks/useWindowWidthResize';
-import { EmotionKey } from '@models/index';
+import type { EmotionKey } from '@models/index';
 import { getEmotionIcon } from '@models/emotion';
 
 type SatisfactionRangeProps = {

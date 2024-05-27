@@ -6,19 +6,18 @@ import TopNavigation from '@layout/TopNavigation';
 
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-query';
 import { useForm, Controller } from 'react-hook-form';
-import useToast from '@hooks/useToast';
 
 import Spinner from '@components/information/Spinner';
 import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
-import type { UserFormType } from '@models/user';
-import { logoutUser, saveUserData } from '@api/post';
-import { fetchUserData } from '@api/get';
-import { useAuthStore } from '@stores/authStore';
+import { mbtiKeys, type UserFormType } from '@models/user';
+
 import { formatAmountNumber } from '@utils/index';
+import useUpdateUser from './hooks/useUpdateUser';
+import useUserData from './hooks/useUserData';
+import useLogout from './hooks/useLogout';
 
 type NavLayoutProps = {
   children: React.ReactNode;
@@ -52,16 +51,11 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 };
 
 const SettingPage = () => {
-  // 조회 : query
-  // 저장 : mutation
-  const { showToast } = useToast();
-  const {
-    data: userData,
-    isLoading: isLoadingUserData,
-    error,
-  } = useQuery(['setting'], () => fetchUserData(), {
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
+  const { data: userData, isLoading: isLoadingUserData, error } = useUserData();
+  const saveMutation = useUpdateUser();
+  const logoutMutation = useLogout();
+
+  const mbtiArray = mbtiKeys;
 
   const methods = useForm<UserFormType>({
     mode: 'onSubmit',
@@ -76,29 +70,7 @@ const SettingPage = () => {
       PJ: 'J',
     },
   });
-  const saveMutation = useMutation(saveUserData, {
-    onSuccess: (data) => {
-      showToast('저장했습니다.');
-      console.log(`유저 저장 성공 : ${JSON.stringify(data)}`);
-    },
-    onError: (error) => {
-      alert('다시 시도해주세요.');
-      console.error(`유저 저장 실패: ${error}`);
-    },
-  });
-  const logoutMutation = useMutation(logoutUser, {
-    onSuccess: (data) => {
-      window.localStorage.removeItem('access_token');
-      useAuthStore.getState().setLogoutState();
 
-      showToast('로그아웃되었습니다.');
-      console.log(`로그아웃 성공 : ${JSON.stringify(data)}`);
-    },
-    onError: (error) => {
-      showToast('로그아웃에 실패했습니다.');
-      console.error(`로그아웃 실패: ${error}`);
-    },
-  });
   const handleSubmit = methods.handleSubmit((data: UserFormType) => {
     // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
     saveMutation.mutate({ ...data, budget: data.budget.replace(/,/g, '') });
@@ -198,70 +170,25 @@ const SettingPage = () => {
                 <ProfileDiv>
                   <span style={{ marginBottom: '30px' }}>MBTI</span>
                   <MBTIContainer>
-                    <MBTIWrapper>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-e"
-                        value="E"
-                        {...methods.register('EI', { required: true })}
-                      />
-                      <Label htmlFor="mbti-e">E</Label>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-i"
-                        value="I"
-                        {...methods.register('EI', { required: true })}
-                      />
-                      <Label htmlFor="mbti-i">I</Label>
-                    </MBTIWrapper>
-                    <MBTIWrapper>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-n"
-                        value="N"
-                        {...methods.register('NS', { required: true })}
-                      />
-                      <Label htmlFor="mbti-n">N</Label>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-s"
-                        value="S"
-                        {...methods.register('NS', { required: true })}
-                      />
-                      <Label htmlFor="mbti-s">S</Label>
-                    </MBTIWrapper>
-                    <MBTIWrapper>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-t"
-                        value="T"
-                        {...methods.register('TF', { required: true })}
-                      />
-                      <Label htmlFor="mbti-t">T</Label>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-f"
-                        value="F"
-                        {...methods.register('TF', { required: true })}
-                      />
-                      <Label htmlFor="mbti-f">F</Label>
-                    </MBTIWrapper>
-                    <MBTIWrapper>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-j"
-                        value="J"
-                        {...methods.register('PJ', { required: true })}
-                      />
-                      <Label htmlFor="mbti-j">J</Label>
-                      <HiddenRadio
-                        type="radio"
-                        id="mbti-p"
-                        value="P"
-                        {...methods.register('PJ', { required: true })}
-                      />
-                      <Label htmlFor="mbti-p">P</Label>
-                    </MBTIWrapper>
+                    {mbtiArray.map((union) => {
+                      return (
+                        <MBTIWrapper key={union}>
+                          {[...union].map((factor) => {
+                            return (
+                              <div key={factor}>
+                                <HiddenRadio
+                                  type="radio"
+                                  id={`mbti-${factor}`}
+                                  value={factor}
+                                  {...methods.register(union, { required: true })}
+                                />
+                                <Label htmlFor={`mbti-${factor}`}>{factor}</Label>
+                              </div>
+                            );
+                          })}
+                        </MBTIWrapper>
+                      );
+                    })}
                   </MBTIContainer>
                 </ProfileDiv>{' '}
               </>
