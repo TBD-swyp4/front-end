@@ -14,6 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
+import useToast from '@hooks/useToast';
 
 import type { EmotionKey, Register } from '@models/index';
 import type { ExpenseFormType } from '@models/expense';
@@ -139,6 +140,7 @@ const SaveButton = styled.button`
 const ExpenseDetailViewPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get('prev');
@@ -192,7 +194,7 @@ const ExpenseDetailViewPage = () => {
   const saveMutation = useMutation({
     mutationFn: (data: ExpenseFormType) => saveExpenseData(id, data),
     onSuccess: () => {
-      alert('수정했습니다.');
+      showToast('수정했습니다.');
     },
     onError: (error) => {
       alert('다시 시도해주세요.');
@@ -207,7 +209,7 @@ const ExpenseDetailViewPage = () => {
       } else {
         navigate(-1);
       }
-      alert('삭제되었습니다.');
+      showToast('삭제했습니다.');
       console.log(`삭제 성공 : ${id}`);
     },
     onError: (error) => {

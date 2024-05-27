@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { flexColumnCenter } from '@styles/CommonStyles';
+import ToastMessage from '@components/information/ToastMessage';
 
 import { Outlet } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ const Layout = () => {
       <div id="background-root"></div>
       <div id="modal-root"></div>
       <div id="loading-root"></div>
+      <ToastMessage />
     </LayoutContainer>
   );
 };

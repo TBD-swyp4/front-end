@@ -23,7 +23,6 @@ const LoginPage = () => {
   // #20240501.syjang, 이미 로그인된 상태라면 메인 페이지로 보낸다.
   if (isLoggedIn) return <Navigate to="/" />;
 
-  // todo: 토스트 메세지로 바꾸기
   if (isLoginFail === 'true') alert('로그인에 실패했습니다. 다시 시도해주세요.');
 
   const AUTH_URL = `https://www.api-spinlog.shop/api/users/login`;

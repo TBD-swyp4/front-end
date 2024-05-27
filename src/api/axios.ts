@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
       window.localStorage.removeItem('access_token');
       useAuthStore.getState().setLogoutState();
       window.location.href = '/login';
-      alert('로그아웃 되었습니다.');
+      alert('인증이 만료되어 로그아웃되었습니다.');
     }
     // 이외의 오류는 다시 throw 하여 호출자에게 전달
     return Promise.reject(error);
