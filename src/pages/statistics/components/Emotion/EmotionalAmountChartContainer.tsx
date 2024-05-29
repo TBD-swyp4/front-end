@@ -7,7 +7,10 @@ import useEmotionalAmount from './hooks/useEmotionalAmount';
 import Spinner from '@components/information/Spinner';
 import EmotionalAmountChart from './EmotionalAmountChart';
 
-import { EmotionAmountsByMbtiDto, EmotionAmountsByGenderDto } from '@api/get';
+import type {
+  EmotionAmountsByMbtiDto,
+  EmotionAmountsByGenderDto,
+} from '@api/statistics/emotionAmountAPI';
 
 interface OutputData {
   data: { type: EmotionKey; left: number; right: number }[];

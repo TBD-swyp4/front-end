@@ -1,7 +1,7 @@
 import { Register } from '@models/index';
 import { TabOption } from '../../../type';
 import { useQuery } from 'react-query';
-import { fetchDailyAmountsByGender, fetchDailyAmountsByMbti } from '@api/get';
+import { fetchDailyAmountsByGender, fetchDailyAmountsByMbti } from '@api/statistics/dailyAmountAPI';
 
 const useDailyAmountsData = (tabOption: TabOption, register: Register) => {
   const { data: mbtiData, isLoading: isMbtiDataLoading } = useQuery(

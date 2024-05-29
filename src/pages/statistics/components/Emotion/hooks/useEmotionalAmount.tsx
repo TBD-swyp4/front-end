@@ -1,7 +1,10 @@
 import { Register } from '@models/index';
 import { TabOption } from '../../../type';
 import { useQuery } from 'react-query';
-import { fetchEmotionAmountsByGender, fetchEmotionAmountsByMbti } from '@api/get';
+import {
+  fetchEmotionAmountsByGender,
+  fetchEmotionAmountsByMbti,
+} from '@api/statistics/emotionAmountAPI';
 
 const useEmotionalAmount = (tabOption: TabOption, register: Register) => {
   const { data: mbtiData, isLoading: isMbtiDataLoading } = useQuery(
