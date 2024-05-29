@@ -32,7 +32,7 @@ import { EmotionKeys, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
 import { getEmotionText } from '@models/emotion';
 import { useInfiniteQuery } from 'react-query';
-import { fetchExpensesByCondition } from '@api/get';
+import { fetchExpensesByCondition } from '@api/expenseAPI';
 import Spinner from '@components/information/Spinner';
 import MetaThemeColor from '@components/background/MetaThemeColor';
 

@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import Memo from './Memo';
 import Spinner from '@components/information/Spinner';
 
-import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/get';
+import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/statistics/frequencyAPI';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFrequencyContentsForMbti = (data: any) => {

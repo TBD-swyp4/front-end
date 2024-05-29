@@ -18,7 +18,7 @@ import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
 
-import { fetchMainData } from '@api/get';
+import { fetchMainData } from '@api/mainAPI';
 import { formatYMD } from '@utils/index';
 
 type MainNavProps = {
