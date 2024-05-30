@@ -4,6 +4,7 @@ import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 import { useNavigate } from 'react-router-dom';
 
 import type { ExpenseSummaryType } from '@models/expense';
+import { getExpenseDetailViewPath } from '@models/navigation';
 
 import Emotion from '@components/emotion';
 import { addCommasToNumber } from '@utils/index';
@@ -23,7 +24,9 @@ const ExpenseSummary = ({
   const navigate = useNavigate();
 
   const handleClick = (id: number) => {
-    navigate(`/expense/${id}`);
+    // PagePath.ExpenseDetailView : '/expense/:id',
+    const detailPath = getExpenseDetailViewPath(id);
+    navigate(detailPath);
   };
 
   return (

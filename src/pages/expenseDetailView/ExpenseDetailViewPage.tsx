@@ -31,6 +31,7 @@ import EditSummary from './components/EditSummary';
 import { formatAmountNumber, getSpendSumamryText } from '@utils/index';
 import MetaThemeColor from '@components/background/MetaThemeColor';
 import Spinner from '@components/information/Spinner';
+import { PagePath } from '@models/navigation';
 
 type NavLayoutProps = {
   children: React.ReactNode;
@@ -133,7 +134,7 @@ const ExpenseDetailViewPage = () => {
   // 입력 페이지에서 넘어온 경우, 1. 뒤로가기 시 메인 화면으로 이동, 2. 삭제 시 메인화면으로 이동
   const handleMovePrevPage = () => {
     if (searchParamPrev == 'add') {
-      navigate('/');
+      navigate(PagePath.Main);
     } else {
       navigate(-1);
     }

@@ -2,6 +2,7 @@ import { useAuthStore } from '@stores/authStore';
 import { Navigate, useSearchParams } from 'react-router-dom';
 
 import GoSetting from '@components/information/GoSetting';
+import { PagePath } from '@models/navigation';
 
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
@@ -16,12 +17,11 @@ const AuthPage = () => {
 
     // 최초 로그인일 경우 환경설정 유도 페이지로 이동
     if (isFirstLogin === 'true') return <GoSetting />;
-    return <Navigate to="/" />;
+    return <Navigate to={PagePath.Main} />;
   } else {
     // 토큰이 없다면 로그인 실패
-    window.localStorage.removeItem('access_token');
     useAuthStore.getState().setLogoutState();
-    return <Navigate to="/login?isLoginFail=true" />;
+    return <Navigate to={`${PagePath.Login}?isLoginFail=true`} />;
   }
 };
 

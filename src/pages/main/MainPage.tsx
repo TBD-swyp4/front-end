@@ -17,6 +17,7 @@ import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
+import { PagePath } from '@models/navigation';
 
 type MainNavProps = {
   currentDate: Date;
@@ -49,7 +50,7 @@ const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: M
               <TopNavigation.TopBar.SettingGreenButton
                 style={mainColor}
                 onClick={() => {
-                  navigate('/setting');
+                  navigate(PagePath.Setting);
                 }}
               />
             }
@@ -62,7 +63,7 @@ const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: M
         }
       />
       {children}
-      <BottomNavigation location="main" />
+      <BottomNavigation location={PagePath.Main} />
       {showBackground && <Background height="36%" color="#47CFB0" />}
     </>
   );

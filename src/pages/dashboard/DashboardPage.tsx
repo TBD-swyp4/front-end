@@ -14,6 +14,7 @@ import Spinner from '@components/information/Spinner';
 import MetaThemeColor from '@components/background/MetaThemeColor';
 
 import type { TabOption } from './type';
+import { PagePath } from '@models/navigation';
 
 type DashboardNavProps = {
   currentDate: Date;
@@ -43,7 +44,7 @@ const NavigationLayout = ({
             rightContent={
               <TopNavigation.TopBar.SettingGrayButton
                 onClick={() => {
-                  navigate('/setting');
+                  navigate(PagePath.Setting);
                 }}
               />
             }
@@ -56,7 +57,7 @@ const NavigationLayout = ({
         }
       />
       {children}
-      <BottomNavigation location="dashboard" />
+      <BottomNavigation location={PagePath.Dashboard} />
     </>
   );
 };
