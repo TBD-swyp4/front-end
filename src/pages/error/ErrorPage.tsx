@@ -5,6 +5,7 @@ import ErrorBird from '@assets/images/bird/errorBird.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 import MetaThemeColor from '@components/background/MetaThemeColor';
+import { PagePath } from '@models/navigation';
 
 const ErrorPage = () => {
   const navigator = useNavigate();
@@ -15,7 +16,7 @@ const ErrorPage = () => {
       <Text>원하는 페이지를 찾을 수 없어요</Text>
       <Button
         onClick={() => {
-          navigator('/');
+          navigator(PagePath.Main);
         }}>
         홈으로 돌아가기
       </Button>

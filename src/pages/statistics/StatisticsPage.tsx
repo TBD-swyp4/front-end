@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { TabOption } from './type';
 import type { Register } from '@models/index';
+import { PagePath } from '@models/navigation';
 
 import SlideButton from './components/SlideButton';
 import CategoriesView from './components/CategoriesView';
@@ -40,7 +41,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
             rightContent={
               <TopNavigation.TopBar.SettingGrayButton
                 onClick={() => {
-                  navigate('/setting');
+                  navigate(PagePath.Setting);
                 }}
               />
             }
@@ -48,7 +49,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
         }
       />
       {children}
-      <BottomNavigation location="statistics" />
+      <BottomNavigation location={PagePath.Statistics} />
     </>
   );
 };

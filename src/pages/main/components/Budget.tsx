@@ -4,6 +4,7 @@ import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
 
 import type { Budget as BudgetType } from '@models/api/main';
+import { PagePath } from '@models/navigation';
 
 import { addCommasToNumber } from '@utils/index';
 
@@ -45,7 +46,7 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
         <GoSetting>
           <SettingBtn
             onClick={() => {
-              navigate('/setting');
+              navigate(PagePath.Setting);
             }}
           />
         </GoSetting>

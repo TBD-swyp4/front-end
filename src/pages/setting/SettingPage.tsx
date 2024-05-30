@@ -13,6 +13,7 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
 import { mbtiKeys, type UserFormType } from '@models/user';
+import { PagePath } from '@models/navigation';
 
 import { formatAmountNumber } from '@utils/index';
 import useUpdateUser from './hooks/useUpdateUser';
@@ -29,7 +30,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
   const [searchParams] = useSearchParams();
   const isFirstLogin = searchParams.get('isFirstLogin');
   const handlePrev = () => {
-    if (isFirstLogin === 'true') navigate('/');
+    if (isFirstLogin === 'true') navigate(PagePath.Main);
     else navigate(-1);
   };
   return (

@@ -3,6 +3,7 @@ import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import SettingBird from '@assets/images/bird/settingBird.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { PagePath } from '@models/navigation';
 
 const GoSetting = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const GoSetting = () => {
       <Button
         $bottom="122px"
         onClick={() => {
-          navigate('/setting?isFirstLogin=true');
+          navigate(`${PagePath.Setting}?isFirstLogin=true`);
         }}>
         환경설정으로 가기
       </Button>
@@ -24,7 +25,7 @@ const GoSetting = () => {
         className="later"
         $bottom="50px"
         onClick={() => {
-          navigate('/');
+          navigate(PagePath.Main);
         }}>
         나중에 할게요
       </Button>

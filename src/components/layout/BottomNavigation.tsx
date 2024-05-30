@@ -7,6 +7,7 @@ import DashboardIcon from '@assets/images/navigation/dashboard.svg?react';
 import AddIcon from '@assets/images/navigation/addExpense.svg?react';
 import ViewIcon from '@assets/images/navigation/view.svg?react';
 import StatisticsIcon from '@assets/images/navigation/statistics.svg?react';
+import { PagePath } from '@models/navigation';
 
 type BottomNavigationProps = {
   location: string;
@@ -18,9 +19,9 @@ const BottomNavigation = ({ location }: BottomNavigationProps) => {
   return (
     <Wrapper>
       <NavItem
-        className={`${location == 'main' ? 'select' : ''}`}
+        className={`${location == PagePath.Main ? 'select' : ''}`}
         onClick={() => {
-          navigator('/');
+          navigator(PagePath.Main);
         }}>
         <NavIcon>
           <MainIcon />
@@ -28,9 +29,9 @@ const BottomNavigation = ({ location }: BottomNavigationProps) => {
         <NavTitle>메인</NavTitle>
       </NavItem>
       <NavItem
-        className={`${location == 'dashboard' ? 'select' : ''}`}
+        className={`${location == PagePath.Dashboard ? 'select' : ''}`}
         onClick={() => {
-          navigator('/dashboard');
+          navigator(PagePath.Dashboard);
         }}>
         <NavIcon>
           <DashboardIcon />
@@ -39,7 +40,7 @@ const BottomNavigation = ({ location }: BottomNavigationProps) => {
       </NavItem>
       <NavItem
         onClick={() => {
-          navigator('/add');
+          navigator(PagePath.AddExpense);
         }}>
         <NavIcon>
           <AddIcon />
@@ -47,9 +48,9 @@ const BottomNavigation = ({ location }: BottomNavigationProps) => {
         <NavTitle>내용입력</NavTitle>
       </NavItem>
       <NavItem
-        className={`${location == 'expenseList' ? 'select' : ''}`}
+        className={`${location == PagePath.ExpenseListView ? 'select' : ''}`}
         onClick={() => {
-          navigator('/expense');
+          navigator(PagePath.ExpenseListView);
         }}>
         <NavIcon>
           <ViewIcon />
@@ -57,9 +58,9 @@ const BottomNavigation = ({ location }: BottomNavigationProps) => {
         <NavTitle>조회</NavTitle>
       </NavItem>
       <NavItem
-        className={`${location == 'statistics' ? 'select' : ''}`}
+        className={`${location == PagePath.Statistics ? 'select' : ''}`}
         onClick={() => {
-          navigator('/statistics');
+          navigator(PagePath.Statistics);
         }}>
         <NavIcon>
           <StatisticsIcon />

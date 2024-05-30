@@ -13,6 +13,8 @@ import ErrorPage from '../pages/error/ErrorPage';
 import AuthPage from '../pages/auth/AuthPage';
 import Loading from '@components/information/Loading';
 
+import { PagePath } from '@models/navigation';
+
 // 바로 로딩되지 않아도 되는 컴포넌트 lazy loading 추가
 const ExpenseListViewPage = lazyWithRetries(
   () => import('../pages/expenseListView/ExpenseListViewPage'),
@@ -43,11 +45,11 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/login',
+            path: PagePath.Login,
             element: <LoginPage />,
           },
           {
-            path: '/dashboard',
+            path: PagePath.Dashboard,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -57,7 +59,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/add',
+            path: PagePath.AddExpense,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -67,7 +69,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/expense',
+            path: PagePath.ExpenseListView,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -77,7 +79,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/expense/:id',
+            path: PagePath.ExpenseDetailView,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -87,7 +89,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/statistics',
+            path: PagePath.Statistics,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -97,7 +99,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/setting',
+            path: PagePath.Setting,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProtectedRoute>
@@ -107,7 +109,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/auth',
+            path: PagePath.Auth,
             element: (
               <Suspense fallback={<Loading />}>
                 <AuthPage />

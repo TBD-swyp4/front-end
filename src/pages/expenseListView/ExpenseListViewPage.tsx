@@ -17,6 +17,7 @@ import useExpenseListData from './hooks/useExpenseListData';
 
 import type { ExpenseFilterType, ExpenseSummaryType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
+import { PagePath } from '@models/navigation';
 
 import SearchCondition from './components/SearchCondition';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
@@ -57,7 +58,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
             rightContent={
               <TopNavigation.TopBar.SettingGreenButton
                 onClick={() => {
-                  navigate('/setting');
+                  navigate(PagePath.Setting);
                 }}
               />
             }
@@ -65,7 +66,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
         }
       />
       {children}
-      <BottomNavigation location="expenseList" />
+      <BottomNavigation location={PagePath.ExpenseListView} />
       {showBackground && <Background height="60px" color="#47CFB0" />}
     </>
   );
