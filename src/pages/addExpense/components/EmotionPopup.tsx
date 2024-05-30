@@ -2,8 +2,7 @@ import { flexBetween, flexCenter, overflowWithoutScroll } from '@styles/CommonSt
 import styled from 'styled-components';
 import { CloseBtn } from '@components/button';
 
-import type { EmotionKey, EmotionKeyWithNone } from '@models/index';
-import { EmotionKeys } from '@models/index';
+import { type EmotionKey, type EmotionKeyWithNone, EmotionKeys } from '@models/index';
 
 import { useState } from 'react';
 

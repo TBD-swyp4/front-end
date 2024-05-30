@@ -9,7 +9,7 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import useMainData from './hooks/useMainData';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
@@ -17,9 +17,6 @@ import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
-
-import { fetchMainData } from '@api/mainAPI';
-import { formatYMD } from '@utils/index';
 
 type MainNavProps = {
   currentDate: Date;
@@ -80,28 +77,10 @@ const MonthNavWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
-
-  const selectDate = formatYMD(monthNav.currentDate, 'none');
-
-  // 메인 데이터는 "월" 이 바뀌면 재로딩
-  const {
-    data: mainData,
-    isLoading: isLoadingMainData,
-    error: mainDataError,
-  } = useQuery(['mainData', monthNav.currentDate.getMonth()], () => fetchMainData(selectDate), {
-    enabled: !!selectDate,
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
-
-  const {
-    data: subData,
-    isLoading: isLoadingSubData,
-    error: subDataError,
-  } = useQuery(['mainSubData', selectDate], () => fetchMainData(selectDate, true), {
-    enabled: !!selectDate,
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
+  // monthNav.currentDate : 현재 선택된 월
+  const monthNav = useMonthNavigator(); // 헤더의 월 네비게이션
+  const { mainData, isLoadingMainData, mainDataError, subData, isLoadingSubData, subDataError } =
+    useMainData(monthNav.currentDate);
 
   return (
     <>
