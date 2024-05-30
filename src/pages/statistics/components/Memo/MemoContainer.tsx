@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import type { TabOption } from '../../type';
 import type { Register } from '@models/index';
 
-import { useQuery } from 'react-query';
 import Memo from './Memo';
 import Spinner from '@components/information/Spinner';
 
-import { fetchWordFrequencyByGender, fetchWordFrequencyByMbti } from '@api/statistics/frequencyAPI';
+import useMemoData from './hooks/useMemoData';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFrequencyContentsForMbti = (data: any) => {
@@ -115,22 +114,8 @@ type MemoContainerProps = {
 };
 
 const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
-  const { data: memoForMbti, isLoading: isMeoForMbtiLoading } = useQuery(
-    ['fetchWordFrequencyByMbtiQueryKey', register],
-    () => fetchWordFrequencyByMbti(register),
-    {
-      enabled: tabOption === 'TAB_MBTI',
-    },
-  );
-  const { data: memoForGender, isLoading: isMeoForGenderLoading } = useQuery(
-    ['fetchWordFrequencyByGenderQueryKey', register],
-    () => fetchWordFrequencyByGender(register),
-    {
-      enabled: tabOption === 'TAB_GENDER',
-    },
-  );
-
-  if (isMeoForMbtiLoading || isMeoForGenderLoading) {
+  const { mbtiData, genderData, isLoading } = useMemoData(tabOption, register);
+  if (isLoading) {
     return (
       <LoadingContainer>
         <Spinner />
@@ -140,8 +125,8 @@ const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
 
   const contents =
     tabOption === 'TAB_GENDER'
-      ? getFrequencyContentsForGender(memoForGender)
-      : getFrequencyContentsForMbti(memoForMbti);
+      ? getFrequencyContentsForGender(genderData)
+      : getFrequencyContentsForMbti(mbtiData);
 
   return <Memo contents={contents} registerType={register} />;
 };

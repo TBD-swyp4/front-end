@@ -1,16 +1,11 @@
 import styled from 'styled-components';
 
-import { useQuery } from 'react-query';
-import {
-  fetchSatisfactionByGender,
-  fetchSatisfactionByMbti,
-} from '@api/statistics/satisfactionAPI';
-
 import type { TabOption } from '../../type';
 import type { Gender, Register } from '@models/index';
 
 import Spinner from '@components/information/Spinner';
 import SatisFaction from './Satisfaction';
+import useSatisfactionData from './hooks/useSatisfactionData';
 
 const transformMbtiData = (
   input: {
@@ -85,21 +80,8 @@ type SatisfactionContainerProps = {
 };
 
 const SatisfactionContainer = ({ tabOption, register }: SatisfactionContainerProps) => {
-  const { data: mbtiData, isLoading: isMbtiDataLoading } = useQuery(
-    ['fetchSatisfactionByMbti', register],
-    () => fetchSatisfactionByMbti(register),
-    {
-      enabled: tabOption === 'TAB_MBTI',
-    },
-  );
-  const { data: genderData, isLoading: isGenderDataLoading } = useQuery(
-    ['fetchSatisfactionByGender', register],
-    () => fetchSatisfactionByGender(register),
-    {
-      enabled: tabOption === 'TAB_GENDER',
-    },
-  );
-  if (isMbtiDataLoading || isGenderDataLoading) {
+  const { mbtiData, genderData, isLoading } = useSatisfactionData(tabOption, register);
+  if (isLoading) {
     return (
       <LoadingContainer>
         <Spinner />
