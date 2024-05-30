@@ -35,8 +35,9 @@ const LoginPage = () => {
         <LogoTitle />
       </LogoWrapper>
       <LogoText>
-        소비 중 감정 발현 시<br />
-        소비내역과 감정일기 가계부
+        소비내역과 감정일기를 적는
+        <br />
+        감정 가계부
       </LogoText>
       <LoginButtonContainer>
         <LoginButton href={`${AUTH_URL}/kakao`}>
