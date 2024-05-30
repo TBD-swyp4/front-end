@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { flexCenter } from './CommonStyles';
-const GlobalStyles = createGlobalStyle` 
+const GlobalStyles = createGlobalStyle<{ isStandalone: boolean }>` 
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -90,7 +90,7 @@ const GlobalStyles = createGlobalStyle`
     color: black;
     width: 100vw;
     height: 100vh;
-    overflow: hidden; // 모바일 화면에서 세로, 가로 스크롤 방지
+    ${({ isStandalone }) => isStandalone && 'overflow: hidden;'} // 모바일 화면에서 세로, 가로 스크롤 방지
     font-family: 'SUIT';
   }
 
