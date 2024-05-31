@@ -4,7 +4,7 @@ import 'tippy.js/animations/scale.css';
 
 import ReactWordcloud from 'react-wordcloud';
 
-import SwipeContainer from '../SwipeContainer';
+import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
 
 import type { Register } from '@models/index';
@@ -19,7 +19,7 @@ type MemoProps = {
 };
 const Memo = ({ contents, registerType }: MemoProps) => {
   return (
-    <SwipeContainer>
+    <SwipeLayout>
       {contents.map(({ topWord, words, user }, index) => {
         return (
           <StatisticsContentLayout
@@ -37,7 +37,7 @@ const Memo = ({ contents, registerType }: MemoProps) => {
           </StatisticsContentLayout>
         );
       })}
-    </SwipeContainer>
+    </SwipeLayout>
   );
 };
 

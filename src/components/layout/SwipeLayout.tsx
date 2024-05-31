@@ -1,17 +1,18 @@
+import styled from 'styled-components';
+
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
-import styled from 'styled-components';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-interface SwipeContainerProps {
+type SwipeLayoutProps = {
   children: React.ReactNode;
-}
+};
 
-const SwipeContainer = ({ children }: SwipeContainerProps) => {
+const SwipeLayout = ({ children }: SwipeLayoutProps) => {
   return (
     <StyledSwiper
       navigation={true}
@@ -29,11 +30,12 @@ const SwipeContainer = ({ children }: SwipeContainerProps) => {
   );
 };
 
-export default SwipeContainer;
+export default SwipeLayout;
 
 const StyledSwiper = styled(Swiper)`
   height: 100%;
-
+  width: 100%;
+  background-color: transparent;
   .swiper-slide {
     text-align: center;
     font-size: 18px;
