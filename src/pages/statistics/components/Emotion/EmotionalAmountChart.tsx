@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import SwipeContainer from '../SwipeContainer';
+
+import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
 
 import type { EmotionKey, Register } from '@models/index';
@@ -46,7 +47,7 @@ const EmotionalAmountChart = ({ dataList, registerType }: EmotionChartProps) => 
   };
 
   return (
-    <SwipeContainer>
+    <SwipeLayout>
       {dataList.map(({ data, leftKey, rightKey }, index) => {
         const max = findMaxValueFromData(data) * 80;
         const leftTops = getTopTypesByValueFromData(data, 'left', 3);
@@ -114,7 +115,7 @@ const EmotionalAmountChart = ({ dataList, registerType }: EmotionChartProps) => 
           </StatisticsContentLayout>
         );
       })}
-    </SwipeContainer>
+    </SwipeLayout>
   );
 };
 export default EmotionalAmountChart;

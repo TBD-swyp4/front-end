@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import Chart from 'react-apexcharts';
 
+import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
-import SwipeContainer from '../SwipeContainer';
-
 import type { Register } from '@models/index';
 import type { DailyAmountsChartData } from './types';
 
@@ -22,7 +21,7 @@ const DailyAmounts = ({ date, dailyAmounts, registerType }: DailyAmountProps) =>
   const colors = ['#47CFB0', '#FC4873'];
 
   return (
-    <SwipeContainer>
+    <SwipeLayout>
       {dailyAmounts.map((dailyAmount, index) => {
         const series = dailyAmount;
 
@@ -170,7 +169,7 @@ const DailyAmounts = ({ date, dailyAmounts, registerType }: DailyAmountProps) =>
           </StatisticsContentLayout>
         );
       })}
-    </SwipeContainer>
+    </SwipeLayout>
   );
 };
 

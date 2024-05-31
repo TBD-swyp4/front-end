@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import type { Register } from '@models/index';
 
 import Chart from 'react-apexcharts';
-import SwipeContainer from '../SwipeContainer';
+
+import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
 
 type SatisfactionProps = {
@@ -16,7 +17,7 @@ type SatisfactionProps = {
 
 const Satisfaction = ({ satisfactions, registerType }: SatisfactionProps) => {
   return (
-    <SwipeContainer>
+    <SwipeLayout>
       {satisfactions.map(({ data, name }, index) => {
         return (
           <StatisticsContentLayout
@@ -118,7 +119,7 @@ const Satisfaction = ({ satisfactions, registerType }: SatisfactionProps) => {
           </StatisticsContentLayout>
         );
       })}
-    </SwipeContainer>
+    </SwipeLayout>
   );
 };
 
