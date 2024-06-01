@@ -1,5 +1,14 @@
 import { Gender, EI, NS, PJ, TF } from '..';
 
+// 로그인 유형
+export const UserStatus = {
+  LoggedIn: 'LoggedIn',
+  LoggedOut: 'LoggedOut',
+  Demo: 'Demo',
+} as const;
+
+export type UserStatusType = (typeof UserStatus)[keyof typeof UserStatus];
+
 // MBTI 치수에 해당하는 유형들을 연결
 const mbtiTypes = {
   EI: {} as EI,
