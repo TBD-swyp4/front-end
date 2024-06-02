@@ -1,27 +1,32 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-//type UserLoginStatus = 'LoggedIn' | 'Trial' | 'LoggedOut';
+import { UserStatus, type UserStatusType } from '@models/user';
 
 type AuthStoreType = {
-  isLoggedIn: boolean;
+  userStatus: UserStatusType;
   setLoginState: () => void;
   setLogoutState: () => void;
+  setDemoState: () => void;
 };
 
 export const useAuthStore = create(
   persist<AuthStoreType>(
     (set) => ({
-      isLoggedIn: false,
-
+      userStatus: UserStatus.LoggedOut,
       setLoginState: () =>
         set(() => ({
-          isLoggedIn: true,
+          userStatus: UserStatus.LoggedIn,
         })),
-
-      setLogoutState: () =>
+      setLogoutState: () => {
+        // 로컬스토리지 access_token 삭제
+        window.localStorage.removeItem('access_token');
         set(() => ({
-          isLoggedIn: false,
+          userStatus: UserStatus.LoggedOut,
+        }));
+      },
+      setDemoState: () =>
+        set(() => ({
+          userStatus: UserStatus.Demo,
         })),
     }),
     {
@@ -31,15 +36,18 @@ export const useAuthStore = create(
   ),
 );
 
-// 로컬스토리지에 이전에 저장한 토큰이 존재한다면, login state로 변경
+// 로컬스토리지에 이전에 저장한 토큰이 존재한다면, login state
 const initializeUser = () => {
   if (import.meta.env.MODE === 'development') {
-    useAuthStore.getState().setLoginState();
+    //useAuthStore.getState().setLoginState();
   } else {
     const accessToken = window.localStorage.getItem('access_token');
-    accessToken
-      ? useAuthStore.getState().setLoginState()
-      : useAuthStore.getState().setLogoutState();
+    if (accessToken) {
+      useAuthStore.getState().setLoginState();
+    } else {
+      // 토큰 없으면 서비스 오픈 시 무조건 로그아웃 스테이트가 맞음
+      useAuthStore.getState().setLogoutState();
+    }
   }
 };
 initializeUser();
