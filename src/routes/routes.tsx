@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
           {
             index: true, // 하위에 다른 경로가 안붙을 때 보여줄 컴포넌트
             element: (
-              <ProtectedRoute>
+              <ProtectedRoute allowDemoMode={true}>
                 <MainPage />
               </ProtectedRoute>
             ),
@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
             path: PagePath.Dashboard,
             element: (
               <Suspense fallback={<Loading />}>
-                <ProtectedRoute>
+                <ProtectedRoute allowDemoMode={true}>
                   <DashboardPage />
                 </ProtectedRoute>
               </Suspense>
@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
             path: PagePath.AddExpense,
             element: (
               <Suspense fallback={<Loading />}>
-                <ProtectedRoute>
+                <ProtectedRoute allowDemoMode={true}>
                   <AddExpensePage />
                 </ProtectedRoute>
               </Suspense>
@@ -72,7 +72,7 @@ export const router = createBrowserRouter([
             path: PagePath.ExpenseListView,
             element: (
               <Suspense fallback={<Loading />}>
-                <ProtectedRoute>
+                <ProtectedRoute allowDemoMode={true}>
                   <ExpenseListViewPage />
                 </ProtectedRoute>
               </Suspense>
@@ -82,7 +82,7 @@ export const router = createBrowserRouter([
             path: PagePath.ExpenseDetailView,
             element: (
               <Suspense fallback={<Loading />}>
-                <ProtectedRoute>
+                <ProtectedRoute allowDemoMode={true}>
                   <ExpenseDetailViewPage />
                 </ProtectedRoute>
               </Suspense>
@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
             path: PagePath.Setting,
             element: (
               <Suspense fallback={<Loading />}>
-                <ProtectedRoute>
+                <ProtectedRoute allowDemoMode={true}>
                   <SettingPage />
                 </ProtectedRoute>
               </Suspense>
