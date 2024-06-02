@@ -8,7 +8,6 @@ const useLogout = () => {
   const { showToast } = useToast();
   return useMutation(logoutUser, {
     onSuccess: (data) => {
-      window.localStorage.removeItem('access_token');
       useAuthStore.getState().setLogoutState();
 
       showToast('로그아웃되었습니다.');
