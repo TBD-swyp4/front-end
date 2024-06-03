@@ -8,6 +8,8 @@ import type { ExpenseFormType } from '@models/expense';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+
+import useIsDemoMode from '@hooks/useIsDemo';
 import useSaveExpense from './hooks/useSaveExpense';
 
 import WriteExpense from './components/WriteExpense';
@@ -18,13 +20,14 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 import LoadingModal from '@components/modal/LoadingModal';
 
 type AddNavProps = {
+  children: React.ReactNode;
   title: string;
+  isDemoMode: boolean;
   hasPrev: boolean;
   prevStep: () => void;
-  children: React.ReactNode;
 };
 
-const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) => {
+const NavigationLayout = ({ children, title, isDemoMode, hasPrev, prevStep }: AddNavProps) => {
   const navigate = useNavigate();
   return (
     <>
@@ -42,7 +45,12 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
               )
             }
             centerContent={
-              <TopNavigation.TopBar.CenterTitle>{title}</TopNavigation.TopBar.CenterTitle>
+              <TopNavigation.TopBar.CenterTitle>
+                {title}
+                {isDemoMode && (
+                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
+                )}
+              </TopNavigation.TopBar.CenterTitle>
             }
             rightContent={
               <TopNavigation.TopBar.CloseButton
@@ -60,6 +68,8 @@ const NavigationLayout = ({ children, title, prevStep, hasPrev }: AddNavProps) =
 };
 
 const AddExpensePage = () => {
+  const isDemoMode = useIsDemoMode();
+
   // 저장 쿼리
   const expenseMutation = useSaveExpense();
   // 입력 form
@@ -110,11 +120,19 @@ const AddExpensePage = () => {
   const handleSubmit = (data: ExpenseFormType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    expenseMutation.mutate({ ...data, amount: numberAmount });
+    if (isDemoMode) {
+      alert('체험하기로 저장');
+    } else {
+      expenseMutation.mutate({ ...data, amount: numberAmount });
+    }
   };
 
   return (
-    <NavigationLayout hasPrev={currStep > 0} prevStep={handlePrevStep} title={title}>
+    <NavigationLayout
+      hasPrev={currStep > 0}
+      prevStep={handlePrevStep}
+      title={title}
+      isDemoMode={isDemoMode}>
       <AddExpenseContainer>
         <FormProvider {...methods}>
           <Form onSubmit={methods.handleSubmit(handleSubmit)}>

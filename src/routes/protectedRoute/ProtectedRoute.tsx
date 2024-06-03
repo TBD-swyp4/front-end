@@ -5,6 +5,8 @@ import { useAuthStore } from '@stores/authStore';
 import { UserStatus } from '@models/user';
 import { PagePath } from '@models/navigation';
 
+import GoLogin from '@components/information/GoLogin';
+
 type ProtectedRouteProps = {
   allowDemoMode?: boolean;
   children: ReactNode;
@@ -19,9 +21,8 @@ const ProtectedRoute = ({ allowDemoMode = false, children }: ProtectedRouteProps
 
   // 3. 데모 상태인 경우
   if (userStatus === UserStatus.Demo) {
-    // 데모가 허용된 페이지는 이동, 아니라면 로그인 유도 페이지? 컴포넌트 보여주기?
-    //alert('체험중');
-    return allowDemoMode ? children : <Navigate to={PagePath.Login} />;
+    // 데모가 허용된 페이지는 이동, 아니라면 로그인 유도 컴포넌트 보여주기
+    return allowDemoMode ? children : <GoLogin />;
   }
 
   // 4. 로그인, 데모 상태가 아닌 경우

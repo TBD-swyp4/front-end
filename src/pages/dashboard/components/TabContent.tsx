@@ -17,11 +17,11 @@ type EmotionContentProps = {
 };
 
 const TabContent = ({ currentDate, registerType, data }: EmotionContentProps) => {
-  const isDataEmpty = data.dailyAmount.length === 0;
+  const isDataExist = data.dailyAmount?.length && data.dailyAmount.length !== 0;
   const registerText = registerType == 'SPEND' ? '소비' : '절약';
   return (
     <Container>
-      {isDataEmpty ? (
+      {!isDataExist ? (
         <EmptyMessage>{`${formatYM(currentDate, 'word')}에는 등록한 ${registerText} 내역이 없습니다.`}</EmptyMessage>
       ) : (
         <>

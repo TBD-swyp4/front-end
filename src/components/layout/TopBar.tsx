@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { flexBetween } from '@styles/CommonStyles';
+import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
 import {
   CloseBtn,
   PrevBtn,
@@ -44,6 +44,8 @@ const Item = styled.div<{ $type: string }>`
 `;
 
 const CenterTitle = styled.div`
+  ${flexColumnCenter}
+  gap: 4px;
   color: #333331;
   font-size: 16px;
   font-weight: 600;

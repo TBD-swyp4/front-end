@@ -14,6 +14,7 @@ import BottomNavigation from '@layout/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useExpenseListData from './hooks/useExpenseListData';
+import useIsDemoMode from '@hooks/useIsDemo';
 
 import type { ExpenseFilterType, ExpenseSummaryType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
@@ -31,9 +32,10 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 
 type NavLayoutProps = {
   children: React.ReactNode;
+  isDemoMode: boolean;
 };
 
-const NavigationLayout = ({ children }: NavLayoutProps) => {
+const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
   const navigate = useNavigate();
 
   const [showBackground, setShowBackground] = useState<boolean>(false);
@@ -53,6 +55,9 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
             centerContent={
               <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffff' }}>
                 내역 조회
+                {isDemoMode && (
+                  <span style={{ fontSize: '12px', color: '#ffffff' }}> (체험중)</span>
+                )}
               </TopNavigation.TopBar.CenterTitle>
             }
             rightContent={
@@ -73,6 +78,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 };
 
 const ExpenseListViewPage = () => {
+  const isDemoMode = useIsDemoMode();
   const inputRef = useRef<HTMLInputElement>(null); // 검색창 input Ref
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -92,24 +98,20 @@ const ExpenseListViewPage = () => {
   });
 
   // 무한 스크롤 구현, 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
-  const {
-    data: expensesData,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-  } = useExpenseListData(condition);
+  const { expensesData, isLoading, error, fetchNextPage, hasNextPage, refetch } =
+    useExpenseListData(condition);
 
   // 검색 조건이 변경될 때 쿼리를 다시 실행
   useEffect(() => {
-    refetch();
-  }, [condition, refetch]);
+    if (!isDemoMode) {
+      refetch();
+    }
+  }, [condition, refetch, isDemoMode]);
 
   // 추가 데이터 로드
   const loadMore = useCallback(() => {
-    if (hasNextPage) fetchNextPage();
-  }, [hasNextPage, fetchNextPage]);
+    if (hasNextPage && !isDemoMode) fetchNextPage();
+  }, [hasNextPage, fetchNextPage, isDemoMode]);
 
   // 무한 스크롤 이벤트 핸들러
   useEffect(() => {
@@ -165,7 +167,7 @@ const ExpenseListViewPage = () => {
     : [];
 
   return (
-    <NavigationLayout>
+    <NavigationLayout isDemoMode={isDemoMode}>
       <ExpenseListViewContainer>
         <SearchCondition
           inputRef={inputRef}

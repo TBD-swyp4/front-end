@@ -6,20 +6,39 @@ import { useNavigate } from 'react-router-dom';
 
 import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PagePath } from '@models/navigation';
+import { useAuthStore } from '@stores/authStore';
 
-const ErrorPage = () => {
+type ErrorPageProps = {
+  isRootError?: boolean;
+};
+
+const ErrorPage = ({ isRootError = false }: ErrorPageProps) => {
   const navigator = useNavigate();
+  const { setLogoutState } = useAuthStore((state) => {
+    return { setLogoutState: state.setLogoutState };
+  });
+  const handleReturn = () => {
+    if (isRootError) {
+      setLogoutState();
+      navigator(PagePath.Login);
+    } else {
+      navigator(PagePath.Main);
+    }
+  };
   return (
     <Container>
       <MetaThemeColor color="#F4F4F4" />
       <ErrorBird></ErrorBird>
-      <Text>원하는 페이지를 찾을 수 없어요</Text>
+      {isRootError ? (
+        <Text style={{ color: '#F4F4F4' }}>예기치 않은 에러가 발생했어요</Text>
+      ) : (
+        <Text>원하는 페이지를 찾을 수 없어요</Text>
+      )}
+
       <Button
-        onClick={() => {
-          navigator(PagePath.Main);
-        }}>
-        홈으로 돌아가기
-      </Button>
+        onClick={
+          handleReturn
+        }>{`${isRootError ? '로그인 페이지로 돌아가기' : '홈으로 돌아가기'}`}</Button>
     </Container>
   );
 };

@@ -17,8 +17,6 @@ const LoginButtonContainer = () => {
   const navigate = useNavigate();
   const { setDemoState } = useAuthStore((state) => {
     return {
-      userStatus: state.userStatus,
-      setLogoutState: state.setLogoutState,
       setDemoState: state.setDemoState,
     };
   });
