@@ -15,16 +15,19 @@ import { PrevBtn } from '@components/button';
 import { mbtiKeys, type UserFormType } from '@models/user';
 import { PagePath } from '@models/navigation';
 
-import { formatAmountNumber } from '@utils/index';
+import useIsDemoMode from '@hooks/useIsDemo';
 import useUpdateUser from './hooks/useUpdateUser';
 import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
 
+import { formatAmountNumber } from '@utils/index';
+
 type NavLayoutProps = {
   children: React.ReactNode;
+  isDemoMode: boolean;
 };
 
-const NavigationLayout = ({ children }: NavLayoutProps) => {
+const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -41,7 +44,12 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
           <TopNavigation.TopBar
             leftContent={<TopBar.PrevButton onClick={handlePrev} />}
             centerContent={
-              <TopNavigation.TopBar.CenterTitle>내 정보</TopNavigation.TopBar.CenterTitle>
+              <TopNavigation.TopBar.CenterTitle>
+                내 정보
+                {isDemoMode && (
+                  <span style={{ fontSize: '12px', color: '#47CFB0' }}> (체험중)</span>
+                )}
+              </TopNavigation.TopBar.CenterTitle>
             }
           />
         }
@@ -52,9 +60,10 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 };
 
 const SettingPage = () => {
+  const isDemoMode = useIsDemoMode();
   const { data: userData, isLoading: isLoadingUserData, error } = useUserData();
   const saveMutation = useUpdateUser();
-  const logoutMutation = useLogout();
+  const { logoutMutation, handleLogout } = useLogout();
 
   const mbtiArray = mbtiKeys;
 
@@ -73,8 +82,13 @@ const SettingPage = () => {
   });
 
   const handleSubmit = methods.handleSubmit((data: UserFormType) => {
-    // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
-    saveMutation.mutate({ ...data, budget: data.budget.replace(/,/g, '') });
+    const sendBudget = data.budget.replace(/,/g, '');
+    if (isDemoMode) {
+      alert(`데모데이터로 저장: ${sendBudget}`);
+    } else {
+      // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
+      saveMutation.mutate({ ...data, budget: sendBudget });
+    }
   });
 
   const handleBudgetChange = (value: string, onChange: (value: string) => void) => {
@@ -82,8 +96,12 @@ const SettingPage = () => {
     onChange(formattedValue);
   };
 
-  const handleLogout = () => {
-    logoutMutation.mutate();
+  const handleClickLogout = () => {
+    if (isDemoMode) {
+      handleLogout(true);
+    } else {
+      logoutMutation.mutate();
+    }
   };
 
   useEffect(() => {
@@ -105,7 +123,7 @@ const SettingPage = () => {
   }, [userData, methods, isLoadingUserData]);
 
   return (
-    <NavigationLayout>
+    <NavigationLayout isDemoMode={isDemoMode}>
       <SettingContainer>
         <Form onSubmit={handleSubmit}>
           <Title>나의 예산</Title>
@@ -139,7 +157,9 @@ const SettingPage = () => {
           </BudgetContainer>
           <Title>프로필</Title>
           <ProfileContainer>
-            {isLoadingUserData ? (
+            {isDemoMode ? (
+              '체험하기에서는 예산만 설정할 수 있어요.'
+            ) : isLoadingUserData ? (
               <Spinner />
             ) : error ? (
               <div>An error occurred</div>
@@ -204,7 +224,7 @@ const SettingPage = () => {
             <InquiryArrow />
           </InquiryButton>
         </Form>
-        <Button onClick={handleLogout}>로그아웃</Button>
+        <Button onClick={handleClickLogout}>로그아웃</Button>
       </SettingContainer>
     </NavigationLayout>
   );

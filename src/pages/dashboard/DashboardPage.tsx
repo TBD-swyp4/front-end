@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import useDashboardData from './hooks/useDashboardData';
+import useIsDemoMode from '@hooks/useIsDemo';
 
 import TabLayout, { TabProps } from '@components/layout/TabLayout';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
@@ -31,6 +32,7 @@ const NavigationLayout = ({
 }: DashboardNavProps) => {
   const navigate = useNavigate();
   const monthNavProps = { currentDate, previousMonth, nextMonth };
+  const isDemoMode = useIsDemoMode();
 
   return (
     <>
@@ -39,7 +41,12 @@ const NavigationLayout = ({
         _TopBar={
           <TopNavigation.TopBar
             centerContent={
-              <TopNavigation.TopBar.CenterTitle>대시보드</TopNavigation.TopBar.CenterTitle>
+              <TopNavigation.TopBar.CenterTitle>
+                대시보드
+                {isDemoMode && (
+                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
+                )}
+              </TopNavigation.TopBar.CenterTitle>
             }
             rightContent={
               <TopNavigation.TopBar.SettingGrayButton

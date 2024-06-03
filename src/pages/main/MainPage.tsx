@@ -10,6 +10,7 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMainData from './hooks/useMainData';
+import useIsDemoMode from '@hooks/useIsDemo';
 
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
@@ -28,8 +29,9 @@ type MainNavProps = {
 
 const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
   const navigate = useNavigate();
-  const mainColor = { color: 'white' };
+  const mainColor = { color: '#ffffff' };
   const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
+  const isDemoMode = useIsDemoMode();
 
   const [showBackground, setShowBackground] = useState<boolean>(false);
 
@@ -46,6 +48,13 @@ const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: M
         _TopBar={
           <TopNavigation.TopBar
             leftContent={<TopNavigation.TopBar.LogoWhiteButton />}
+            centerContent={
+              isDemoMode && (
+                <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffffb5' }}>
+                  체험중
+                </TopNavigation.TopBar.CenterTitle>
+              )
+            }
             rightContent={
               <TopNavigation.TopBar.SettingGreenButton
                 style={mainColor}

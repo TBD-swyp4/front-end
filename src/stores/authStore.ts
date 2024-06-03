@@ -24,10 +24,13 @@ export const useAuthStore = create(
           userStatus: UserStatus.LoggedOut,
         }));
       },
-      setDemoState: () =>
+      setDemoState: () => {
+        // 필요하면 상태 로컬스토리지에 저장하기
+        // window.localStorage.setItem('demo_mode', 'true');
         set(() => ({
           userStatus: UserStatus.Demo,
-        })),
+        }));
+      },
     }),
     {
       name: 'auth-state',
@@ -39,6 +42,7 @@ export const useAuthStore = create(
 // 로컬스토리지에 이전에 저장한 토큰이 존재한다면, login state
 const initializeUser = () => {
   if (import.meta.env.MODE === 'development') {
+    // demo mode 개발로 주석처리
     //useAuthStore.getState().setLoginState();
   } else {
     const accessToken = window.localStorage.getItem('access_token');

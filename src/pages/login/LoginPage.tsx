@@ -41,6 +41,9 @@ const LoginPage = () => {
   // 데모가 아닌 진짜 로그인 상태일때만 바로 메인페이지로 이동
   if (userStatus === UserStatus.LoggedIn) return <Navigate to={PagePath.Main} />;
 
+  // 데모 모드일 때도 로그인 페이지로 이동
+  if (userStatus === UserStatus.Demo) return <Navigate to={PagePath.Main} />;
+
   return (
     <LoginContainer>
       <MetaThemeColor color="#F4F4F4" />
