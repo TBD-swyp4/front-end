@@ -1,18 +1,13 @@
 import styled from 'styled-components';
 
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
-
 import TabLayout, { TabProps } from '@components/layout/TabLayout';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import type { TabOption } from './type';
 import type { Register } from '@models/index';
-import { PagePath } from '@models/navigation';
 
+import NavigationLayout from './navigation';
 import SlideButton from './components/SlideButton';
 import CategoriesView from './components/CategoriesView';
 import MemoContainer from './components/Memo/MemoContainer';
@@ -21,38 +16,6 @@ import DailyAmountsContainer from './components/DailyAmount/DailyAmountsContaine
 
 import { format, subDays } from 'date-fns';
 import EmotionalAmountChartContainer from './components/Emotion/EmotionalAmountChartContainer';
-
-type NavLayoutProps = {
-  children: React.ReactNode;
-};
-
-const NavigationLayout = ({ children }: NavLayoutProps) => {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>둘러보기</TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGrayButton
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.Statistics} />
-    </>
-  );
-};
 
 const StatisticsPage = () => {
   const [registerType, setRegisterType] = useState<Register>('SPEND');

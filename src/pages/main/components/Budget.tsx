@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
 
-import type { Budget as BudgetType } from '@models/api/main';
+import type { Budget as BudgetType } from '@models/service/main';
 import { PagePath } from '@models/navigation';
 
 import { addCommasToNumber } from '@utils/index';

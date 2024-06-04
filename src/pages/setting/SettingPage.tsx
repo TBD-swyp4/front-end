@@ -1,19 +1,14 @@
 import styled from 'styled-components';
 import { flexBetween, flexCenter, flexColumnCenter, mainSection } from '@styles/CommonStyles';
 
-import TopBar from '@components/layout/TopBar';
-import TopNavigation from '@layout/TopNavigation';
-
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
+import NavigationLayout from './navigation';
 import Spinner from '@components/information/Spinner';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
 import { mbtiKeys, type UserFormType } from '@models/user';
-import { PagePath } from '@models/navigation';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useUpdateUser from './hooks/useUpdateUser';
@@ -21,43 +16,6 @@ import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
 
 import { formatAmountNumber } from '@utils/index';
-
-type NavLayoutProps = {
-  children: React.ReactNode;
-  isDemoMode: boolean;
-};
-
-const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
-  const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
-  const isFirstLogin = searchParams.get('isFirstLogin');
-  const handlePrev = () => {
-    if (isFirstLogin === 'true') navigate(PagePath.Main);
-    else navigate(-1);
-  };
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            leftContent={<TopBar.PrevButton onClick={handlePrev} />}
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                내 정보
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47CFB0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-          />
-        }
-      />
-      {children}
-    </>
-  );
-};
 
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();

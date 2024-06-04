@@ -4,7 +4,7 @@ import { flexColumnCenter } from '@styles/CommonStyles';
 import EmotionChart from './EmotionChart';
 import EmotionList from './EmotionList';
 
-import type { DashboardPageDataType } from '@models/api/dashboard';
+import type { DashboardPageDataType } from '@models/service/dashboard';
 import type { Register } from '@models/index';
 
 import { formatYM } from '@utils/index';

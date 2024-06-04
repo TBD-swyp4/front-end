@@ -8,74 +8,21 @@ import {
 } from '@styles/CommonStyles';
 import { PrevBtn } from '@components/button';
 
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
-
-import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useExpenseListData from './hooks/useExpenseListData';
 import useIsDemoMode from '@hooks/useIsDemo';
 
 import type { ExpenseFilterType, ExpenseSummaryType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
-import { PagePath } from '@models/navigation';
 
+import NavigationLayout from './navigation';
 import SearchCondition from './components/SearchCondition';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
 
 import Spinner from '@components/information/Spinner';
-import Background from '@components/background';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
 import { cloneDeep } from 'lodash';
 import { endOfMonth, startOfMonth } from 'date-fns';
-
-type NavLayoutProps = {
-  children: React.ReactNode;
-  isDemoMode: boolean;
-};
-
-const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
-  const navigate = useNavigate();
-
-  const [showBackground, setShowBackground] = useState<boolean>(false);
-  useEffect(() => {
-    setShowBackground(true);
-    return () => {
-      setShowBackground(false);
-    };
-  }, []);
-
-  return (
-    <>
-      <MetaThemeColor color="#47CFB0" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffff' }}>
-                내역 조회
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#ffffff' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGreenButton
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.ExpenseListView} />
-      {showBackground && <Background height="60px" color="#47CFB0" />}
-    </>
-  );
-};
 
 const ExpenseListViewPage = () => {
   const isDemoMode = useIsDemoMode();

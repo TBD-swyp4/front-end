@@ -3,7 +3,7 @@ import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles'
 
 import { useEffect, useState } from 'react';
 
-import type { MonthSpend } from '@models/api/main';
+import type { MonthSpend } from '@models/service/main';
 
 import { PrevBtn } from '@components/button';
 import { formatYM, compareYMDString, addCommasToNumber } from '@utils/index';

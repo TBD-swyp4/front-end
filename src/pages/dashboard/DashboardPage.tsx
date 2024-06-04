@@ -1,81 +1,15 @@
 import styled from 'styled-components';
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import useDashboardData from './hooks/useDashboardData';
-import useIsDemoMode from '@hooks/useIsDemo';
 
+import NavigationLayout from './navigation';
 import TabLayout, { TabProps } from '@components/layout/TabLayout';
-import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import TabContent from './components/TabContent';
 import Spinner from '@components/information/Spinner';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
-import type { TabOption } from './type';
-import { PagePath } from '@models/navigation';
-
-type DashboardNavProps = {
-  currentDate: Date;
-  previousMonth: () => void;
-  nextMonth: () => void;
-  children: React.ReactNode;
-};
-
-const NavigationLayout = ({
-  children,
-  currentDate,
-  previousMonth,
-  nextMonth,
-}: DashboardNavProps) => {
-  const navigate = useNavigate();
-  const monthNavProps = { currentDate, previousMonth, nextMonth };
-  const isDemoMode = useIsDemoMode();
-
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                대시보드
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGrayButton
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-        _Extension={
-          <MonthNavWrapper>
-            <MonthNavigatorBtn {...monthNavProps} />
-          </MonthNavWrapper>
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.Dashboard} />
-    </>
-  );
-};
-
-const MonthNavWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: 40px;
-`;
+import { TabOption } from './type';
 
 const DashboardPage = () => {
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월

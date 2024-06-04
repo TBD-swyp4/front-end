@@ -3,7 +3,7 @@ import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import ReactApexChart from 'react-apexcharts';
 
-import type { EmotionAmountTotalType } from '@models/api/dashboard';
+import type { EmotionAmountTotalType } from '@models/service/dashboard';
 import { getEmotionColor, getEmotionText } from '@models/emotion';
 import { cloneDeep } from 'lodash';
 

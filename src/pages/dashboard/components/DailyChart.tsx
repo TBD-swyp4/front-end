@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import ReactApexChart from 'react-apexcharts';
 
-import type { DailyAmountType } from '@models/api/dashboard';
+import type { DailyAmountType } from '@models/service/dashboard';
 
 import { getDate } from 'date-fns';
 import { addCommasToNumber, compareYMDString, getTargetMonthDateObjArray } from '@utils/index';

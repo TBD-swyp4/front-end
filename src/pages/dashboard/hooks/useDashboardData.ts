@@ -3,7 +3,7 @@ import { fetchDashboardData } from '@service/dashboardAPI';
 
 import { formatYMD } from '@utils/index';
 import type { Register } from '@models/index';
-import type { TabOption } from '../type';
+import type { TabOption } from './../type';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 
