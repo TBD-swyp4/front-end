@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchDashboardData } from '@api/dashboardAPI';
+import { fetchDashboardData } from '@service/dashboardAPI';
 
 import { formatYMD } from '@utils/index';
 import type { Register } from '@models/index';

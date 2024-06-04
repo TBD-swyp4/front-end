@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
-import { fetchExpensesByCondition } from '@api/expenseAPI';
+import { fetchExpensesByCondition } from '@service/expenseAPI';
 import { ExpenseFilterType } from '@models/expense';
 
 import useIsDemoMode from '@hooks/useIsDemo';

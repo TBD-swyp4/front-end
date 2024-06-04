@@ -1,4 +1,4 @@
-import axiosInstance from '@api/axios';
+import axiosInstance from '@service/axios';
 import type { Register, EmotionKey, Gender, MBTI, MbitFactor } from '@models/index';
 
 /* MBTI별 감정별 금액 평균 */

@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchUserData } from '@api/userAPI';
+import { fetchUserData } from '@service/userAPI';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 

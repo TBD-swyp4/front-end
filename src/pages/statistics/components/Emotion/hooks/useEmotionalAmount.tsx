@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import {
   fetchEmotionAmountsByGender,
   fetchEmotionAmountsByMbti,
-} from '@api/statistics/emotionAmountAPI';
+} from '@service/statistics/emotionAmountAPI';
 
 const useEmotionalAmount = (tabOption: TabOption, register: Register) => {
   const { data: mbtiData, isLoading: isMbtiDataLoading } = useQuery(

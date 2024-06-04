@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { updateExpenseData } from '@api/expenseAPI';
+import { updateExpenseData } from '@service/expenseAPI';
 
 import useToast from '@hooks/useToast';
 import type { ExpenseFormType } from '@models/expense';

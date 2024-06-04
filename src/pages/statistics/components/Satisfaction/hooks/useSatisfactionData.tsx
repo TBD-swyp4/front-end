@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import {
   fetchSatisfactionByGender,
   fetchSatisfactionByMbti,
-} from '@api/statistics/satisfactionAPI';
+} from '@service/statistics/satisfactionAPI';
 
 import type { Register } from '@models/index';
 import type { TabOption } from '../../../type';

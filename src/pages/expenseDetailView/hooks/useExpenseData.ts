@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchExpenseById } from '@api/expenseAPI';
+import { fetchExpenseById } from '@service/expenseAPI';
 
 const useExpenseData = (id: string | undefined) => {
   return useQuery(['fetchExpenseByIdQuertKey'], () => fetchExpenseById(id), {

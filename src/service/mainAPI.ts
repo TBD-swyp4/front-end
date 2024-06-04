@@ -1,4 +1,4 @@
-import axiosInstance from '@api/axios';
+import axiosInstance from '@service/axios';
 
 /**
  * 메인 페이지 데이터 (예산, 달력, 요약 정보)

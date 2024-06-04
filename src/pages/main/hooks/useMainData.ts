@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchMainData } from '@api/mainAPI';
+import { fetchMainData } from '@service/mainAPI';
 import { formatYMD } from '@utils/index';
 
 import useIsDemoMode from '@hooks/useIsDemo';

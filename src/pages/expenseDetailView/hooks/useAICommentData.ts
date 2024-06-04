@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { fetchAIComment } from '@api/expenseAPI';
+import { fetchAIComment } from '@service/expenseAPI';
 
 import type { UseFormSetValue } from 'react-hook-form';
 import type { ExpenseFormType } from '@models/expense';

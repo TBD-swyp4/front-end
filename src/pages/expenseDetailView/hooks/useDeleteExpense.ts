@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { deleteExpenseById } from '@api/expenseAPI';
+import { deleteExpenseById } from '@service/expenseAPI';
 
 import useToast from '@hooks/useToast';
 

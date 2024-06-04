@@ -10,7 +10,7 @@ import EmotionalAmountChart from './EmotionalAmountChart';
 import type {
   EmotionAmountsByMbtiDto,
   EmotionAmountsByGenderDto,
-} from '@api/statistics/emotionAmountAPI';
+} from '@service/statistics/emotionAmountAPI';
 
 interface OutputData {
   data: { type: EmotionKey; left: number; right: number }[];

@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { saveExpenseData } from '@api/expenseAPI';
+import { saveExpenseData } from '@service/expenseAPI';
 
 import { useNavigate } from 'react-router-dom';
 import useToast from '@hooks/useToast';
