@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { logoutUser } from '@service/userAPI';
+import { logoutUser } from '@service/user';
 
 import useToast from '@hooks/useToast';
 import { useAuthStore } from '@stores/authStore';

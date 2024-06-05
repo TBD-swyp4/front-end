@@ -1,6 +1,5 @@
 import { useMutation } from 'react-query';
-
-import { saveUserData } from '@service/userAPI';
+import { saveUserData } from '@service/user';
 import useToast from '@hooks/useToast';
 
 const useUpdateUser = () => {

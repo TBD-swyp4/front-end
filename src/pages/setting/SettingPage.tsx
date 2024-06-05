@@ -8,6 +8,7 @@ import NavigationLayout from './navigation';
 import Spinner from '@components/information/Spinner';
 import { PrevBtn } from '@components/button';
 
+import type { EI, NS, TF, PJ } from '@models/index';
 import { mbtiKeys, type UserFormType } from '@models/user';
 
 import useIsDemoMode from '@hooks/useIsDemo';
@@ -19,7 +20,7 @@ import { formatAmountNumber } from '@utils/index';
 
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();
-  const { data: userData, isLoading: isLoadingUserData, error } = useUserData();
+  const { userData, isLoadingUserData, error } = useUserData();
   const saveMutation = useUpdateUser();
   const { logoutMutation, handleLogout } = useLogout();
 
@@ -35,7 +36,7 @@ const SettingPage = () => {
       EI: 'E',
       NS: 'N',
       TF: 'T',
-      PJ: 'J',
+      PJ: 'P',
     },
   });
 
@@ -63,19 +64,18 @@ const SettingPage = () => {
   };
 
   useEffect(() => {
-    if (!isLoadingUserData && userData && userData.data) {
-      const data = userData.data;
-
+    if (!isLoadingUserData && userData) {
       // 서버에서 받는 예산 데이터는 숫자 형태이므로, 다시 #,##0 형태로 변환하여 세팅 필요
-      const formattedValue = formatAmountNumber(data.budget?.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
+      const formattedValue = formatAmountNumber(userData.budget?.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
+      const [EI, NS, TF, PJ] = userData.mbti.split('') as [EI, NS, TF, PJ];
 
       methods.reset({
         budget: formattedValue,
-        gender: data.gender,
-        EI: data.mbti[0],
-        NS: data.mbti[1],
-        TF: data.mbti[2],
-        PJ: data.mbti[3],
+        gender: userData.gender,
+        EI,
+        NS,
+        TF,
+        PJ,
       });
     }
   }, [userData, methods, isLoadingUserData]);
@@ -117,7 +117,7 @@ const SettingPage = () => {
           <ProfileContainer>
             {isDemoMode ? (
               '체험하기에서는 예산만 설정할 수 있어요.'
-            ) : isLoadingUserData ? (
+            ) : !userData || isLoadingUserData ? (
               <Spinner />
             ) : error ? (
               <div>An error occurred</div>
@@ -125,7 +125,7 @@ const SettingPage = () => {
               <>
                 <ProfileDiv>
                   <span>로그인 계정</span>
-                  {userData?.data?.email}
+                  {userData.email}
                 </ProfileDiv>
                 <ProfileDiv>
                   <span>성별</span>
