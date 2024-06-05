@@ -21,39 +21,36 @@ const MainPage = () => {
     <NavigationLayout {...monthNav}>
       <MainContainer>
         <BudgetContainer $isLoading={isLoadingMainData}>
-          {isLoadingMainData ? (
+          {!mainData || isLoadingMainData ? (
             <Spinner />
           ) : mainDataError ? (
             <div>An error occurred</div>
-          ) : !mainData.data.budget ? (
+          ) : !mainData.budget ? (
             <div>예산 데이터 없음</div>
           ) : (
-            <Budget {...mainData.data.budget} />
+            <Budget {...mainData.budget} />
           )}
         </BudgetContainer>
         <CalendarWrapper>
-          {isLoadingMainData ? (
+          {!mainData || isLoadingMainData ? (
             <Spinner />
           ) : mainDataError ? (
             <div>An error occurred</div>
-          ) : !mainData.data.monthSpendList ? (
+          ) : !mainData.monthSpendList ? (
             <div>소비 데이터 없음</div>
           ) : (
-            <Calendar {...monthNav} data={mainData.data.monthSpendList} />
+            <Calendar {...monthNav} data={mainData.monthSpendList} />
           )}
         </CalendarWrapper>
         <DayListContainer>
-          {isLoadingSubData ? (
+          {!subData || isLoadingSubData ? (
             <Spinner />
           ) : subDataError ? (
             <div>An error occurred</div>
-          ) : !subData.data.daySpendList ? (
+          ) : !subData.daySpendList ? (
             <div>리스트 데이터 없음</div>
           ) : (
-            <DayExpenseListTop2
-              data={subData.data.daySpendList}
-              currentDate={monthNav.currentDate}
-            />
+            <DayExpenseListTop2 data={subData.daySpendList} currentDate={monthNav.currentDate} />
           )}
         </DayListContainer>
       </MainContainer>

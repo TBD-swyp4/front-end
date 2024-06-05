@@ -3,7 +3,7 @@ import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles'
 
 import { useEffect, useState } from 'react';
 
-import type { MonthSpend } from '@models/service/main';
+import type { MainMonthSpendType } from '@service/main/types';
 
 import { PrevBtn } from '@components/button';
 import { formatYM, compareYMDString, addCommasToNumber } from '@utils/index';
@@ -22,7 +22,7 @@ import {
 type CalendarProps = {
   currentDate: Date;
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
-  data: MonthSpend[];
+  data: MainMonthSpendType[];
 };
 
 const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {

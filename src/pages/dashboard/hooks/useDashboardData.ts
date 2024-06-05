@@ -5,12 +5,13 @@ import type { Register } from '@models/index';
 import type { TabOption } from './../type';
 
 import useIsDemoMode from '@hooks/useIsDemo';
+import type { DashboardDataType } from '@service/dashboard/types';
 
 const useDashboardData = (currentDate: Date, selectedTab: TabOption, registerType: Register) => {
   const selectDate = formatYMD(currentDate, 'none');
   const isDemoMode = useIsDemoMode();
 
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error } = useQuery<DashboardDataType>(
     ['fetchDashboardDataQueryKey', currentDate.getMonth(), selectedTab],
     () => fetchDashboardData(selectDate, registerType),
     {

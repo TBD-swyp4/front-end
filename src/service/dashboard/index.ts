@@ -1,6 +1,6 @@
 import axiosInstance from './../axios';
 import type { Register } from '@models/index';
-import { DashboardDataType } from './types';
+import type { DashboardDataType } from './types';
 
 /* 대시보드 데이터 */
 export const fetchDashboardData = async (

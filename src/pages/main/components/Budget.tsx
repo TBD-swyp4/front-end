@@ -3,12 +3,12 @@ import styled, { keyframes } from 'styled-components';
 import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
 
-import type { Budget as BudgetType } from '@models/service/main';
+import type { MainBudgetType } from '@service/main/types';
 import { PagePath } from '@models/navigation';
 
 import { addCommasToNumber } from '@utils/index';
 
-type BudgetProps = BudgetType;
+type BudgetProps = MainBudgetType;
 
 const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
   const navigate = useNavigate();
