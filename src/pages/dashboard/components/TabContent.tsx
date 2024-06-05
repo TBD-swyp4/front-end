@@ -4,7 +4,7 @@ import { flexColumnCenter } from '@styles/CommonStyles';
 import EmotionChart from './EmotionChart';
 import EmotionList from './EmotionList';
 
-import type { DashboardPageDataType } from '@models/service/dashboard';
+import type { DashboardDataType } from '@service/dashboard/types';
 import type { Register } from '@models/index';
 
 import { formatYM } from '@utils/index';
@@ -13,7 +13,7 @@ import DailyChart from './DailyChart';
 type EmotionContentProps = {
   currentDate: Date;
   registerType: Register;
-  data: DashboardPageDataType;
+  data: DashboardDataType;
 };
 
 const TabContent = ({ currentDate, registerType, data }: EmotionContentProps) => {

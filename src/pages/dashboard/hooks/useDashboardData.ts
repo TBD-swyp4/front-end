@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchDashboardData } from '@service/dashboardAPI';
-
+import { fetchDashboardData } from '@service/dashboard';
 import { formatYMD } from '@utils/index';
 import type { Register } from '@models/index';
 import type { TabOption } from './../type';
@@ -20,7 +19,9 @@ const useDashboardData = (currentDate: Date, selectedTab: TabOption, registerTyp
     },
   );
 
-  const rtnData = isDemoMode ? { data: {} } : data;
+  const rtnData = isDemoMode
+    ? { dailyAmount: [], emotionAmountTotal: [], satisfactionAverage: 0 }
+    : data;
 
   return {
     data: rtnData,

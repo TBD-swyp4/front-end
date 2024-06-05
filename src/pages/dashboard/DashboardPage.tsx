@@ -32,20 +32,20 @@ const DashboardPage = () => {
       id: 'TAB_SPEND',
       label: '지출',
       content:
-        isLoading || error ? (
+        !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
-          <TabContent currentDate={monthNav.currentDate} registerType={'SPEND'} data={data.data} />
+          <TabContent currentDate={monthNav.currentDate} registerType={'SPEND'} data={data} />
         ),
     },
     {
       id: 'TAB_SAVE',
       label: '절약',
       content:
-        isLoading || error ? (
+        !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
-          <TabContent currentDate={monthNav.currentDate} registerType={'SAVE'} data={data.data} />
+          <TabContent currentDate={monthNav.currentDate} registerType={'SAVE'} data={data} />
         ),
     },
   ];

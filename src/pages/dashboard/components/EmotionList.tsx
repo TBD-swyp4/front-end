@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { divider, flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import type { EmotionAmountTotalType } from '@models/service/dashboard';
+import type { EmotionAmountTotalType } from '@service/dashboard/types';
 import { addCommasToNumber, calculatePercentages } from '@utils/index';
 import { getEmotionIcon, getEmotionText } from '@models/emotion';
 
