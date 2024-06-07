@@ -46,7 +46,7 @@ const ExpenseListViewPage = () => {
 
   // 무한 스크롤 구현, 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
   const { expensesData, isLoading, error, fetchNextPage, hasNextPage, refetch } =
-    useExpenseListData(condition);
+    useExpenseListData(condition, isDemoMode);
 
   // 검색 조건이 변경될 때 쿼리를 다시 실행
   useEffect(() => {

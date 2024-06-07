@@ -2,14 +2,14 @@ import styled, { css } from 'styled-components';
 import { flexCenter } from '@styles/CommonStyles';
 
 import TopNavigation from '@layout/TopNavigation';
-
 import MetaThemeColor from '@components/background/MetaThemeColor';
 
 type NavLayoutProps = {
   children: React.ReactNode;
   isEdit: boolean;
   isValid: boolean;
-  handleSubmit: () => void;
+  isDemoMode: boolean;
+  handleUpdate: () => void;
   handleDelete: () => void;
   handleMovePrevPage: () => void;
   toggleEdit: () => void;
@@ -19,7 +19,8 @@ const NavigationLayout = ({
   children,
   isEdit,
   isValid,
-  handleSubmit,
+  isDemoMode,
+  handleUpdate,
   handleDelete,
   handleMovePrevPage,
   toggleEdit,
@@ -34,12 +35,17 @@ const NavigationLayout = ({
               !isEdit && <TopNavigation.TopBar.PrevButton onClick={handleMovePrevPage} />
             }
             centerContent={
-              <TopNavigation.TopBar.CenterTitle>작성완료 내역</TopNavigation.TopBar.CenterTitle>
+              <TopNavigation.TopBar.CenterTitle>
+                작성완료 내역
+                {isDemoMode && (
+                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
+                )}
+              </TopNavigation.TopBar.CenterTitle>
             }
             rightContent={
               <Toolbar>
                 {isEdit ? (
-                  <SaveButton onClick={handleSubmit} disabled={isValid}>
+                  <SaveButton onClick={handleUpdate} disabled={isValid}>
                     완료
                   </SaveButton>
                 ) : (

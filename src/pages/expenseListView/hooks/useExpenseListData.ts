@@ -1,12 +1,8 @@
 import { useInfiniteQuery } from 'react-query';
-import { fetchExpensesByCondition } from '@service/expenseAPI';
+import { fetchExpensesByCondition } from '@service/expense';
 import { ExpenseFilterType } from '@models/expense';
 
-import useIsDemoMode from '@hooks/useIsDemo';
-
-const useExpenseListData = (condition: ExpenseFilterType) => {
-  const isDemoMode = useIsDemoMode();
-
+const useExpenseListData = (condition: ExpenseFilterType, isDemoMode: boolean) => {
   // 무한 스크롤 구현, 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
   const { data, isLoading, error, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery(
     ['fetchExpensesByConditionQueryKey', condition],

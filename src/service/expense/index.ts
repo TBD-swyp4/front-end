@@ -1,11 +1,12 @@
-import axiosInstance from './axios';
+import axiosInstance from './../axios';
 
-import type { ExpenseFormType, ExpenseFilterType } from '@models/expense';
+import type { ExpenseDetailDataType } from './types';
+import type { ExpenseFilterType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
 
 /* 소비 내역 저장 (입력 페이지) */
-export const saveExpenseData = async (expenseData: ExpenseFormType) => {
+export const saveExpenseData = async (expenseData: ExpenseDetailDataType) => {
   try {
     // data 가공 필요 시 여기서 처리
     const { data } = await axiosInstance.post('/articles', {
@@ -29,7 +30,7 @@ export const saveExpenseData = async (expenseData: ExpenseFormType) => {
 /* 소비 내역 수정 (디테일 페이지) */
 export const updateExpenseData = async (
   articleId: string | undefined,
-  expenseData: ExpenseFormType,
+  expenseData: ExpenseDetailDataType,
 ) => {
   try {
     // data 가공 필요 시 여기서 처리
@@ -62,10 +63,13 @@ export const deleteExpenseById = async (articleId: string | undefined) => {
 };
 
 /* 소비 상세 조회 (디테일 페이지) */
-export const fetchExpenseById = async (articleId: string | undefined) => {
+export const fetchExpenseById = async (
+  articleId: string | undefined,
+): Promise<ExpenseDetailDataType> => {
   try {
     const { data } = await axiosInstance.get(`/articles/${articleId}`);
-    return data;
+    const amount: string = data.data.amount?.toString() || ''; // 서버에서는 number 형태로 받는다. (null인 경우가 있어서 `?` 예외처리)
+    return { ...data.data, amount };
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchExpenseById : ' + error);
   }

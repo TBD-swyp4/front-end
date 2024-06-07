@@ -20,9 +20,9 @@ import { formatAmountNumber } from '@utils/index';
 
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();
-  const { userData, isLoadingUserData, error } = useUserData();
-  const saveMutation = useUpdateUser();
-  const { logoutMutation, handleLogout } = useLogout();
+  const { userData, isLoadingUserData, error } = useUserData(isDemoMode);
+  const userSaveMutation = useUpdateUser(isDemoMode);
+  const logoutMutation = useLogout(isDemoMode);
 
   const mbtiArray = mbtiKeys;
 
@@ -40,15 +40,11 @@ const SettingPage = () => {
     },
   });
 
-  const handleSubmit = methods.handleSubmit((data: UserFormType) => {
+  const handleSaveSubmit = (data: UserFormType) => {
+    // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const sendBudget = data.budget.replace(/,/g, '');
-    if (isDemoMode) {
-      alert(`데모데이터로 저장: ${sendBudget}`);
-    } else {
-      // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
-      saveMutation.mutate({ ...data, budget: sendBudget });
-    }
-  });
+    userSaveMutation.mutate({ ...data, budget: sendBudget });
+  };
 
   const handleBudgetChange = (value: string, onChange: (value: string) => void) => {
     const formattedValue = formatAmountNumber(value, true);
@@ -56,11 +52,7 @@ const SettingPage = () => {
   };
 
   const handleClickLogout = () => {
-    if (isDemoMode) {
-      handleLogout(true);
-    } else {
-      logoutMutation.mutate();
-    }
+    logoutMutation.mutate();
   };
 
   useEffect(() => {
@@ -83,7 +75,7 @@ const SettingPage = () => {
   return (
     <NavigationLayout isDemoMode={isDemoMode}>
       <SettingContainer>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>
           <Title>나의 예산</Title>
           <BudgetContainer>
             {isLoadingUserData ? (
@@ -173,7 +165,7 @@ const SettingPage = () => {
               </>
             )}
           </ProfileContainer>
-          <Button disabled={!methods.formState.isValid || saveMutation.isLoading}>저장</Button>
+          <Button disabled={!methods.formState.isValid || userSaveMutation.isLoading}>저장</Button>
           <InquiryButton
             onClick={() => {
               alert('문의하기 기능 준비중!');

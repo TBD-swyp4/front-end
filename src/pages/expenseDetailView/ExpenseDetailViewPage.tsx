@@ -19,7 +19,7 @@ import useDeleteExpense from './hooks/useDeleteExpense';
 import useAICommentData from './hooks/useAICommentData';
 
 import type { EmotionKey, Register } from '@models/index';
-import type { ExpenseFormType } from '@models/expense';
+import type { ExpenseDetailDataType } from '@service/expense/types';
 
 import NavigationLayout from './navigation';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
@@ -32,7 +32,13 @@ import { formatAmountNumber, getSpendSumamryText } from '@utils/index';
 import Spinner from '@components/information/Spinner';
 import { PagePath } from '@models/navigation';
 
+import useIsDemoMode from '@hooks/useIsDemo';
+import useToast from '@hooks/useToast';
+
 const ExpenseDetailViewPage = () => {
+  const isDemoMode = useIsDemoMode();
+  const { showToast } = useToast();
+
   const { id: paramId } = useParams();
   const [searchParams] = useSearchParams();
   const searchParamPrev = searchParams.get('prev');
@@ -47,7 +53,7 @@ const ExpenseDetailViewPage = () => {
     }
   };
 
-  const methods = useForm<ExpenseFormType>({
+  const methods = useForm<ExpenseDetailDataType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     criteriaMode: 'all',
@@ -88,13 +94,13 @@ const ExpenseDetailViewPage = () => {
     data: expenseData,
     isLoading: isLoadingExpenseData,
     error: errorExpenseData,
-  } = useExpenseData(paramId);
+  } = useExpenseData(paramId, isDemoMode);
 
-  const updateMutation = useUpdateExpense(paramId);
-  const deleteMutation = useDeleteExpense(paramId, handleMovePrevPage);
+  const updateMutation = useUpdateExpense(paramId, isDemoMode);
+  const deleteMutation = useDeleteExpense(paramId, isDemoMode, handleMovePrevPage);
   const commentMutation = useAICommentData(methods.setValue);
 
-  const handleSubmit = methods.handleSubmit((data: ExpenseFormType) => {
+  const handleUpdate = methods.handleSubmit((data: ExpenseDetailDataType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
     updateMutation.mutate({ ...data, amount: numberAmount });
@@ -110,22 +116,33 @@ const ExpenseDetailViewPage = () => {
 
   // articleId를 가지고 ai comment 요청.
   const handleAIComment = () => {
+    // 체험하기일 경우 return
+    if (isDemoMode) {
+      showToast('체험하기에서는 사용할 수 없어요.');
+      return;
+    }
     // 수정모드일 경우 return
-    // 이미 내용이 있거나(요청은 한번만 받을 수 있음), 메세지 창 띄워주는 사용성 개선 필요
-    if (isEditMode || aiComment) return;
+    if (isEditMode) {
+      showToast('수정 중에는 사용할 수 없어요.');
+      return;
+    }
+    // AI 한마디가 존재할 경우 return
+    if (aiComment) {
+      showToast('AI 한마디는 한번만 사용할 수 있어요.');
+      return;
+    }
     commentMutation.mutate(paramId);
   };
 
   useEffect(() => {
     // 데이터 로딩이 완료되었고, 실제 데이터가 존재하는 경우에만 reset을 실행
-    if (!isLoadingExpenseData && expenseData && expenseData.data) {
-      const data = expenseData.data;
+    if (!isLoadingExpenseData && expenseData) {
       // 서버에서 받는 예산 데이터는 숫자 형태이므로, 다시 #,##0 형태로 변환하여 세팅 필요
-      const formattedValue = formatAmountNumber(data.amount?.toString() || ''); // data.amount가 서버에서 null값으로 오는 경우 처리
-      methods.reset({ ...data, amount: formattedValue });
+      const formattedValue = formatAmountNumber(expenseData.amount);
+      methods.reset({ ...expenseData, amount: formattedValue });
 
       // 감정 state도 최신 데이터로 업데이트 필요
-      setSelectEmotion(expenseData.data.emotion as EmotionKey);
+      setSelectEmotion(expenseData.emotion as EmotionKey);
     }
   }, [expenseData, methods, isLoadingExpenseData]); // isLoadingExpenseData 의존성 추가
 
@@ -160,7 +177,8 @@ const ExpenseDetailViewPage = () => {
     <NavigationLayout
       isValid={!methods.formState.isValid}
       isEdit={isEditMode}
-      handleSubmit={handleSubmit}
+      isDemoMode={isDemoMode}
+      handleUpdate={handleUpdate}
       handleDelete={handleDelete}
       handleMovePrevPage={handleMovePrevPage}
       toggleEdit={toggleEditMode}>
@@ -171,7 +189,7 @@ const ExpenseDetailViewPage = () => {
           <div>Error...</div>
         ) : (
           <FormProvider {...methods}>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleUpdate}>
               {!isEditMode && (
                 <>
                   <SpendDateInput
@@ -236,7 +254,7 @@ const ExpenseDetailViewPage = () => {
                     isDisable={true}></MultiText>
                   <AICommentButton
                     onClick={handleAIComment}
-                    className={`${isEditMode || aiComment || commentMutation.isLoading ? '' : 'able'}`}>
+                    className={`${isDemoMode || isEditMode || aiComment || commentMutation.isLoading ? '' : 'able'}`}>
                     {commentMutation.isLoading ? <Spinner size={35} /> : <VolumeBtn />}
                   </AICommentButton>
                 </Content>

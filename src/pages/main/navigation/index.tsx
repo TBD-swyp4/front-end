@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useIsDemoMode from '@hooks/useIsDemo';
 
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
@@ -16,16 +15,22 @@ import { PagePath } from '@models/navigation';
 
 type MainNavProps = {
   currentDate: Date;
+  isDemoMode: boolean;
   previousMonth: () => void;
   nextMonth: () => void;
   children: React.ReactNode;
 };
 
-const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
+const NavigationLayout = ({
+  children,
+  currentDate,
+  isDemoMode,
+  previousMonth,
+  nextMonth,
+}: MainNavProps) => {
   const navigate = useNavigate();
   const mainColor = { color: '#ffffff' };
   const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
-  const isDemoMode = useIsDemoMode();
 
   const [showBackground, setShowBackground] = useState<boolean>(false);
 

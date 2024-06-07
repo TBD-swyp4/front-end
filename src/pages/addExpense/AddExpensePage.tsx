@@ -2,10 +2,8 @@
 import styled from 'styled-components';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import type { ExpenseFormType } from '@models/expense';
-
-import { useForm, FormProvider } from 'react-hook-form';
 import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useSaveExpense from './hooks/useSaveExpense';
@@ -16,14 +14,15 @@ import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 
 import LoadingModal from '@components/modal/LoadingModal';
+import type { ExpenseDetailDataType } from '@service/expense/types';
 
 const AddExpensePage = () => {
   const isDemoMode = useIsDemoMode();
 
   // 저장 쿼리
-  const expenseMutation = useSaveExpense();
+  const expenseSaveMutation = useSaveExpense(isDemoMode);
   // 입력 form
-  const methods = useForm<ExpenseFormType>({
+  const methods = useForm<ExpenseDetailDataType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     criteriaMode: 'all',
@@ -66,15 +65,11 @@ const AddExpensePage = () => {
     setCurrStep(currStep - 1);
   };
 
-  // 제출
-  const handleSubmit = (data: ExpenseFormType) => {
+  // 소비 내역 저장
+  const handleSaveSubmit = (data: ExpenseDetailDataType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    if (isDemoMode) {
-      alert('체험하기로 저장');
-    } else {
-      expenseMutation.mutate({ ...data, amount: numberAmount });
-    }
+    expenseSaveMutation.mutate({ ...data, amount: numberAmount });
   };
 
   return (
@@ -85,7 +80,7 @@ const AddExpensePage = () => {
       isDemoMode={isDemoMode}>
       <AddExpenseContainer>
         <FormProvider {...methods}>
-          <Form onSubmit={methods.handleSubmit(handleSubmit)}>
+          <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>
             {/* 폼 영역 (멀티 스탭) */}
             {currStep === 0 && <WriteExpense />}
             {currStep === 1 && <WriteEmotion />}
@@ -106,7 +101,7 @@ const AddExpensePage = () => {
           </Form>
         </FormProvider>
       </AddExpenseContainer>
-      {expenseMutation.isLoading && <LoadingModal />}
+      {expenseSaveMutation.isLoading && <LoadingModal />}
     </NavigationLayout>
   );
 };

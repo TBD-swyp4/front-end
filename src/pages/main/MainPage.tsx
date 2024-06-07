@@ -10,15 +10,18 @@ import NavigationLayout from './navigation';
 import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
+import useIsDemoMode from '@hooks/useIsDemo';
 
 const MainPage = () => {
+  const isDemoMode = useIsDemoMode();
   // monthNav.currentDate : 현재 선택된 월
   const monthNav = useMonthNavigator(); // 헤더의 월 네비게이션
+  const navigationProps = { ...monthNav, isDemoMode };
   const { mainData, isLoadingMainData, mainDataError, subData, isLoadingSubData, subDataError } =
-    useMainData(monthNav.currentDate);
+    useMainData(monthNav.currentDate, isDemoMode);
 
   return (
-    <NavigationLayout {...monthNav}>
+    <NavigationLayout {...navigationProps}>
       <MainContainer>
         <BudgetContainer $isLoading={isLoadingMainData}>
           {!mainData || isLoadingMainData ? (

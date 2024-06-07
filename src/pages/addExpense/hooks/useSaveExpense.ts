@@ -1,16 +1,18 @@
+import { useMemo } from 'react';
 import { useMutation } from 'react-query';
-import { saveExpenseData } from '@service/expenseAPI';
-
 import { useNavigate } from 'react-router-dom';
+
+import { saveExpenseData } from '@service/expense';
+
 import useToast from '@hooks/useToast';
-
 import { getExpenseDetailViewPath } from '@models/navigation';
+import type { ExpenseDetailDataType } from '@service/expense/types';
 
-const useSaveExpense = () => {
+const useSaveExpense = (isDemoMode: boolean) => {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  return useMutation(saveExpenseData, {
+  const expenseSaveMutation = useMutation(saveExpenseData, {
     onSuccess: (data) => {
       const articleId = data.articleId;
       showToast('저장했습니다.');
@@ -23,6 +25,19 @@ const useSaveExpense = () => {
       console.error('저장 실패: ' + error);
     },
   });
+
+  // 임시 함수 (소비 수정)
+  const demoMutate = useMemo(() => {
+    return {
+      mutate: (data: ExpenseDetailDataType) => {
+        alert(`demo add save: ${JSON.stringify(data)}`);
+      },
+      isLoading: false,
+    };
+  }, []);
+
+  if (isDemoMode) return demoMutate;
+  return expenseSaveMutation;
 };
 
 export default useSaveExpense;

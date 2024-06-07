@@ -3,12 +3,10 @@ import { useQuery } from 'react-query';
 import { fetchMainData } from '@service/main';
 import { formatYMD } from '@utils/index';
 
-import useIsDemoMode from '@hooks/useIsDemo';
 import type { MainDataType, MainSubDataType } from '@service/main/types';
 
-const useMainData = (currentDate: Date) => {
+const useMainData = (currentDate: Date, isDemoMode: boolean) => {
   const selectDate = formatYMD(currentDate, 'none');
-  const isDemoMode = useIsDemoMode();
 
   // Main Data : 예산, 월 작성 리스트
   // 메인 데이터는 "월" 이 바뀌면 재로딩

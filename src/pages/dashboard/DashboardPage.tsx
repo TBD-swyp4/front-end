@@ -11,8 +11,13 @@ import Spinner from '@components/information/Spinner';
 
 import { TabOption } from './type';
 
+import useIsDemoMode from '@hooks/useIsDemo';
+
 const DashboardPage = () => {
+  const isDemoMode = useIsDemoMode();
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
+  const navigationProps = { ...monthNav, isDemoMode };
+
   const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_SPEND'); // 지출 탭 기본 선택
   const registerType = selectedTab === 'TAB_SPEND' ? 'SPEND' : 'SAVE';
 
@@ -21,6 +26,7 @@ const DashboardPage = () => {
     monthNav.currentDate,
     selectedTab,
     registerType,
+    isDemoMode,
   );
 
   const handleTabSelect = (tabId: string) => {
@@ -49,8 +55,9 @@ const DashboardPage = () => {
         ),
     },
   ];
+
   return (
-    <NavigationLayout {...monthNav}>
+    <NavigationLayout {...navigationProps}>
       <DashboardContainer>
         <TabWrapper>
           <TabLayout tabs={tabData} selectedTab={selectedTab} onTabSelect={handleTabSelect} />

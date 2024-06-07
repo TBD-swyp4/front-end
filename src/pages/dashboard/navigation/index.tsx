@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
-import useIsDemoMode from '@hooks/useIsDemo';
 
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
@@ -14,6 +13,7 @@ type DashboardNavProps = {
   currentDate: Date;
   previousMonth: () => void;
   nextMonth: () => void;
+  isDemoMode: boolean;
   children: React.ReactNode;
 };
 
@@ -22,10 +22,10 @@ const NavigationLayout = ({
   currentDate,
   previousMonth,
   nextMonth,
+  isDemoMode,
 }: DashboardNavProps) => {
   const navigate = useNavigate();
   const monthNavProps = { currentDate, previousMonth, nextMonth };
-  const isDemoMode = useIsDemoMode();
 
   return (
     <>
