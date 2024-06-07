@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 import useExpenseData from './hooks/useExpenseData';
@@ -18,7 +18,7 @@ import useUpdateExpense from './hooks/useUpdateExpense';
 import useDeleteExpense from './hooks/useDeleteExpense';
 import useAICommentData from './hooks/useAICommentData';
 
-import type { EmotionKey, Register } from '@models/index';
+import type { EmotionKey } from '@models/index';
 import type { ExpenseDetailDataType } from '@service/expense/types';
 
 import NavigationLayout from './navigation';
@@ -34,15 +34,33 @@ import { PagePath } from '@models/navigation';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useToast from '@hooks/useToast';
+import useExpenseForm from './hooks/useExpenseForm';
 
 const ExpenseDetailViewPage = () => {
-  const isDemoMode = useIsDemoMode();
-  const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const { id: paramId } = useParams();
   const [searchParams] = useSearchParams();
   const searchParamPrev = searchParams.get('prev');
-  const navigate = useNavigate();
+
+  const { showToast } = useToast();
+  const isDemoMode = useIsDemoMode();
+
+  const {
+    data: expenseData,
+    isLoading: isLoadingExpenseData,
+    error: errorExpenseData,
+  } = useExpenseData(paramId, isDemoMode);
+
+  const { methods, formState } = useExpenseForm();
+
+  // 감정 선택 시 렌더링 필요
+  const [selectEmotion, setSelectEmotion] = useState<EmotionKey>(formState.emotion as EmotionKey);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  const toggleEditMode = () => {
+    setIsEditMode((prev) => !prev);
+  };
 
   // 입력 페이지에서 넘어온 경우, 1. 뒤로가기 시 메인 화면으로 이동, 2. 삭제 시 메인화면으로 이동
   const handleMovePrevPage = () => {
@@ -52,49 +70,6 @@ const ExpenseDetailViewPage = () => {
       navigate(-1);
     }
   };
-
-  const methods = useForm<ExpenseDetailDataType>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    criteriaMode: 'all',
-    defaultValues: {
-      content: '',
-      amount: '',
-      spendDate: '',
-      event: '',
-      thought: '',
-      emotion: 'EVADED',
-      satisfaction: 1,
-      reason: '',
-      improvements: '',
-      registerType: 'SPEND',
-      aiComment: '',
-    },
-  });
-
-  const [
-    registerTypeState,
-    amountState,
-    contentState,
-    satisfactionState,
-    emotionState,
-    spendDateState,
-    aiComment,
-  ] = methods.getValues([
-    'registerType',
-    'amount',
-    'content',
-    'satisfaction',
-    'emotion',
-    'spendDate',
-    'aiComment',
-  ]);
-
-  const {
-    data: expenseData,
-    isLoading: isLoadingExpenseData,
-    error: errorExpenseData,
-  } = useExpenseData(paramId, isDemoMode);
 
   const updateMutation = useUpdateExpense(paramId, isDemoMode);
   const deleteMutation = useDeleteExpense(paramId, isDemoMode, handleMovePrevPage);
@@ -127,7 +102,7 @@ const ExpenseDetailViewPage = () => {
       return;
     }
     // AI 한마디가 존재할 경우 return
-    if (aiComment) {
+    if (formState.aiComment) {
       showToast('AI 한마디는 한번만 사용할 수 있어요.');
       return;
     }
@@ -146,42 +121,43 @@ const ExpenseDetailViewPage = () => {
     }
   }, [expenseData, methods, isLoadingExpenseData]); // isLoadingExpenseData 의존성 추가
 
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-
-  const toggleEditMode = () => {
-    setIsEditMode((prev) => !prev);
-  };
-
-  // 감정 선택 시 렌더링 필요
-  const [selectEmotion, setSelectEmotion] = useState<EmotionKey>(emotionState as EmotionKey);
-
   // ExpenseSummary Components Props
   const summaryProps = {
     articleId: Number(paramId),
-    registerType: registerTypeState as Register,
-    amount: amountState,
-    content: contentState,
-    satisfaction: satisfactionState,
-    emotion: emotionState as EmotionKey,
+    registerType: formState.registerType,
+    amount: formState.amount,
+    content: formState.content,
+    satisfaction: formState.satisfaction,
+    emotion: formState.emotion as EmotionKey,
   };
 
   // 상단 요약 텍스트
   const summaryText = getSpendSumamryText(
-    spendDateState,
-    contentState,
-    amountState,
-    registerTypeState,
+    formState.spendDate,
+    formState.content,
+    formState.amount,
+    formState.registerType,
   );
 
+  const navigationProps = {
+    isValid: !methods.formState.isValid,
+    isEditMode,
+    isDemoMode,
+    handleUpdate,
+    handleDelete,
+    handleMovePrevPage,
+    toggleEditMode,
+  };
+
+  const valueListExceptSummaryAndAIComment = [
+    { fieldName: 'event', title: '사건' },
+    { fieldName: 'thought', title: '생각' },
+    { fieldName: 'reason', title: '이유' },
+    { fieldName: 'improvements', title: '개선점' },
+  ];
+
   return (
-    <NavigationLayout
-      isValid={!methods.formState.isValid}
-      isEdit={isEditMode}
-      isDemoMode={isDemoMode}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-      handleMovePrevPage={handleMovePrevPage}
-      toggleEdit={toggleEditMode}>
+    <NavigationLayout {...navigationProps}>
       <ExpenseDetailContainer>
         {isLoadingExpenseData || updateMutation.isLoading ? (
           <LoadingModal />
@@ -190,6 +166,7 @@ const ExpenseDetailViewPage = () => {
         ) : (
           <FormProvider {...methods}>
             <Form onSubmit={handleUpdate}>
+              {/* 조회모드 Summary */}
               {!isEditMode && (
                 <>
                   <SpendDateInput
@@ -208,53 +185,37 @@ const ExpenseDetailViewPage = () => {
               )}
               <ContentContainer>
                 <Title>{`${isEditMode ? '소비 내용 수정' : '소비 내용'}`}</Title>
-                {/* 내용, 금액은 수정모드일 때만 Show */}
+                {/* 수정모드 Summary */}
                 {isEditMode && (
                   <EditSummary
                     isEditMode={isEditMode}
-                    satisfactionState={satisfactionState}
+                    satisfactionState={formState.satisfaction}
                     selectEmotion={selectEmotion}
                     setSelectEmotion={setSelectEmotion}
                   />
                 )}
-                <Content>
-                  <MultiText
-                    hookFormFieldName="event"
-                    title="사건"
-                    placeholder="작성내역이 없어요"
-                    isDisable={!isEditMode}></MultiText>
-                </Content>
-                <Content>
-                  <MultiText
-                    hookFormFieldName="thought"
-                    title="생각"
-                    placeholder="작성내역이 없어요"
-                    isDisable={!isEditMode}></MultiText>
-                </Content>
-                <Content>
-                  <MultiText
-                    hookFormFieldName="reason"
-                    title="이유"
-                    placeholder="작성내역이 없어요"
-                    isDisable={!isEditMode}></MultiText>
-                </Content>
-                <Content>
-                  <MultiText
-                    hookFormFieldName="improvements"
-                    title="개선점"
-                    placeholder="작성내역이 없어요"
-                    isDisable={!isEditMode}></MultiText>
-                </Content>
+                {/* Summary 내용을 제외한 나머지 정보들은 형태가 바뀌지 않는다. isEditMode로만 판단 */}
+                {valueListExceptSummaryAndAIComment.map((value) => (
+                  <Content key={value.fieldName}>
+                    <MultiText
+                      hookFormFieldName={value.fieldName}
+                      title={value.title}
+                      placeholder="작성내역이 없어요"
+                      isDisable={!isEditMode}
+                    />
+                  </Content>
+                ))}
                 {/* AI Comment는 수정 불가 */}
                 <Content className="ai">
                   <MultiText
                     hookFormFieldName="aiComment"
                     title="AI 한마디"
                     placeholder="작성내역이 없어요"
-                    isDisable={true}></MultiText>
+                    isDisable={true}
+                  />
                   <AICommentButton
                     onClick={handleAIComment}
-                    className={`${isDemoMode || isEditMode || aiComment || commentMutation.isLoading ? '' : 'able'}`}>
+                    className={`${isDemoMode || isEditMode || formState.aiComment || commentMutation.isLoading ? '' : 'able'}`}>
                     {commentMutation.isLoading ? <Spinner size={35} /> : <VolumeBtn />}
                   </AICommentButton>
                 </Content>

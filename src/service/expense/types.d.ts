@@ -14,3 +14,7 @@ type ExpenseDetailDataType = {
   improvements: string; // 개선점
   aiComment?: string; // ai 한마디
 };
+
+type ExpenseAICommentType = {
+  content: string;
+};

@@ -8,7 +8,7 @@ const useAICommentData = (setValue: UseFormSetValue<ExpenseDetailDataType>) => {
   return useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
       // #20240516.syjang, aiComment->content로 변경
-      setValue('aiComment', commentData.data.content);
+      setValue('aiComment', commentData.content);
     },
     onError: (error) => {
       alert('다시 시도해주세요.');

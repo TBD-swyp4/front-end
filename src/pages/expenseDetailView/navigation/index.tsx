@@ -6,24 +6,24 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 
 type NavLayoutProps = {
   children: React.ReactNode;
-  isEdit: boolean;
   isValid: boolean;
+  isEditMode: boolean;
   isDemoMode: boolean;
   handleUpdate: () => void;
   handleDelete: () => void;
   handleMovePrevPage: () => void;
-  toggleEdit: () => void;
+  toggleEditMode: () => void;
 };
 
 const NavigationLayout = ({
   children,
-  isEdit,
   isValid,
+  isEditMode,
   isDemoMode,
   handleUpdate,
   handleDelete,
   handleMovePrevPage,
-  toggleEdit,
+  toggleEditMode,
 }: NavLayoutProps) => {
   return (
     <>
@@ -32,7 +32,7 @@ const NavigationLayout = ({
         _TopBar={
           <TopNavigation.TopBar
             leftContent={
-              !isEdit && <TopNavigation.TopBar.PrevButton onClick={handleMovePrevPage} />
+              !isEditMode && <TopNavigation.TopBar.PrevButton onClick={handleMovePrevPage} />
             }
             centerContent={
               <TopNavigation.TopBar.CenterTitle>
@@ -44,12 +44,12 @@ const NavigationLayout = ({
             }
             rightContent={
               <Toolbar>
-                {isEdit ? (
+                {isEditMode ? (
                   <SaveButton onClick={handleUpdate} disabled={isValid}>
                     완료
                   </SaveButton>
                 ) : (
-                  <EditButton onClick={toggleEdit} />
+                  <EditButton onClick={toggleEditMode} />
                 )}
                 <DeleteButton onClick={handleDelete} />
               </Toolbar>

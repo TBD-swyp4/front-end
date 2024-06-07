@@ -1,6 +1,6 @@
 import axiosInstance from './../axios';
 
-import type { ExpenseDetailDataType } from './types';
+import type { ExpenseAICommentType, ExpenseDetailDataType } from './types';
 import type { ExpenseFilterType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
@@ -76,12 +76,14 @@ export const fetchExpenseById = async (
 };
 
 /* AI 한마디 받아오기 (디테일 페이지) */
-export const fetchAIComment = async (articleId: string | undefined) => {
+export const fetchAIComment = async (
+  articleId: string | undefined,
+): Promise<ExpenseAICommentType> => {
   try {
     const { data } = await axiosInstance.post('/articles/ai', {
       articleId: articleId,
     });
-    return data;
+    return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchAIComment : ' + error);
   }
