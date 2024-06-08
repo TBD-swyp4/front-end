@@ -43,13 +43,13 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
             목표 달성을 위한 하루 권장 지출 : {addCommasToNumber(recommendSpend)}원
           </span>
         </RemainDetail>
-        <GoSetting>
+        <GoSettingWrapper>
           <SettingBtn
             onClick={() => {
               navigate(PagePath.Setting);
             }}
           />
-        </GoSetting>
+        </GoSettingWrapper>
       </Remain>
       <Bar>
         <BarDetail $percent={`${percent}%`}>
@@ -109,7 +109,7 @@ const RemainDetail = styled.div`
   }
 `;
 
-const GoSetting = styled.div`
+const GoSettingWrapper = styled.div`
   position: absolute;
   top: 5px;
   right: -5px;

@@ -1,6 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { UserStatus, type UserStatusType } from '@models/user';
+import {
+  ACCESS_TOKEN_NAME,
+  AUTH_STORE_NAME,
+  CURRENT_VERSION,
+  DEMO_STORE_NAME,
+} from './storeConfig';
+import { initDemoState } from './service/demoService';
 
 type AuthStoreType = {
   userStatus: UserStatusType;
@@ -8,8 +15,6 @@ type AuthStoreType = {
   setLogoutState: () => void;
   setDemoState: () => void;
 };
-
-const CURRENT_VERSION = 1;
 
 export const useAuthStore = create(
   persist<AuthStoreType>(
@@ -21,7 +26,9 @@ export const useAuthStore = create(
         })),
       setLogoutState: () => {
         // 로컬스토리지 access_token 삭제
-        window.localStorage.removeItem('access_token');
+        window.localStorage.removeItem(ACCESS_TOKEN_NAME);
+        // 로컬스토리지 Demo Data 삭제
+        window.localStorage.setItem(DEMO_STORE_NAME, JSON.stringify(initDemoState()));
         set(() => ({
           userStatus: UserStatus.LoggedOut,
         }));
@@ -35,13 +42,13 @@ export const useAuthStore = create(
       },
     }),
     {
-      name: 'auth-state',
+      name: AUTH_STORE_NAME,
       getStorage: () => localStorage,
       version: CURRENT_VERSION,
       migrate: (persistedState, version) => {
         if (version === undefined || version < CURRENT_VERSION) {
           // 버전이 없거나 현재 버전(CURRENT_VERSION)보다 낮은 경우
-          window.localStorage.removeItem('access_token');
+          window.localStorage.removeItem(ACCESS_TOKEN_NAME);
         }
         return persistedState as AuthStoreType; // 상태를 변경하지 않고 그대로 반환
       },
@@ -55,7 +62,7 @@ const initializeUser = () => {
     // demo mode 개발로 주석처리
     //useAuthStore.getState().setLoginState();
   } else {
-    const accessToken = window.localStorage.getItem('access_token');
+    const accessToken = window.localStorage.getItem(ACCESS_TOKEN_NAME);
     if (accessToken) {
       useAuthStore.getState().setLoginState();
     } else {

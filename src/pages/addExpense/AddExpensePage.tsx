@@ -3,46 +3,36 @@ import styled from 'styled-components';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import { useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useSaveExpense from './hooks/useSaveExpense';
+import useAddExpenseForm from './hooks/useAddExpenseForm';
+import { useDemoStore } from '@stores/demoStore';
 
 import NavigationLayout from './navigation';
 import WriteExpense from './components/WriteExpense';
 import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 
+import GoLogin from '@components/information/GoLogin';
 import LoadingModal from '@components/modal/LoadingModal';
+
+import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 import type { ExpenseDetailDataType } from '@service/expense/types';
 
 const AddExpensePage = () => {
   const isDemoMode = useIsDemoMode();
+  const getExpensesCount = useDemoStore((state) => state.getExpensesCount);
 
+  // 소비 입력 form
+  const methods = useAddExpenseForm();
   // 저장 쿼리
   const expenseSaveMutation = useSaveExpense(isDemoMode);
-  // 입력 form
-  const methods = useForm<ExpenseDetailDataType>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    criteriaMode: 'all',
-    defaultValues: {
-      registerType: 'SPEND', // 소비, 절약
-      amount: '', // 금액, #,##0 형태
-      content: '', // 소비 내용 (원래 물건)
-      spendDate: '', // 소비 날짜, 시간 (저장 시간 아님) -> 추가 필요 필드
-      event: '', // 사건
-      thought: '', // 생각
-      emotion: '', // 감정
-      satisfaction: 3, // 만족도
-      reason: '', // 만족 이유
-      improvements: '', // 개선점
-    },
-  });
 
   // 페이지 별 타이틀
-  const [title, setTitle] = useState<string>('지출/절약 입력');
   const titleArr = ['지출/절약 입력', '감정 입력', '만족도 입력'];
+  const [title, setTitle] = useState<string>(titleArr[0]);
 
   // 입력 스탭
   const [currStep, setCurrStep] = useState<number>(0);
@@ -72,6 +62,20 @@ const AddExpensePage = () => {
     expenseSaveMutation.mutate({ ...data, amount: numberAmount });
   };
 
+  // 체험모드일 경우, 최대 저장 개수만큼 데이터가 존재하면 로그인 유도 페이지로 연결
+  if (isDemoMode && getExpensesCount() >= MAX_EXPENSE_SIZE) {
+    return (
+      <GoLogin
+        birdTop="120px"
+        message={
+          <>
+            <span>{`'체험하기'에서는 최대 ${MAX_EXPENSE_SIZE}개까지`}</span>
+            <span>저장할 수 있어요</span>
+          </>
+        }
+      />
+    );
+  }
   return (
     <NavigationLayout
       hasPrev={currStep > 0}
@@ -85,7 +89,6 @@ const AddExpensePage = () => {
             {currStep === 0 && <WriteExpense />}
             {currStep === 1 && <WriteEmotion />}
             {currStep === 2 && <WriteSatisfaction />}
-
             {/* 버튼 영역 */}
             <NextButtonWrapper>
               {currStep < 2 && (

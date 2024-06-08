@@ -1,5 +1,7 @@
-import { useAuthStore } from '@stores/authStore';
 import axios from 'axios';
+
+import { useAuthStore } from '@stores/authStore';
+import { ACCESS_TOKEN_NAME } from '@stores/storeConfig';
 
 const axiosInstance = axios.create({
   baseURL: 'https://www.api-spinlog.shop/api',
@@ -12,17 +14,14 @@ const axiosInstance = axios.create({
 
 // Demo Mode 개발로 주석처리
 // 개발 모드일 때만 TemporaryAuth 헤더를 추가(테스트 계정으로 자동 로그인)
-// if (
-//   import.meta.env.MODE === 'development' &&
-//   useAuthStore.getState().userStatus != UserStatus.Demo
-// ) {
-//   axiosInstance.defaults.headers.common['TemporaryAuth'] = 'OurAuthValue';
-// }
+if (import.meta.env.MODE === 'development') {
+  axiosInstance.defaults.headers.common['TemporaryAuth'] = 'OurAuthValue';
+}
 
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = window.localStorage.getItem('access_token');
+    const accessToken = window.localStorage.getItem(ACCESS_TOKEN_NAME);
     if (accessToken) {
       config.headers['Authorization'] = `${accessToken}`;
     } else {

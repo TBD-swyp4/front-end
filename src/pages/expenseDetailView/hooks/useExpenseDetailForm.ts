@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import type { ExpenseDetailDataType } from '@service/expense/types';
 
-const useExpenseForm = () => {
+const useExpenseDetailForm = () => {
   const methods = useForm<ExpenseDetailDataType>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -41,4 +41,4 @@ const useExpenseForm = () => {
   };
 };
 
-export default useExpenseForm;
+export default useExpenseDetailForm;

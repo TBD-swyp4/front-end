@@ -34,7 +34,7 @@ import { PagePath } from '@models/navigation';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useToast from '@hooks/useToast';
-import useExpenseForm from './hooks/useExpenseForm';
+import useExpenseDetailForm from './hooks/useExpenseDetailForm';
 
 const ExpenseDetailViewPage = () => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const ExpenseDetailViewPage = () => {
     error: errorExpenseData,
   } = useExpenseData(paramId, isDemoMode);
 
-  const { methods, formState } = useExpenseForm();
+  const { methods, formState } = useExpenseDetailForm();
 
   // 감정 선택 시 렌더링 필요
   const [selectEmotion, setSelectEmotion] = useState<EmotionKey>(formState.emotion as EmotionKey);

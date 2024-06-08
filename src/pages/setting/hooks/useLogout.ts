@@ -25,7 +25,6 @@ const useLogout = (isDemoMode: boolean) => {
     return {
       mutate: () => {
         useAuthStore.getState().setLogoutState();
-        // 로컬 데이터 초기화 넣기? (GoLogin.tsx, useLogout.ts)
         showToast('체험하기가 종료되었습니다.');
       },
     };

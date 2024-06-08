@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexBetween, flexCenter, flexColumnCenter, mainSection } from '@styles/CommonStyles';
 
 import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 import NavigationLayout from './navigation';
 import Spinner from '@components/information/Spinner';
@@ -12,6 +12,7 @@ import type { EI, NS, TF, PJ } from '@models/index';
 import { mbtiKeys, type UserFormType } from '@models/user';
 
 import useIsDemoMode from '@hooks/useIsDemo';
+import useUserForm from './hooks/useUserForm';
 import useUpdateUser from './hooks/useUpdateUser';
 import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
@@ -26,19 +27,8 @@ const SettingPage = () => {
 
   const mbtiArray = mbtiKeys;
 
-  const methods = useForm<UserFormType>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    criteriaMode: 'all',
-    defaultValues: {
-      budget: '',
-      gender: 'MALE',
-      EI: 'E',
-      NS: 'N',
-      TF: 'T',
-      PJ: 'P',
-    },
-  });
+  // 유저 데이터 입력 Form
+  const methods = useUserForm();
 
   const handleSaveSubmit = (data: UserFormType) => {
     // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
