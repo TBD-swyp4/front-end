@@ -9,6 +9,8 @@ type AuthStoreType = {
   setDemoState: () => void;
 };
 
+const CURRENT_VERSION = 1;
+
 export const useAuthStore = create(
   persist<AuthStoreType>(
     (set) => ({
@@ -35,6 +37,14 @@ export const useAuthStore = create(
     {
       name: 'auth-state',
       getStorage: () => localStorage,
+      version: CURRENT_VERSION,
+      migrate: (persistedState, version) => {
+        if (version === undefined || version < CURRENT_VERSION) {
+          // 버전이 없거나 현재 버전(CURRENT_VERSION)보다 낮은 경우
+          window.localStorage.removeItem('access_token');
+        }
+        return persistedState as AuthStoreType; // 상태를 변경하지 않고 그대로 반환
+      },
     },
   ),
 );
