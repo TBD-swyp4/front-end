@@ -38,7 +38,17 @@ const useMainData = (currentDate: Date, isDemoMode: boolean) => {
   );
 
   // Handling demo mode
-  const rtnMainData = isDemoMode ? { budget: 0, monthSpendList: [], daySpendList: [] } : mainData;
+  const rtnMainData = isDemoMode
+    ? {
+        budget: {
+          monthBudget: 0,
+          monthSpend: 0,
+          monthSave: 0,
+        },
+        monthSpendList: [],
+        daySpendList: [],
+      }
+    : mainData;
   const rtnSubData = isDemoMode ? { daySpendList: [] } : subData;
 
   return {
