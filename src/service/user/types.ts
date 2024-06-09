@@ -1,6 +1,6 @@
 import { Gender, MBTI } from '@models/index';
 
-type UserSettingDataType = {
+export type UserSettingDataType = {
   email: string;
   mbti: MBTI;
   gender: Gender;

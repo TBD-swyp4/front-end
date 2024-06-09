@@ -1,23 +1,23 @@
 import type { ExpenseSummaryType } from '@models/expense';
 
-type MainBudgetType = {
+export type MainBudgetType = {
   monthBudget: number;
   monthSpend: number;
   monthSave: number;
 };
 
-type MainMonthSpendType = {
+export type MainMonthSpendType = {
   date: string;
   daySpend: number;
   daySave: number;
 };
 
-type MainDataType = {
-  budget: Budget;
-  monthSpendList: MonthSpend[];
+export type MainDataType = {
+  budget: MainBudgetType;
+  monthSpendList: MainMonthSpendType[];
   daySpendList: ExpenseSummaryType[];
 };
 
-type MainSubDataType = {
+export type MainSubDataType = {
   daySpendList: ExpenseSummaryType[];
 };

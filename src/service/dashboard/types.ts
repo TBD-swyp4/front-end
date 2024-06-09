@@ -1,14 +1,14 @@
 import type { EmotionKey } from '@models/index';
 
-type DailyAmountType = {
+export type DailyAmountType = {
   date: string;
   amount: number;
 };
-type EmotionAmountTotalType = {
+export type EmotionAmountTotalType = {
   emotion: EmotionKey;
   amount: number;
 };
-type DashboardDataType = {
+export type DashboardDataType = {
   dailyAmount: DailyAmountType[];
   emotionAmountTotal: EmotionAmountTotalType[];
   satisfactionAverage: number;
