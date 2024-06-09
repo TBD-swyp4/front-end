@@ -1,3 +1,4 @@
+import type { ExpenseSummaryType } from '@models/expense';
 import type { EmotionKeyWithNone, Register } from '@models/index';
 
 // 입력, 조회, 수정 폼 + 상세 조회 타입
@@ -15,6 +16,13 @@ export type ExpenseDetailDataType = {
   aiComment?: string; // ai 한마디
 };
 
+// AIComment 응답 데이터 타입
 export type ExpenseAICommentType = {
   content: string;
+};
+
+// 소비 리스트 응답 타입, 최대 10개까지 가지고있음
+export type ExpenseListDataType = {
+  nextPage: boolean;
+  spendList: ExpenseSummaryType[];
 };

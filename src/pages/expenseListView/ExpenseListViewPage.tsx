@@ -144,7 +144,7 @@ const ExpenseListViewPage = () => {
               <div>Error...</div>
             ) : (
               pagesData?.map((page) => {
-                const spendList = isDesc ? page.data.spendList : [...page.data.spendList].reverse();
+                const spendList = isDesc ? page.spendList : [...page.spendList].reverse();
                 return spendList.length === 0 ? (
                   <EmptyMessage>조회 결과가 없습니다.</EmptyMessage>
                 ) : (

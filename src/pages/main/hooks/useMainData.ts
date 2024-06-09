@@ -28,7 +28,7 @@ const useMainData = (currentDate: Date, isDemoMode: boolean) => {
     data: subData,
     isLoading: isLoadingSubData,
     error: subDataError,
-  } = useQuery(
+  } = useQuery<MainSubDataType>(
     ['fetchMainSubDataQueryKey', selectDate],
     () => fetchMainData<MainSubDataType>(selectDate, true),
     {

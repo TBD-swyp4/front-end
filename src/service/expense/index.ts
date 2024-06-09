@@ -1,9 +1,9 @@
 import axiosInstance from './../axios';
 
-import type { ExpenseAICommentType, ExpenseDetailDataType } from './types';
-import type { ExpenseFilterType } from '@models/expense';
-import { EmotionKeys, Registers } from '@models/index';
 import { formatYMD } from '@utils/index';
+import { EmotionKeys, Registers } from '@models/index';
+import type { ExpenseFilterType } from '@models/expense';
+import type { ExpenseAICommentType, ExpenseDetailDataType, ExpenseListDataType } from './types';
 
 /* 소비 내역 저장 (입력 페이지) */
 export const saveExpenseData = async (expenseData: ExpenseDetailDataType) => {
@@ -95,7 +95,10 @@ export const fetchAIComment = async (
  * @param params 필터 조건
  * @returns
  */
-export const fetchExpensesByCondition = async (page: number = 0, params: ExpenseFilterType) => {
+export const fetchExpensesByCondition = async (
+  page: number = 0,
+  params: ExpenseFilterType,
+): Promise<ExpenseListDataType> => {
   try {
     // 데이터 가공하기
     // 1. 배열이 비어있을 경우, 모두 선택 조건 (`!` 연산자 쓰려다가, 확실하게 빈 문자열인지 체크로 변경)
@@ -121,7 +124,7 @@ export const fetchExpensesByCondition = async (page: number = 0, params: Expense
         word: params.word,
       },
     });
-    return data;
+    return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchExpensesByCondition : ' + error);
   }
