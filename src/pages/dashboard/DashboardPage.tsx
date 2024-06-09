@@ -1,84 +1,23 @@
 import styled from 'styled-components';
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useMonthNavigator from '@hooks/useMonthNavigator';
 import useDashboardData from './hooks/useDashboardData';
-import useIsDemoMode from '@hooks/useIsDemo';
 
+import NavigationLayout from './navigation';
 import TabLayout, { TabProps } from '@components/layout/TabLayout';
-import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 import TabContent from './components/TabContent';
 import Spinner from '@components/information/Spinner';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
-import type { TabOption } from './type';
-import { PagePath } from '@models/navigation';
+import { TabOption } from './type';
 
-type DashboardNavProps = {
-  currentDate: Date;
-  previousMonth: () => void;
-  nextMonth: () => void;
-  children: React.ReactNode;
-};
-
-const NavigationLayout = ({
-  children,
-  currentDate,
-  previousMonth,
-  nextMonth,
-}: DashboardNavProps) => {
-  const navigate = useNavigate();
-  const monthNavProps = { currentDate, previousMonth, nextMonth };
-  const isDemoMode = useIsDemoMode();
-
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                대시보드
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGrayButton
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-        _Extension={
-          <MonthNavWrapper>
-            <MonthNavigatorBtn {...monthNavProps} />
-          </MonthNavWrapper>
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.Dashboard} />
-    </>
-  );
-};
-
-const MonthNavWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: 40px;
-`;
+import useIsDemoMode from '@hooks/useIsDemo';
 
 const DashboardPage = () => {
+  const isDemoMode = useIsDemoMode();
   const monthNav = useMonthNavigator(); // monthNav.currentDate = 현재 선택된 월
+  const navigationProps = { ...monthNav, isDemoMode };
+
   const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_SPEND'); // 지출 탭 기본 선택
   const registerType = selectedTab === 'TAB_SPEND' ? 'SPEND' : 'SAVE';
 
@@ -87,6 +26,7 @@ const DashboardPage = () => {
     monthNav.currentDate,
     selectedTab,
     registerType,
+    isDemoMode,
   );
 
   const handleTabSelect = (tabId: string) => {
@@ -98,25 +38,26 @@ const DashboardPage = () => {
       id: 'TAB_SPEND',
       label: '지출',
       content:
-        isLoading || error ? (
+        !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
-          <TabContent currentDate={monthNav.currentDate} registerType={'SPEND'} data={data.data} />
+          <TabContent currentDate={monthNav.currentDate} registerType={'SPEND'} data={data} />
         ),
     },
     {
       id: 'TAB_SAVE',
       label: '절약',
       content:
-        isLoading || error ? (
+        !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
         ) : (
-          <TabContent currentDate={monthNav.currentDate} registerType={'SAVE'} data={data.data} />
+          <TabContent currentDate={monthNav.currentDate} registerType={'SAVE'} data={data} />
         ),
     },
   ];
+
   return (
-    <NavigationLayout {...monthNav}>
+    <NavigationLayout {...navigationProps}>
       <DashboardContainer>
         <TabWrapper>
           <TabLayout tabs={tabData} selectedTab={selectedTab} onTabSelect={handleTabSelect} />

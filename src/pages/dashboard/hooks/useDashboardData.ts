@@ -1,17 +1,19 @@
 import { useQuery } from 'react-query';
-import { fetchDashboardData } from '@api/dashboardAPI';
-
+import { fetchDashboardData } from '@service/dashboard';
 import { formatYMD } from '@utils/index';
 import type { Register } from '@models/index';
-import type { TabOption } from '../type';
+import type { TabOption } from './../type';
+import type { DashboardDataType } from '@service/dashboard/types';
 
-import useIsDemoMode from '@hooks/useIsDemo';
-
-const useDashboardData = (currentDate: Date, selectedTab: TabOption, registerType: Register) => {
+const useDashboardData = (
+  currentDate: Date,
+  selectedTab: TabOption,
+  registerType: Register,
+  isDemoMode: boolean,
+) => {
   const selectDate = formatYMD(currentDate, 'none');
-  const isDemoMode = useIsDemoMode();
 
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error } = useQuery<DashboardDataType>(
     ['fetchDashboardDataQueryKey', currentDate.getMonth(), selectedTab],
     () => fetchDashboardData(selectDate, registerType),
     {
@@ -20,7 +22,9 @@ const useDashboardData = (currentDate: Date, selectedTab: TabOption, registerTyp
     },
   );
 
-  const rtnData = isDemoMode ? { data: {} } : data;
+  const rtnData = isDemoMode
+    ? { dailyAmount: [], emotionAmountTotal: [], satisfactionAverage: 0 }
+    : data;
 
   return {
     data: rtnData,

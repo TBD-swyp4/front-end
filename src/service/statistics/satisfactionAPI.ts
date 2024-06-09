@@ -1,4 +1,4 @@
-import axiosInstance from '@api/axios';
+import axiosInstance from '@service/axios';
 import type { Register } from '@models/index';
 
 /* MBTI별 만족도 */

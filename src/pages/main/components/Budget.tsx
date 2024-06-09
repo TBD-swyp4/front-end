@@ -3,12 +3,12 @@ import styled, { keyframes } from 'styled-components';
 import { PrevBtn } from '@components/button';
 import { useNavigate } from 'react-router-dom';
 
-import type { Budget as BudgetType } from '@models/api/main';
+import type { MainBudgetType } from '@service/main/types';
 import { PagePath } from '@models/navigation';
 
 import { addCommasToNumber } from '@utils/index';
 
-type BudgetProps = BudgetType;
+type BudgetProps = MainBudgetType;
 
 const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
   const navigate = useNavigate();
@@ -43,13 +43,13 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
             목표 달성을 위한 하루 권장 지출 : {addCommasToNumber(recommendSpend)}원
           </span>
         </RemainDetail>
-        <GoSetting>
+        <GoSettingWrapper>
           <SettingBtn
             onClick={() => {
               navigate(PagePath.Setting);
             }}
           />
-        </GoSetting>
+        </GoSettingWrapper>
       </Remain>
       <Bar>
         <BarDetail $percent={`${percent}%`}>
@@ -109,7 +109,7 @@ const RemainDetail = styled.div`
   }
 `;
 
-const GoSetting = styled.div`
+const GoSettingWrapper = styled.div`
   position: absolute;
   top: 5px;
   right: -5px;

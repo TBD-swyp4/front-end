@@ -1,8 +1,12 @@
-import axiosInstance from './axios';
+import axiosInstance from './../axios';
 import type { Register } from '@models/index';
+import type { DashboardDataType } from './types';
 
 /* 대시보드 데이터 */
-export const fetchDashboardData = async (selectDate: string, registerType: Register) => {
+export const fetchDashboardData = async (
+  selectDate: string,
+  registerType: Register,
+): Promise<DashboardDataType> => {
   try {
     const { data } = await axiosInstance.get(`/articles/dashboard`, {
       params: {
@@ -10,7 +14,7 @@ export const fetchDashboardData = async (selectDate: string, registerType: Regis
         registerType,
       },
     });
-    return data;
+    return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchDashboardData : ' + error);
   }

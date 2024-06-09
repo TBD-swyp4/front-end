@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query';
-import { fetchMainData } from '@api/mainAPI';
+
+import { fetchMainData } from '@service/main';
 import { formatYMD } from '@utils/index';
 
-import useIsDemoMode from '@hooks/useIsDemo';
+import type { MainDataType, MainSubDataType } from '@service/main/types';
 
-const useMainData = (currentDate: Date) => {
+const useMainData = (currentDate: Date, isDemoMode: boolean) => {
   const selectDate = formatYMD(currentDate, 'none');
-  const isDemoMode = useIsDemoMode();
 
   // Main Data : 예산, 월 작성 리스트
   // 메인 데이터는 "월" 이 바뀌면 재로딩
@@ -14,24 +14,32 @@ const useMainData = (currentDate: Date) => {
     data: mainData,
     isLoading: isLoadingMainData,
     error: mainDataError,
-  } = useQuery(['fetchMainDataQueryKey', currentDate.getMonth()], () => fetchMainData(selectDate), {
-    enabled: !!selectDate && !isDemoMode,
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
+  } = useQuery<MainDataType>(
+    ['fetchMainDataQueryKey', currentDate.getMonth()],
+    () => fetchMainData<MainDataType>(selectDate),
+    {
+      enabled: !!selectDate && !isDemoMode,
+      refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
+    },
+  );
 
   // Sub Data : 선택 날짜의 작성 요약 리스트
   const {
     data: subData,
     isLoading: isLoadingSubData,
     error: subDataError,
-  } = useQuery(['fetchMainSubDataQueryKey', selectDate], () => fetchMainData(selectDate, true), {
-    enabled: !!selectDate && !isDemoMode,
-    refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
-  });
+  } = useQuery<MainSubDataType>(
+    ['fetchMainSubDataQueryKey', selectDate],
+    () => fetchMainData<MainSubDataType>(selectDate, true),
+    {
+      enabled: !!selectDate && !isDemoMode,
+      refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
+    },
+  );
 
   // Handling demo mode
-  const rtnMainData = isDemoMode ? { data: [] } : mainData;
-  const rtnSubData = isDemoMode ? { data: [] } : subData;
+  const rtnMainData = isDemoMode ? { budget: 0, monthSpendList: [], daySpendList: [] } : mainData;
+  const rtnSubData = isDemoMode ? { daySpendList: [] } : subData;
 
   return {
     mainData: rtnMainData,

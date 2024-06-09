@@ -1,95 +1,40 @@
 import styled from 'styled-components';
 import { flexBetween, flexCenter, flexColumnCenter, mainSection } from '@styles/CommonStyles';
 
-import TopBar from '@components/layout/TopBar';
-import TopNavigation from '@layout/TopNavigation';
-
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
+import NavigationLayout from './navigation';
 import Spinner from '@components/information/Spinner';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 import { PrevBtn } from '@components/button';
 
+import type { EI, NS, TF, PJ } from '@models/index';
 import { mbtiKeys, type UserFormType } from '@models/user';
-import { PagePath } from '@models/navigation';
 
 import useIsDemoMode from '@hooks/useIsDemo';
+import useUserForm from './hooks/useUserForm';
 import useUpdateUser from './hooks/useUpdateUser';
 import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
 
 import { formatAmountNumber } from '@utils/index';
 
-type NavLayoutProps = {
-  children: React.ReactNode;
-  isDemoMode: boolean;
-};
-
-const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
-  const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
-  const isFirstLogin = searchParams.get('isFirstLogin');
-  const handlePrev = () => {
-    if (isFirstLogin === 'true') navigate(PagePath.Main);
-    else navigate(-1);
-  };
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            leftContent={<TopBar.PrevButton onClick={handlePrev} />}
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                내 정보
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47CFB0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-          />
-        }
-      />
-      {children}
-    </>
-  );
-};
-
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();
-  const { data: userData, isLoading: isLoadingUserData, error } = useUserData();
-  const saveMutation = useUpdateUser();
-  const { logoutMutation, handleLogout } = useLogout();
+  const { userData, isLoadingUserData, error } = useUserData(isDemoMode);
+  const userSaveMutation = useUpdateUser(isDemoMode);
+  const logoutMutation = useLogout(isDemoMode);
 
   const mbtiArray = mbtiKeys;
 
-  const methods = useForm<UserFormType>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    criteriaMode: 'all',
-    defaultValues: {
-      budget: '',
-      gender: 'MALE',
-      EI: 'E',
-      NS: 'N',
-      TF: 'T',
-      PJ: 'J',
-    },
-  });
+  // 유저 데이터 입력 Form
+  const methods = useUserForm();
 
-  const handleSubmit = methods.handleSubmit((data: UserFormType) => {
+  const handleSaveSubmit = (data: UserFormType) => {
+    // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const sendBudget = data.budget.replace(/,/g, '');
-    if (isDemoMode) {
-      alert(`데모데이터로 저장: ${sendBudget}`);
-    } else {
-      // budget : #,##0  => 다시 숫자만 남은 형태로 변경 필요
-      saveMutation.mutate({ ...data, budget: sendBudget });
-    }
-  });
+    userSaveMutation.mutate({ ...data, budget: sendBudget });
+  };
 
   const handleBudgetChange = (value: string, onChange: (value: string) => void) => {
     const formattedValue = formatAmountNumber(value, true);
@@ -97,27 +42,22 @@ const SettingPage = () => {
   };
 
   const handleClickLogout = () => {
-    if (isDemoMode) {
-      handleLogout(true);
-    } else {
-      logoutMutation.mutate();
-    }
+    logoutMutation.mutate();
   };
 
   useEffect(() => {
-    if (!isLoadingUserData && userData && userData.data) {
-      const data = userData.data;
-
+    if (!isLoadingUserData && userData) {
       // 서버에서 받는 예산 데이터는 숫자 형태이므로, 다시 #,##0 형태로 변환하여 세팅 필요
-      const formattedValue = formatAmountNumber(data.budget?.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
+      const formattedValue = formatAmountNumber(userData.budget?.toString() || ''); // data.budget이 서버에서 null값으로 오는 경우 처리
+      const [EI, NS, TF, PJ] = userData.mbti.split('') as [EI, NS, TF, PJ];
 
       methods.reset({
         budget: formattedValue,
-        gender: data.gender,
-        EI: data.mbti[0],
-        NS: data.mbti[1],
-        TF: data.mbti[2],
-        PJ: data.mbti[3],
+        gender: userData.gender,
+        EI,
+        NS,
+        TF,
+        PJ,
       });
     }
   }, [userData, methods, isLoadingUserData]);
@@ -125,7 +65,7 @@ const SettingPage = () => {
   return (
     <NavigationLayout isDemoMode={isDemoMode}>
       <SettingContainer>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>
           <Title>나의 예산</Title>
           <BudgetContainer>
             {isLoadingUserData ? (
@@ -159,7 +99,7 @@ const SettingPage = () => {
           <ProfileContainer>
             {isDemoMode ? (
               '체험하기에서는 예산만 설정할 수 있어요.'
-            ) : isLoadingUserData ? (
+            ) : !userData || isLoadingUserData ? (
               <Spinner />
             ) : error ? (
               <div>An error occurred</div>
@@ -167,7 +107,7 @@ const SettingPage = () => {
               <>
                 <ProfileDiv>
                   <span>로그인 계정</span>
-                  {userData?.data?.email}
+                  {userData.email}
                 </ProfileDiv>
                 <ProfileDiv>
                   <span>성별</span>
@@ -215,7 +155,7 @@ const SettingPage = () => {
               </>
             )}
           </ProfileContainer>
-          <Button disabled={!methods.formState.isValid || saveMutation.isLoading}>저장</Button>
+          <Button disabled={!methods.formState.isValid || userSaveMutation.isLoading}>저장</Button>
           <InquiryButton
             onClick={() => {
               alert('문의하기 기능 준비중!');

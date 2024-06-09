@@ -1,14 +1,14 @@
 import { useMutation } from 'react-query';
-import { fetchAIComment } from '@api/expenseAPI';
+import { fetchAIComment } from '@service/expense';
 
 import type { UseFormSetValue } from 'react-hook-form';
-import type { ExpenseFormType } from '@models/expense';
+import type { ExpenseDetailDataType } from '@service/expense/types';
 
-const useAICommentData = (setValue: UseFormSetValue<ExpenseFormType>) => {
+const useAICommentData = (setValue: UseFormSetValue<ExpenseDetailDataType>) => {
   return useMutation(fetchAIComment, {
     onSuccess: (commentData) => {
       // #20240516.syjang, aiComment->content로 변경
-      setValue('aiComment', commentData.data.content);
+      setValue('aiComment', commentData.content);
     },
     onError: (error) => {
       alert('다시 시도해주세요.');

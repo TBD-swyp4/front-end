@@ -1,140 +1,63 @@
 import styled from 'styled-components';
 import { flexColumnBetween, mainSection, overflowWithoutScroll } from '@styles/CommonStyles';
 
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
 import Spinner from '@components/information/Spinner';
-import Background from '@components/background';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useMainData from './hooks/useMainData';
-import useIsDemoMode from '@hooks/useIsDemo';
-
 import useMonthNavigator from '@hooks/useMonthNavigator';
-import MonthNavigatorBtn from '@components/date/MonthNavigatorBtn';
 
+import NavigationLayout from './navigation';
 import Budget from './components/Budget';
 import DayExpenseListTop2 from './components/DayExpenseTop2';
 import Calendar from './components/Calendar';
-import { PagePath } from '@models/navigation';
-
-type MainNavProps = {
-  currentDate: Date;
-  previousMonth: () => void;
-  nextMonth: () => void;
-  children: React.ReactNode;
-};
-
-const NavigationLayout = ({ children, currentDate, previousMonth, nextMonth }: MainNavProps) => {
-  const navigate = useNavigate();
-  const mainColor = { color: '#ffffff' };
-  const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
-  const isDemoMode = useIsDemoMode();
-
-  const [showBackground, setShowBackground] = useState<boolean>(false);
-
-  useEffect(() => {
-    setShowBackground(true);
-    return () => {
-      setShowBackground(false);
-    };
-  }, []);
-  return (
-    <>
-      <MetaThemeColor color="#47CFB0" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            leftContent={<TopNavigation.TopBar.LogoWhiteButton />}
-            centerContent={
-              isDemoMode && (
-                <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffffb5' }}>
-                  체험중
-                </TopNavigation.TopBar.CenterTitle>
-              )
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGreenButton
-                style={mainColor}
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-        _Extension={
-          <MonthNavWrapper>
-            <MonthNavigatorBtn {...monthNavProps} />
-          </MonthNavWrapper>
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.Main} />
-      {showBackground && <Background height="36%" color="#47CFB0" />}
-    </>
-  );
-};
-
-const MonthNavWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: 40px;
-`;
+import useIsDemoMode from '@hooks/useIsDemo';
 
 const MainPage = () => {
+  const isDemoMode = useIsDemoMode();
   // monthNav.currentDate : 현재 선택된 월
   const monthNav = useMonthNavigator(); // 헤더의 월 네비게이션
+  const navigationProps = { ...monthNav, isDemoMode };
   const { mainData, isLoadingMainData, mainDataError, subData, isLoadingSubData, subDataError } =
-    useMainData(monthNav.currentDate);
+    useMainData(monthNav.currentDate, isDemoMode);
 
   return (
-    <>
-      <NavigationLayout {...monthNav}>
-        <MainContainer>
-          <BudgetContainer $isLoading={isLoadingMainData}>
-            {isLoadingMainData ? (
-              <Spinner />
-            ) : mainDataError ? (
-              <div>An error occurred</div>
-            ) : !mainData.data.budget ? (
-              <div>예산 데이터 없음</div>
-            ) : (
-              <Budget {...mainData.data.budget} />
-            )}
-          </BudgetContainer>
-          <CalendarWrapper>
-            {isLoadingMainData ? (
-              <Spinner />
-            ) : mainDataError ? (
-              <div>An error occurred</div>
-            ) : !mainData.data.monthSpendList ? (
-              <div>소비 데이터 없음</div>
-            ) : (
-              <Calendar {...monthNav} data={mainData.data.monthSpendList} />
-            )}
-          </CalendarWrapper>
-          <DayListContainer>
-            {isLoadingSubData ? (
-              <Spinner />
-            ) : subDataError ? (
-              <div>An error occurred</div>
-            ) : !subData.data.daySpendList ? (
-              <div>리스트 데이터 없음</div>
-            ) : (
-              <DayExpenseListTop2
-                data={subData.data.daySpendList}
-                currentDate={monthNav.currentDate}
-              />
-            )}
-          </DayListContainer>
-        </MainContainer>
-      </NavigationLayout>
-    </>
+    <NavigationLayout {...navigationProps}>
+      <MainContainer>
+        <BudgetContainer $isLoading={isLoadingMainData}>
+          {!mainData || isLoadingMainData ? (
+            <Spinner />
+          ) : mainDataError ? (
+            <div>An error occurred</div>
+          ) : !mainData.budget ? (
+            <div>예산 데이터 없음</div>
+          ) : (
+            <Budget {...mainData.budget} />
+          )}
+        </BudgetContainer>
+        <CalendarWrapper>
+          {!mainData || isLoadingMainData ? (
+            <Spinner />
+          ) : mainDataError ? (
+            <div>An error occurred</div>
+          ) : !mainData.monthSpendList ? (
+            <div>소비 데이터 없음</div>
+          ) : (
+            <Calendar {...monthNav} data={mainData.monthSpendList} />
+          )}
+        </CalendarWrapper>
+        <DayListContainer>
+          {!subData || isLoadingSubData ? (
+            <Spinner />
+          ) : subDataError ? (
+            <div>An error occurred</div>
+          ) : !subData.daySpendList ? (
+            <div>리스트 데이터 없음</div>
+          ) : (
+            <DayExpenseListTop2 data={subData.daySpendList} currentDate={monthNav.currentDate} />
+          )}
+        </DayListContainer>
+      </MainContainer>
+    </NavigationLayout>
   );
 };
 

@@ -23,7 +23,7 @@ const ExpenseSummary = ({
 }: ExpenseSummaryProps) => {
   const navigate = useNavigate();
 
-  const handleClick = (id: number) => {
+  const handleSummaryClick = (id: number) => {
     // PagePath.ExpenseDetailView : '/expense/:id',
     const detailPath = getExpenseDetailViewPath(id);
     navigate(detailPath);
@@ -32,7 +32,7 @@ const ExpenseSummary = ({
   return (
     <Container
       onClick={() => {
-        handleClick(articleId);
+        handleSummaryClick(articleId);
       }}>
       <EmotionWrapper>
         <Emotion emotionKey={emotion} isSelect={false} iconSize={80} textSize={14} />

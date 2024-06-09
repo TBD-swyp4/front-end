@@ -8,74 +8,21 @@ import {
 } from '@styles/CommonStyles';
 import { PrevBtn } from '@components/button';
 
-import TopNavigation from '@layout/TopNavigation';
-import BottomNavigation from '@layout/BottomNavigation';
-
-import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useExpenseListData from './hooks/useExpenseListData';
 import useIsDemoMode from '@hooks/useIsDemo';
 
 import type { ExpenseFilterType, ExpenseSummaryType } from '@models/expense';
 import { EmotionKeys, Registers } from '@models/index';
-import { PagePath } from '@models/navigation';
 
+import NavigationLayout from './navigation';
 import SearchCondition from './components/SearchCondition';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
 
 import Spinner from '@components/information/Spinner';
-import Background from '@components/background';
-import MetaThemeColor from '@components/background/MetaThemeColor';
 
 import { cloneDeep } from 'lodash';
 import { endOfMonth, startOfMonth } from 'date-fns';
-
-type NavLayoutProps = {
-  children: React.ReactNode;
-  isDemoMode: boolean;
-};
-
-const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
-  const navigate = useNavigate();
-
-  const [showBackground, setShowBackground] = useState<boolean>(false);
-  useEffect(() => {
-    setShowBackground(true);
-    return () => {
-      setShowBackground(false);
-    };
-  }, []);
-
-  return (
-    <>
-      <MetaThemeColor color="#47CFB0" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffff' }}>
-                내역 조회
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#ffffff' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.SettingGreenButton
-                onClick={() => {
-                  navigate(PagePath.Setting);
-                }}
-              />
-            }
-          />
-        }
-      />
-      {children}
-      <BottomNavigation location={PagePath.ExpenseListView} />
-      {showBackground && <Background height="60px" color="#47CFB0" />}
-    </>
-  );
-};
 
 const ExpenseListViewPage = () => {
   const isDemoMode = useIsDemoMode();
@@ -99,7 +46,7 @@ const ExpenseListViewPage = () => {
 
   // 무한 스크롤 구현, 데이터 정렬은 최신순 고정(서버에서 그렇게 보내줌)
   const { expensesData, isLoading, error, fetchNextPage, hasNextPage, refetch } =
-    useExpenseListData(condition);
+    useExpenseListData(condition, isDemoMode);
 
   // 검색 조건이 변경될 때 쿼리를 다시 실행
   useEffect(() => {
@@ -197,7 +144,7 @@ const ExpenseListViewPage = () => {
               <div>Error...</div>
             ) : (
               pagesData?.map((page) => {
-                const spendList = isDesc ? page.data.spendList : [...page.data.spendList].reverse();
+                const spendList = isDesc ? page.spendList : [...page.spendList].reverse();
                 return spendList.length === 0 ? (
                   <EmptyMessage>조회 결과가 없습니다.</EmptyMessage>
                 ) : (

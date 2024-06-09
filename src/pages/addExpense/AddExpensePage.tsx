@@ -2,98 +2,37 @@
 import styled from 'styled-components';
 import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import TopNavigation from '@layout/TopNavigation';
-import type { ExpenseFormType } from '@models/expense';
-
-import { useForm, FormProvider } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { FormProvider } from 'react-hook-form';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useSaveExpense from './hooks/useSaveExpense';
+import useAddExpenseForm from './hooks/useAddExpenseForm';
+import { useDemoStore } from '@stores/demoStore';
 
+import NavigationLayout from './navigation';
 import WriteExpense from './components/WriteExpense';
 import WriteEmotion from './components/WriteEmotion';
 import WriteSatisfaction from './components/WriteSatisfaction';
 
-import MetaThemeColor from '@components/background/MetaThemeColor';
+import GoLogin from '@components/information/GoLogin';
 import LoadingModal from '@components/modal/LoadingModal';
 
-type AddNavProps = {
-  children: React.ReactNode;
-  title: string;
-  isDemoMode: boolean;
-  hasPrev: boolean;
-  prevStep: () => void;
-};
-
-const NavigationLayout = ({ children, title, isDemoMode, hasPrev, prevStep }: AddNavProps) => {
-  const navigate = useNavigate();
-  return (
-    <>
-      <MetaThemeColor color="#F4F4F4" />
-      <TopNavigation
-        _TopBar={
-          <TopNavigation.TopBar
-            leftContent={
-              hasPrev && (
-                <TopNavigation.TopBar.PrevButton
-                  onClick={() => {
-                    prevStep();
-                  }}
-                />
-              )
-            }
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                {title}
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
-            rightContent={
-              <TopNavigation.TopBar.CloseButton
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
-            }
-          />
-        }
-      />
-      {children}
-    </>
-  );
-};
+import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
+import type { ExpenseDetailDataType } from '@service/expense/types';
 
 const AddExpensePage = () => {
   const isDemoMode = useIsDemoMode();
+  const getExpensesCount = useDemoStore((state) => state.getExpensesCount);
 
+  // 소비 입력 form
+  const methods = useAddExpenseForm();
   // 저장 쿼리
-  const expenseMutation = useSaveExpense();
-  // 입력 form
-  const methods = useForm<ExpenseFormType>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    criteriaMode: 'all',
-    defaultValues: {
-      registerType: 'SPEND', // 소비, 절약
-      amount: '', // 금액, #,##0 형태
-      content: '', // 소비 내용 (원래 물건)
-      spendDate: '', // 소비 날짜, 시간 (저장 시간 아님) -> 추가 필요 필드
-      event: '', // 사건
-      thought: '', // 생각
-      emotion: '', // 감정
-      satisfaction: 3, // 만족도
-      reason: '', // 만족 이유
-      improvements: '', // 개선점
-    },
-  });
+  const expenseSaveMutation = useSaveExpense(isDemoMode);
 
   // 페이지 별 타이틀
-  const [title, setTitle] = useState<string>('지출/절약 입력');
   const titleArr = ['지출/절약 입력', '감정 입력', '만족도 입력'];
+  const [title, setTitle] = useState<string>(titleArr[0]);
 
   // 입력 스탭
   const [currStep, setCurrStep] = useState<number>(0);
@@ -116,17 +55,27 @@ const AddExpensePage = () => {
     setCurrStep(currStep - 1);
   };
 
-  // 제출
-  const handleSubmit = (data: ExpenseFormType) => {
+  // 소비 내역 저장
+  const handleSaveSubmit = (data: ExpenseDetailDataType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    if (isDemoMode) {
-      alert('체험하기로 저장');
-    } else {
-      expenseMutation.mutate({ ...data, amount: numberAmount });
-    }
+    expenseSaveMutation.mutate({ ...data, amount: numberAmount });
   };
 
+  // 체험모드일 경우, 최대 저장 개수만큼 데이터가 존재하면 로그인 유도 페이지로 연결
+  if (isDemoMode && getExpensesCount() >= MAX_EXPENSE_SIZE) {
+    return (
+      <GoLogin
+        birdTop="120px"
+        message={
+          <>
+            <span>{`'체험하기'에서는 최대 ${MAX_EXPENSE_SIZE}개까지`}</span>
+            <span>저장할 수 있어요</span>
+          </>
+        }
+      />
+    );
+  }
   return (
     <NavigationLayout
       hasPrev={currStep > 0}
@@ -135,12 +84,11 @@ const AddExpensePage = () => {
       isDemoMode={isDemoMode}>
       <AddExpenseContainer>
         <FormProvider {...methods}>
-          <Form onSubmit={methods.handleSubmit(handleSubmit)}>
+          <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>
             {/* 폼 영역 (멀티 스탭) */}
             {currStep === 0 && <WriteExpense />}
             {currStep === 1 && <WriteEmotion />}
             {currStep === 2 && <WriteSatisfaction />}
-
             {/* 버튼 영역 */}
             <NextButtonWrapper>
               {currStep < 2 && (
@@ -156,7 +104,7 @@ const AddExpensePage = () => {
           </Form>
         </FormProvider>
       </AddExpenseContainer>
-      {expenseMutation.isLoading && <LoadingModal />}
+      {expenseSaveMutation.isLoading && <LoadingModal />}
     </NavigationLayout>
   );
 };

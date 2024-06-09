@@ -5,6 +5,7 @@ import { Navigate, useSearchParams } from 'react-router-dom';
 
 import GoSetting from '@components/information/GoSetting';
 import { PagePath } from '@models/navigation';
+import { ACCESS_TOKEN_NAME } from '@stores/storeConfig';
 
 // 서버에서 인증 받아서 돌아오는 페이지.
 const AuthPage = () => {
@@ -14,7 +15,7 @@ const AuthPage = () => {
 
   useEffect(() => {
     if (access_token) {
-      window.localStorage.setItem('access_token', access_token);
+      window.localStorage.setItem(ACCESS_TOKEN_NAME, access_token);
       useAuthStore.getState().setLoginState();
     } else {
       useAuthStore.getState().setLogoutState();

@@ -1,11 +1,12 @@
-import axiosInstance from './axios';
+import axiosInstance from './../axios';
 import type { UserFormType } from '@models/user';
+import type { UserSettingDataType } from './types';
 
 /* 유저 정보 (환경설정) */
-export const fetchUserData = async () => {
+export const fetchUserData = async (): Promise<UserSettingDataType> => {
   try {
     const { data } = await axiosInstance.get(`/users/details`);
-    return data;
+    return data.data;
   } catch (error) {
     throw new Error('[서버 통신 오류] fetchUserData : ' + error);
   }

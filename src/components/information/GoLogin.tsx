@@ -7,26 +7,37 @@ import { useAuthStore } from '@stores/authStore';
 import GoLoginBird from '@assets/images/bird/goLoginBird.svg?react';
 import useToast from '@hooks/useToast';
 
-const GoLogin = () => {
+type GoLoginProps = {
+  birdTop?: string; // 새 위치 조정 (텍스트 높이에 따라 조정 필요)
+  message?: React.ReactNode;
+};
+
+const GoLogin = ({
+  message = `'체험하기'에서는 이용할 수 없어요.`,
+  birdTop = '115px',
+}: GoLoginProps) => {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { setLogoutState } = useAuthStore((state) => {
     return { setLogoutState: state.setLogoutState };
   });
+  const handleGoLogin = () => {
+    const confirmResult = confirm(
+      `'체험하기' 중 저장한 데이터가 초기화됩니다.\n 체험하기를 종료하시겠어요?`,
+    );
+    if (confirmResult) {
+      setLogoutState();
+      showToast('체험하기가 종료되었습니다.');
+    }
+  };
   return (
     <Container>
       <Message>
-        <Bird />
-        <Text>{`'체험하기'에서는 이용할 수 없어요.`}</Text>
+        <Bird $top={birdTop} />
+        <Text>{message}</Text>
         <Text>로그인 하러 가보실까요?</Text>
       </Message>
-      <Button
-        $bottom="122px"
-        onClick={() => {
-          // 로컬 데이터 초기화 넣기?
-          setLogoutState();
-          showToast('체험하기가 종료되었습니다.');
-        }}>
+      <Button $bottom="122px" onClick={handleGoLogin}>
         로그인 하러 가기
       </Button>
       <Button
@@ -53,14 +64,17 @@ const Container = styled.div`
 const Message = styled.div`
   ${flexColumnCenter}
   position: relative;
-  gap: 5px;
+  width: 100%;
+  gap: 8px;
   margin-bottom: 190px;
 `;
 
 const Text = styled.div`
+  ${flexColumnCenter}
   color: #ffffff;
   font-size: 16px;
   font-weight: 700;
+  margin-right: 40px;
 `;
 
 const Button = styled.div<{ $bottom: string }>`
@@ -82,9 +96,10 @@ const Button = styled.div<{ $bottom: string }>`
   }
 `;
 
-const Bird = styled(GoLoginBird)`
+const Bird = styled(GoLoginBird)<{ $top: string }>`
   position: absolute;
-  left: -20px;
-  top: -40px;
+  top: ${(props) => props.$top};
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: -1;
 `;
