@@ -10,9 +10,9 @@ import { useDemoStore } from '@stores/demoStore';
 import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 
 const useSaveExpense = (isDemoMode: boolean) => {
-  const { showToast } = useToast();
-  const addDemoExpense = useDemoStore((state) => state.addDemoExpense);
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const addDemoExpense = useDemoStore((state) => state.addDemoExpense); // 체험하기용
 
   const expenseSaveMutation = useMutation(saveExpenseData, {
     onSuccess: (data) => {
@@ -28,7 +28,7 @@ const useSaveExpense = (isDemoMode: boolean) => {
     },
   });
 
-  // 임시 함수 (소비 수정)
+  // 체험하기 모드 소비 데이터 저장 로직
   const demoExpenseSaveMutation = {
     mutate: (data: ExpenseDetailDataType) => {
       const articleId = addDemoExpense(data);

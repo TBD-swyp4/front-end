@@ -14,6 +14,7 @@ export const initDemoState = (): DemoStoreStateType => ({
   nextArticleId: 0,
 });
 
+// store 버전 변경 시 demo data 초기화
 export const migrateDemoStore = (
   persistedState: unknown,
   version: number | undefined,

@@ -13,7 +13,7 @@ import { mbtiKeys, type UserFormType } from '@models/user';
 
 import useIsDemoMode from '@hooks/useIsDemo';
 import useUserForm from './hooks/useUserForm';
-import useUpdateUser from './hooks/useUpdateUser';
+import useSaveUserData from './hooks/useSaveUserData';
 import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
 
@@ -22,7 +22,7 @@ import { formatAmountNumber } from '@utils/index';
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();
   const { userData, isLoadingUserData, error } = useUserData(isDemoMode);
-  const userSaveMutation = useUpdateUser(isDemoMode);
+  const userSaveMutation = useSaveUserData(isDemoMode);
   const logoutMutation = useLogout(isDemoMode);
 
   const mbtiArray = mbtiKeys;
