@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useMutation } from 'react-query';
 import { logoutUser } from '@service/user';
 
@@ -20,17 +19,15 @@ const useLogout = (isDemoMode: boolean) => {
     },
   });
 
-  // 임시 함수 (유저 저장)
-  const demoMutate = useMemo(() => {
-    return {
-      mutate: () => {
-        useAuthStore.getState().setLogoutState();
-        showToast('체험하기가 종료되었습니다.');
-      },
-    };
-  }, [showToast]);
+  // 체험하기 종료
+  const demoLogoutMutation = {
+    mutate: () => {
+      useAuthStore.getState().setLogoutState();
+      showToast('체험하기가 종료되었습니다.');
+    },
+  };
 
-  if (isDemoMode) return demoMutate;
+  if (isDemoMode) return demoLogoutMutation;
   return logoutMutation;
 };
 

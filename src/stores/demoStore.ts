@@ -27,6 +27,13 @@ export const useDemoStore = create<DemoStoreType>()(
             });
             return saveArticleId;
           },
+          updateDemoExpense: () => {},
+          deleteDemoExpense: () => {},
+          setDemoUserSetting: (budget: number) => {
+            set((state) => {
+              state.userSettings.budget = budget;
+            });
+          },
           initExpenses: () => {
             // demoExpenses 를 기본값으로 초기화한다.
             set(() => initDemoState());

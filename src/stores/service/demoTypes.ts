@@ -10,6 +10,9 @@ export type DemoStoreStateType = {
 };
 export type DemoStoreType = DemoStoreStateType & {
   addDemoExpense: (expense: ExpenseDetailDataType) => number;
+  updateDemoExpense: () => void;
+  deleteDemoExpense: () => void;
+  setDemoUserSetting: (budget: number) => void;
   initExpenses: () => void;
   getExpensesCount: () => number;
 };
