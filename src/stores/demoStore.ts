@@ -13,6 +13,9 @@ export const useDemoStore = create<DemoStoreType>()(
       persist(
         (set, get) => ({
           ...initDemoState(), // 상태 초기값 지정
+          getDemoExpenseById: (articleId: string) => {
+            return get().demoExpenses.find((expense) => expense.articleId === Number(articleId));
+          },
           addDemoExpense: (expense: ExpenseDetailDataType) => {
             // 개발하다가 함수 분리할 수 있으면 service로 분리하기
             // 체험하기 최대 저장 개수 10개 제한
@@ -27,8 +30,23 @@ export const useDemoStore = create<DemoStoreType>()(
             });
             return saveArticleId;
           },
-          updateDemoExpense: () => {},
-          deleteDemoExpense: () => {},
+          updateDemoExpense: (articleId: string, data: ExpenseDetailDataType) => {
+            set((state) => {
+              const index = state.demoExpenses.findIndex(
+                (expense) => expense.articleId === Number(articleId),
+              );
+              if (index !== -1) {
+                state.demoExpenses[index] = { ...state.demoExpenses[index], ...data };
+              }
+            });
+          },
+          deleteDemoExpense: (articleId: string) => {
+            set((state) => {
+              state.demoExpenses = state.demoExpenses.filter(
+                (expense) => expense.articleId !== Number(articleId),
+              );
+            });
+          },
           setDemoUserSetting: (budget: number) => {
             set((state) => {
               state.userSettings.budget = budget;
