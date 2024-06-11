@@ -1,7 +1,9 @@
 import type { UserSettingDataType } from '@service/user/types';
 import type { ExpenseDetailDataType } from '@service/expense/types';
+import type { ExpenseFilterType } from '@models/expense';
+import type { MainDataType, MainSubDataType } from '@service/main/types';
 
-type DemoExpenseDataType = ExpenseDetailDataType & { articleId: number };
+export type DemoExpenseDataType = ExpenseDetailDataType & { articleId: number };
 
 export type DemoStoreStateType = {
   userSettings: UserSettingDataType;
@@ -9,12 +11,22 @@ export type DemoStoreStateType = {
   nextArticleId: number;
 };
 export type DemoStoreType = DemoStoreStateType & {
-  addDemoExpense: (expense: ExpenseDetailDataType) => number;
-  updateDemoExpense: () => void;
-  deleteDemoExpense: () => void;
+  // initial
+  initDemoExpenses: () => void;
+
+  // setter
   setDemoUserSetting: (budget: number) => void;
-  initExpenses: () => void;
-  getExpensesCount: () => number;
+  addDemoExpense: (expense: ExpenseDetailDataType) => number;
+  updateDemoExpense: (articleId: string, data: ExpenseDetailDataType) => void;
+  deleteDemoExpense: (articleId: string) => void;
+
+  // getter
+  getDemoExpensesCount: () => number;
+  getDemoExpenseById: (articleId: string) => ExpenseDetailDataType | undefined;
+  getDemoExpenseByCondition: (condition: ExpenseFilterType) => ExpenseDetailDataType[] | undefined;
+
+  getDemoMainData: (selectDate: string) => MainDataType;
+  getDemoMainSubData: (selectDate: string) => MainSubDataType;
 };
 
 // localStorage의 객체가 DemoStoreState 타입인지 판단하는 타입 가드 선언

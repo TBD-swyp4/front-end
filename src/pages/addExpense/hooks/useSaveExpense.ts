@@ -14,7 +14,7 @@ const useSaveExpense = (isDemoMode: boolean) => {
   const { showToast } = useToast();
   const addDemoExpense = useDemoStore((state) => state.addDemoExpense); // 체험하기용
 
-  const expenseSaveMutation = useMutation(saveExpenseData, {
+  const saveExpenseMutation = useMutation(saveExpenseData, {
     onSuccess: (data) => {
       const articleId = data.articleId;
       showToast('저장했습니다.');
@@ -28,8 +28,8 @@ const useSaveExpense = (isDemoMode: boolean) => {
     },
   });
 
-  // 체험하기 모드 소비 데이터 저장 로직
-  const demoExpenseSaveMutation = {
+  // [체험하기] 소비 데이터 저장 로직
+  const saveDemoExpenseMutation = {
     mutate: (data: ExpenseDetailDataType) => {
       const articleId = addDemoExpense(data);
       if (articleId == -1) {
@@ -45,8 +45,8 @@ const useSaveExpense = (isDemoMode: boolean) => {
     isLoading: false,
   };
 
-  if (isDemoMode) return demoExpenseSaveMutation;
-  return expenseSaveMutation;
+  if (isDemoMode) return saveDemoExpenseMutation;
+  return saveExpenseMutation;
 };
 
 export default useSaveExpense;

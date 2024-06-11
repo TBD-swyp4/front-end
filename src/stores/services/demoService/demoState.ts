@@ -1,5 +1,5 @@
-import { CURRENT_VERSION } from '../storeConfig';
-import { DemoStoreStateType, isValidDemoStore } from './demoTypes';
+import { CURRENT_VERSION } from '@stores/storeConfig';
+import { type DemoStoreType, type DemoStoreStateType, isValidDemoStore } from './demoTypes';
 
 // 상태 초기화
 export const initDemoState = (): DemoStoreStateType => ({
@@ -13,6 +13,10 @@ export const initDemoState = (): DemoStoreStateType => ({
   demoExpenses: [],
   nextArticleId: 0,
 });
+
+export const initDemoExpenses = (set: (fn: (state: DemoStoreType) => void) => void) => {
+  set(() => initDemoState());
+};
 
 // store 버전 변경 시 demo data 초기화
 export const migrateDemoStore = (

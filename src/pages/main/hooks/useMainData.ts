@@ -4,6 +4,7 @@ import { fetchMainData } from '@service/main';
 import { formatYMD } from '@utils/index';
 
 import type { MainDataType, MainSubDataType } from '@service/main/types';
+import { useDemoStore } from '@stores/demoStore';
 
 const useMainData = (currentDate: Date, isDemoMode: boolean) => {
   const selectDate = formatYMD(currentDate, 'none');
@@ -37,25 +38,16 @@ const useMainData = (currentDate: Date, isDemoMode: boolean) => {
     },
   );
 
-  // Handling demo mode
-  const rtnMainData = isDemoMode
-    ? {
-        budget: {
-          monthBudget: 0,
-          monthSpend: 0,
-          monthSave: 0,
-        },
-        monthSpendList: [],
-        daySpendList: [],
-      }
-    : mainData;
-  const rtnSubData = isDemoMode ? { daySpendList: [] } : subData;
+  // [체험하기] 메인 데이터
+  // Todo: MainData는 월이 바뀌지 않으면 캐싱 처리하기
+  const demoMainData = useDemoStore((state) => state.getDemoMainData)(selectDate);
+  const demoMainSubData = useDemoStore((state) => state.getDemoMainSubData)(selectDate);
 
   return {
-    mainData: rtnMainData,
+    mainData: isDemoMode ? demoMainData : mainData,
     isLoadingMainData,
     mainDataError,
-    subData: rtnSubData,
+    subData: isDemoMode ? demoMainSubData : subData,
     isLoadingSubData,
     subDataError,
   };

@@ -8,7 +8,7 @@ const useSaveUserData = (isDemoMode: boolean) => {
   const { showToast } = useToast();
   const setDemoUserSetting = useDemoStore((state) => state.setDemoUserSetting); // 체험하기용
 
-  const userSaveMutation = useMutation(saveUserData, {
+  const saveUserMutation = useMutation(saveUserData, {
     onSuccess: (data) => {
       showToast('저장했습니다.');
       console.log(`유저 데이터 저장 성공 : ${JSON.stringify(data)}`);
@@ -19,8 +19,8 @@ const useSaveUserData = (isDemoMode: boolean) => {
     },
   });
 
-  // 체험하기 모드 예산 저장 로직
-  const demoUserSaveMutaion = {
+  // [체험하기] 예산 저장 로직
+  const saveDemoUserMutaion = {
     mutate: (data: UserFormType) => {
       setDemoUserSetting(Number(data.budget));
       showToast('저장했습니다.');
@@ -28,8 +28,8 @@ const useSaveUserData = (isDemoMode: boolean) => {
     },
     isLoading: false,
   };
-  if (isDemoMode) return demoUserSaveMutaion;
-  return userSaveMutation;
+  if (isDemoMode) return saveDemoUserMutaion;
+  return saveUserMutation;
 };
 
 export default useSaveUserData;

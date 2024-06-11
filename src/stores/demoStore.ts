@@ -2,51 +2,44 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools, persist } from 'zustand/middleware';
 
+import * as Service from './services/demoService';
+
+import type { DemoStoreType } from './services/demoService/demoTypes';
+import type { ExpenseFilterType } from '@models/expense';
 import type { ExpenseDetailDataType } from '@service/expense/types';
-import type { DemoStoreType } from './service/demoTypes';
-import { initDemoState, migrateDemoStore } from './service/demoService';
-import { CURRENT_VERSION, DEMO_STORE_NAME, MAX_EXPENSE_SIZE } from './storeConfig';
+
+import { CURRENT_VERSION, DEMO_STORE_NAME } from './storeConfig';
 
 export const useDemoStore = create<DemoStoreType>()(
   immer(
     devtools(
       persist(
         (set, get) => ({
-          ...initDemoState(), // 상태 초기값 지정
-          addDemoExpense: (expense: ExpenseDetailDataType) => {
-            // 개발하다가 함수 분리할 수 있으면 service로 분리하기
-            // 체험하기 최대 저장 개수 10개 제한
-            if (get().demoExpenses.length >= MAX_EXPENSE_SIZE) return -1;
-            const saveArticleId: number = get().nextArticleId;
-            set((state) => {
-              state.demoExpenses.push({
-                ...expense,
-                articleId: state.nextArticleId,
-              });
-              state.nextArticleId += 1;
-            });
-            return saveArticleId;
-          },
-          updateDemoExpense: () => {},
-          deleteDemoExpense: () => {},
-          setDemoUserSetting: (budget: number) => {
-            set((state) => {
-              state.userSettings.budget = budget;
-            });
-          },
-          initExpenses: () => {
-            // demoExpenses 를 기본값으로 초기화한다.
-            set(() => initDemoState());
-          },
-          getExpensesCount: () => {
-            return get().demoExpenses.length;
-          },
+          // initial
+          ...Service.initDemoState(), // 상태 초기값 지정
+          initDemoExpenses: () => Service.initDemoExpenses(set),
+
+          // setter
+          setDemoUserSetting: (budget: number) => Service.setDemoUserSetting(set, budget),
+          addDemoExpense: (expense) => Service.addDemoExpense(set, get, expense),
+          updateDemoExpense: (articleId: string, data: ExpenseDetailDataType) =>
+            Service.updateDemoExpense(set, articleId, data),
+          deleteDemoExpense: (articleId: string) => Service.deleteDemoExpense(set, articleId),
+
+          // getter
+          getDemoExpensesCount: () => Service.getDemoExpensesCount(get),
+          getDemoExpenseById: (articleId: string) => Service.getDemoExpenseById(get, articleId),
+          getDemoExpenseByCondition: (condition: ExpenseFilterType) =>
+            Service.getDemoExpenseByCondition(get, condition),
+
+          getDemoMainData: (selectDate: string) => Service.getDemoMainData(get, selectDate),
+          getDemoMainSubData: (selectDate: string) => Service.getDemoMainSubData(get, selectDate),
         }),
         {
           name: DEMO_STORE_NAME,
           getStorage: () => localStorage,
           version: CURRENT_VERSION,
-          migrate: migrateDemoStore,
+          migrate: Service.migrateDemoStore,
         },
       ),
     ),

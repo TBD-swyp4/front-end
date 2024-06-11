@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
 import { useMutation } from 'react-query';
 import { deleteExpenseById } from '@service/expense';
 
 import useToast from '@hooks/useToast';
+import { useDemoStore } from '@stores/demoStore';
 
 const useDeleteExpense = (
   id: string | undefined,
@@ -10,8 +10,9 @@ const useDeleteExpense = (
   handleMovePrevPage: () => void,
 ) => {
   const { showToast } = useToast();
+  const deleteDemoExpense = useDemoStore((state) => state.deleteDemoExpense); // 체험하기용
 
-  const deleteMutate = useMutation(deleteExpenseById, {
+  const deleteExpenseMutation = useMutation(deleteExpenseById, {
     onSuccess: () => {
       handleMovePrevPage();
       showToast('삭제했습니다.');
@@ -23,19 +24,23 @@ const useDeleteExpense = (
     },
   });
 
-  // 임시 함수 (소비 삭제)
-  const demoMutate = useMemo(() => {
-    return {
-      mutate: (id: string | undefined) => {
-        alert(`demo delete: articleID = ${JSON.stringify(id)}`);
-        handleMovePrevPage();
-      },
-      isLoading: false,
-    };
-  }, [handleMovePrevPage]);
+  // [체험하기] 소비 데이터 삭제 로직
+  const deleteDemoExpenseMutation = {
+    mutate: (id: string | undefined) => {
+      if (id == undefined) {
+        alert('다시 시도해주세요.');
+        return;
+      }
+      deleteDemoExpense(id);
+      handleMovePrevPage();
+      showToast('삭제했습니다.');
+      console.log(`demo delete: articleId = ${JSON.stringify(id)}`);
+    },
+    isLoading: false,
+  };
 
-  if (isDemoMode) return demoMutate;
-  return deleteMutate;
+  if (isDemoMode) return deleteDemoExpenseMutation;
+  return deleteExpenseMutation;
 };
 
 export default useDeleteExpense;

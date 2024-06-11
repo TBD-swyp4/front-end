@@ -7,7 +7,7 @@ import {
   CURRENT_VERSION,
   DEMO_STORE_NAME,
 } from './storeConfig';
-import { initDemoState } from './service/demoService';
+import { initDemoState } from './services/demoService';
 
 type AuthStoreType = {
   userStatus: UserStatusType;
