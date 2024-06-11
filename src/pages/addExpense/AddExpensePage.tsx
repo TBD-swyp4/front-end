@@ -23,7 +23,7 @@ import type { ExpenseDetailDataType } from '@service/expense/types';
 
 const AddExpensePage = () => {
   const isDemoMode = useIsDemoMode();
-  const getExpensesCount = useDemoStore((state) => state.getExpensesCount);
+  const getDemoExpensesCount = useDemoStore((state) => state.getDemoExpensesCount);
 
   // 소비 입력 form
   const methods = useAddExpenseForm();
@@ -63,7 +63,7 @@ const AddExpensePage = () => {
   };
 
   // 체험모드일 경우, 최대 저장 개수만큼 데이터가 존재하면 로그인 유도 페이지로 연결
-  if (isDemoMode && getExpensesCount() >= MAX_EXPENSE_SIZE) {
+  if (isDemoMode && getDemoExpensesCount() >= MAX_EXPENSE_SIZE) {
     return (
       <GoLogin
         birdTop="120px"

@@ -14,7 +14,7 @@ const useExpenseData = (id: string | undefined, isDemoMode: boolean) => {
     refetchOnWindowFocus: false, // 윈도우 포커스 시, 자동 새로고침 방지
   });
 
-  // 체험하기 모드 소비 데이터 가져오기 로직
+  // [체험하기] 소비 데이터 가져오기 로직
   const getDemoExpenseById = useDemoStore((state) => state.getDemoExpenseById);
   let demoExpenseData: ExpenseDetailDataType | undefined;
   const tempExpenseData: ExpenseDetailDataType = useMemo(

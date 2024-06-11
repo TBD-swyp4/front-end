@@ -24,7 +24,7 @@ const useDeleteExpense = (
     },
   });
 
-  // 체험하기 모드 소비 데이터 삭제 로직
+  // [체험하기] 소비 데이터 삭제 로직
   const deleteDemoExpenseMutation = {
     mutate: (id: string | undefined) => {
       if (id == undefined) {

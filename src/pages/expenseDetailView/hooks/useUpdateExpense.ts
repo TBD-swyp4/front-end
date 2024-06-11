@@ -20,7 +20,7 @@ const useUpdateExpense = (id: string | undefined, isDemoMode: boolean) => {
     },
   });
 
-  // 체험하기 모드 소비 데이터 수정하기 로직
+  // [체험하기] 소비 데이터 수정하기 로직
   const updateDemoExpenseMutation = {
     mutate: (data: ExpenseDetailDataType) => {
       if (id == undefined) {

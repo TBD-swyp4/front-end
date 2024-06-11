@@ -7,6 +7,8 @@ import {
   endOfMonth,
   eachDayOfInterval,
   subDays,
+  isSameYear,
+  getMonth,
 } from 'date-fns';
 
 // #,##0 형식 formatter (숫자에 3자리씩 ',' 찍어주는 함수)
@@ -80,6 +82,14 @@ export const compareYMDString = (dateString: string, date: Date, format: string 
   const areSameDay = isSameDay(dateFromString, date);
 
   return areSameDay;
+};
+
+// 'yyyyMMdd' 형태의 문자열과 Date 객체를 비교하여 같은 년/월인지 돌려주는 함수
+export const compareYMString = (dateString: string, date: Date, format: string = 'yyyyMMdd') => {
+  // 문자열 날짜를 Date 객체로 변환
+  const dateFromString = parse(dateString, format, new Date());
+
+  return isSameYear(dateFromString, date) && getMonth(dateFromString) === getMonth(date);
 };
 
 export const convertToDateObject = (dateString: string, type: string = 'dash') => {
