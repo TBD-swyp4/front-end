@@ -2,6 +2,8 @@ import type { UserSettingDataType } from '@service/user/types';
 import type { ExpenseDetailDataType } from '@service/expense/types';
 import type { ExpenseFilterType } from '@models/expense';
 import type { MainDataType, MainSubDataType } from '@service/main/types';
+import type { DashboardDataType } from '@service/dashboard/types';
+import type { Register } from '@models/index';
 
 export type DemoExpenseDataType = ExpenseDetailDataType & { articleId: number };
 
@@ -27,6 +29,8 @@ export type DemoStoreType = DemoStoreStateType & {
 
   getDemoMainData: (selectDate: string) => MainDataType;
   getDemoMainSubData: (selectDate: string) => MainSubDataType;
+
+  getDemoDashboardData: (selectDate: string, registerType: Register) => DashboardDataType;
 };
 
 // localStorage의 객체가 DemoStoreState 타입인지 판단하는 타입 가드 선언

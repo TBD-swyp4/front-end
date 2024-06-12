@@ -1,5 +1,5 @@
 import { CURRENT_VERSION } from '@stores/storeConfig';
-import { type DemoStoreType, type DemoStoreStateType, isValidDemoStore } from './demoTypes';
+import { type DemoStoreType, type DemoStoreStateType, isValidDemoStore } from './types';
 
 // 상태 초기화
 export const initDemoState = (): DemoStoreStateType => ({

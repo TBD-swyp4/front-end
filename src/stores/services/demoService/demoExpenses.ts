@@ -1,7 +1,7 @@
 import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 
 import type { ExpenseDetailDataType } from '@service/expense/types';
-import type { DemoStoreType } from './demoTypes';
+import type { DemoStoreType } from './types';
 import type { ExpenseFilterType } from '@models/expense';
 
 export const getDemoExpenseById = (get: () => DemoStoreType, articleId: string) => {

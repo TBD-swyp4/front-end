@@ -1,17 +1,10 @@
 import type { MainDataType, MainSubDataType } from '@service/main/types';
-import type { DemoExpenseDataType, DemoStoreType } from './demoTypes';
+import type { DemoExpenseDataType, DemoStoreType } from './types';
 import type { EmotionKey, Register } from '@models/index';
 import type { MainMonthSpendType } from '@service/main/types';
 import type { ExpenseSummaryType } from '@models/expense';
-import { compareYMDString, compareYMString, formatFromServer } from '@utils/index';
 
-type TempDailyGroupedDataType = {
-  [date: string]: {
-    date: string;
-    daySpend: number;
-    daySave: number;
-  };
-};
+import { getGroupSumAmountsByDate, getSameYMDSpendList, getSameYMSpendList } from './util';
 
 export const getDemoMainData = (get: () => DemoStoreType, selectDate: string): MainDataType => {
   console.log(`demo main date : ${selectDate}`);
@@ -53,26 +46,6 @@ export const getDemoMainSubData = (
   return rtnData;
 };
 
-// 데모 데이터에서 년,월,일 동일한 날짜 찾기
-const getSameYMDSpendList = (
-  selectDate: string,
-  demoExpenses: DemoExpenseDataType[],
-): DemoExpenseDataType[] => {
-  return demoExpenses.filter((expense) => {
-    return compareYMDString(selectDate, formatFromServer(expense.spendDate));
-  });
-};
-
-// 데모 데이터에서 년,월 동일한 날짜 찾기
-const getSameYMSpendList = (
-  selectDate: string,
-  demoExpenses: DemoExpenseDataType[],
-): DemoExpenseDataType[] => {
-  return demoExpenses.filter((expense) => {
-    return compareYMString(selectDate, formatFromServer(expense.spendDate));
-  });
-};
-
 // 전달받은 DemoExpenseDataType 리스트에서 특정 regiesterType의 amount 합 구하기
 const calculateTotalAmountByRegisterType = (
   registerType: Register,
@@ -84,30 +57,13 @@ const calculateTotalAmountByRegisterType = (
 };
 
 const getDemoMonthSpendList = (demoExpenses: DemoExpenseDataType[]): MainMonthSpendType[] => {
-  // 날짜별로 데이터를 그룹화하고 합산
-  const initialGroupedData: TempDailyGroupedDataType = {};
-  const groupedData: TempDailyGroupedDataType = demoExpenses.reduce((acc, expense) => {
-    // `yyyy-MM-ddThh:mm:ss` -> yyyyMMdd 형태로 변환
-    const date = expense.spendDate.split('T')[0].replace(/-/g, '');
-    // 초기 객체 선언
-    if (!acc[date]) {
-      acc[date] = { date, daySpend: 0, daySave: 0 };
-    }
-    if (expense.registerType === 'SPEND') {
-      acc[date].daySpend += parseFloat(expense.amount);
-    } else if (expense.registerType === 'SAVE') {
-      acc[date].daySave += parseFloat(expense.amount);
-    }
-    return acc;
-  }, initialGroupedData);
-
-  // 날짜별 그룹화된 데이터를 원하는 형식으로 변환 및 필터링
+  const groupedData = getGroupSumAmountsByDate(demoExpenses);
+  // 날짜별 그룹화된 데이터에서 소비, 지출 합이 둘 다 0이 아닌 데이터를 배얼로 만든다.
   return Object.values(groupedData).filter(
     (expense) => expense.daySpend !== 0 || expense.daySave !== 0,
   );
 };
 
-//: ExpenseSummaryType[]
 const getDemoDaySpendList = (demoExpenses: DemoExpenseDataType[]): ExpenseSummaryType[] => {
   return demoExpenses.map((expense) => {
     const emotion: EmotionKey = expense.emotion || 'EVADED';

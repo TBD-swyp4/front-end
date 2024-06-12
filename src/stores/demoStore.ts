@@ -4,9 +4,10 @@ import { devtools, persist } from 'zustand/middleware';
 
 import * as Service from './services/demoService';
 
-import type { DemoStoreType } from './services/demoService/demoTypes';
+import type { DemoStoreType } from './services/demoService/types';
 import type { ExpenseFilterType } from '@models/expense';
 import type { ExpenseDetailDataType } from '@service/expense/types';
+import type { Register } from '@models/index';
 
 import { CURRENT_VERSION, DEMO_STORE_NAME } from './storeConfig';
 
@@ -34,6 +35,9 @@ export const useDemoStore = create<DemoStoreType>()(
 
           getDemoMainData: (selectDate: string) => Service.getDemoMainData(get, selectDate),
           getDemoMainSubData: (selectDate: string) => Service.getDemoMainSubData(get, selectDate),
+
+          getDemoDashboardData: (selectDate: string, registerType: Register) =>
+            Service.getDemoDashboardData(get, selectDate, registerType),
         }),
         {
           name: DEMO_STORE_NAME,
