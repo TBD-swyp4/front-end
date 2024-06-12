@@ -1,4 +1,4 @@
-import type { DemoStoreType } from './demoTypes';
+import type { DemoStoreType } from './types';
 
 export const setDemoUserSetting = (
   set: (fn: (state: DemoStoreType) => void) => void,
