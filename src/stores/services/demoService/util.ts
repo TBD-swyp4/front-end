@@ -1,6 +1,7 @@
 import { compareYMDString, compareYMString, formatFromServer } from '@utils/index';
 import type { DemoExpenseDataType } from './types';
 import type { EmotionKey } from '@models/index';
+import type { ExpenseFilterType } from '@models/expense';
 
 type DailyGroupedDataType = {
   [date: string]: {
@@ -85,4 +86,51 @@ export const getGroupSumAmountsByEmotion = (
   }, initialGroupedData);
 
   return groupedData;
+};
+
+export const getFilteredExpensesByCondition = (
+  condition: ExpenseFilterType,
+  demoExpenses: DemoExpenseDataType[],
+): DemoExpenseDataType[] => {
+  let filteredExpenses;
+  // 1. emotion 필터
+  filteredExpenses = demoExpenses.filter((expense) => {
+    if (expense.emotion === '') return false;
+    if (condition.emotion.length === 0) return true;
+    return condition.emotion.includes(expense.emotion);
+  });
+
+  // 2. registerType 필터
+  filteredExpenses = filteredExpenses.filter((expense) => {
+    if (condition.registerType.length === 0) return true;
+    return condition.registerType.includes(expense.registerType);
+  });
+
+  // 3. satisfaction 필터
+  filteredExpenses = filteredExpenses.filter((expense) => {
+    if (condition.satisfaction.length === 0) return true;
+    return condition.satisfaction.includes(expense.satisfaction);
+  });
+
+  // 4. word 필터
+  filteredExpenses = filteredExpenses.filter((expense) => {
+    if (condition.word === '') return true;
+    return (
+      expense.content.includes(condition.word) ||
+      expense.event.includes(condition.word) ||
+      expense.thought.includes(condition.word) ||
+      expense.reason.includes(condition.word) ||
+      expense.improvements.includes(condition.word)
+    );
+  });
+
+  // 5. 기간 필터
+  filteredExpenses = filteredExpenses.filter((expense) => {
+    return (
+      formatFromServer(expense.spendDate) >= condition.from &&
+      formatFromServer(expense.spendDate) <= condition.to
+    );
+  });
+
+  return filteredExpenses;
 };

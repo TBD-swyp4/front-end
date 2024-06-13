@@ -1,11 +1,14 @@
 import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 
-import type { ExpenseDetailDataType } from '@service/expense/types';
+import { formatFromServer } from '@utils/index';
+import { getFilteredExpensesByCondition } from './util';
+
+import type { ExpenseDetailDataType, ExpenseListDataType } from '@service/expense/types';
 import type { DemoStoreType } from './types';
-import type { ExpenseFilterType } from '@models/expense';
+import type { ExpenseFilterType, ExpenseSummaryType } from '@models/expense';
 
 export const getDemoExpenseById = (get: () => DemoStoreType, articleId: string) => {
-  return get().demoExpenses.find((expense) => expense.articleId === Number(articleId));
+  return get().demoExpenses.find((expense) => expense.articleId === parseInt(articleId));
 };
 
 export const addDemoExpense = (
@@ -32,7 +35,7 @@ export const updateDemoExpense = (
 ) => {
   set((state) => {
     const index = state.demoExpenses.findIndex(
-      (expense) => expense.articleId === Number(articleId),
+      (expense) => expense.articleId === parseInt(articleId),
     );
     if (index !== -1) {
       state.demoExpenses[index] = { ...state.demoExpenses[index], ...data };
@@ -46,17 +49,46 @@ export const deleteDemoExpense = (
 ) => {
   set((state) => {
     state.demoExpenses = state.demoExpenses.filter(
-      (expense) => expense.articleId !== Number(articleId),
+      (expense) => expense.articleId !== parseInt(articleId),
     );
   });
 };
 
-export const getDemoExpenseByCondition = (
+export const getDemoExpensesByCondition = (
   get: () => DemoStoreType,
   condition: ExpenseFilterType,
-) => {
+): ExpenseListDataType => {
   console.log(condition);
-  return get().demoExpenses.map((x) => x);
+
+  // 전체 소비 리스트 가져오기
+  const demoExpenses = get().demoExpenses;
+
+  // 1. 조건 필터링
+  const filteredExpenses = getFilteredExpensesByCondition(condition, demoExpenses);
+
+  // 2. spendDate 기준 최신순 정렬
+  const sortedExpenses = filteredExpenses.sort(
+    (a, b) => formatFromServer(b.spendDate).getTime() - formatFromServer(a.spendDate).getTime(),
+  );
+
+  // 3. Summary 형태로 변환하기
+  const demoSummaryExpenses: ExpenseSummaryType[] = sortedExpenses.map((expense) => {
+    return {
+      articleId: expense.articleId,
+      emotion: expense.emotion || 'EVADED', // emotion 빈 경우 default값 설정
+      satisfaction: expense.satisfaction,
+      content: expense.content,
+      amount: expense.amount,
+      registerType: expense.registerType,
+    };
+  });
+
+  // demoData는 최대 10개라 페이징 처리 제외함.
+  // 정렬은 최신순 고정
+  return {
+    nextPage: false,
+    spendList: demoSummaryExpenses,
+  };
 };
 
 export const getDemoExpensesCount = (get: () => DemoStoreType) => {

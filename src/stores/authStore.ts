@@ -8,6 +8,7 @@ import {
   DEMO_STORE_NAME,
 } from './storeConfig';
 import { initDemoState } from './services/demoService';
+import { useDemoStore } from './demoStore';
 
 type AuthStoreType = {
   userStatus: UserStatusType;
@@ -29,6 +30,9 @@ export const useAuthStore = create(
         window.localStorage.removeItem(ACCESS_TOKEN_NAME);
         // 로컬스토리지 Demo Data 삭제
         window.localStorage.setItem(DEMO_STORE_NAME, JSON.stringify(initDemoState()));
+        // DemoStore 초기화
+        useDemoStore.getState().initDemoExpenses();
+
         set(() => ({
           userStatus: UserStatus.LoggedOut,
         }));

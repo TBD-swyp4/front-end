@@ -59,7 +59,16 @@ const AddExpensePage = () => {
   const handleSaveSubmit = (data: ExpenseDetailDataType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    expenseSaveMutation.mutate({ ...data, amount: numberAmount });
+
+    // form 에서 가져온 값은 문자열이다.
+    let numberSatisfaction = data.satisfaction;
+    if (typeof numberSatisfaction === 'string') numberSatisfaction = parseInt(numberSatisfaction);
+
+    expenseSaveMutation.mutate({
+      ...data,
+      amount: numberAmount,
+      satisfaction: numberSatisfaction,
+    });
   };
 
   // 체험모드일 경우, 최대 저장 개수만큼 데이터가 존재하면 로그인 유도 페이지로 연결
