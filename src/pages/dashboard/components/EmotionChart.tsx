@@ -65,7 +65,7 @@ const EmotionChart = ({ data }: EmotionChartProps) => {
                 color: '#575755',
                 offsetY: 0,
                 formatter: (value) => {
-                  const percent = ((Number(value) / total) * 100).toFixed(1); // 퍼센트 계산
+                  const percent = ((parseInt(value) / total) * 100).toFixed(1); // 퍼센트 계산
                   return `${percent}%`; // 퍼센트 값 표시
                 },
               },

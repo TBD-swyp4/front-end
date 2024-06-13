@@ -96,7 +96,7 @@ const DailyChart = ({ date, data }: DailyChartProps) => {
         labels: {
           formatter: (val) => {
             if (val === minY || val === maxY) {
-              return `${addCommasToNumber(Number(val.toFixed(0)))}원`;
+              return `${addCommasToNumber(parseInt(val.toFixed(0)))}원`;
             }
             return '';
           },
@@ -129,7 +129,7 @@ const DailyChart = ({ date, data }: DailyChartProps) => {
       tooltip: {
         enabled: true,
         y: {
-          formatter: (val) => `${addCommasToNumber(Number(val.toFixed(0)))}원`, // 툴팁에서 값을 소수점 없이 표시
+          formatter: (val) => `${addCommasToNumber(parseInt(val.toFixed(0)))}원`, // 툴팁에서 값을 소수점 없이 표시
         },
       },
     },

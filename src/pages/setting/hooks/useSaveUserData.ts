@@ -22,7 +22,7 @@ const useSaveUserData = (isDemoMode: boolean) => {
   // [체험하기] 예산 저장 로직
   const saveDemoUserMutaion = {
     mutate: (data: UserFormType) => {
-      setDemoUserSetting(Number(data.budget));
+      setDemoUserSetting(parseInt(data.budget));
       showToast('저장했습니다.');
       console.log(`demo user save: ${JSON.stringify(data)}`);
     },

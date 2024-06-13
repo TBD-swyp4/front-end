@@ -78,7 +78,12 @@ const ExpenseDetailViewPage = () => {
   const handleUpdate = methods.handleSubmit((data: ExpenseDetailDataType) => {
     // amount: #,##0  => 다시 숫자만 남은 형태로 변경 필요
     const numberAmount = data.amount.replace(/,/g, '');
-    updateMutation.mutate({ ...data, amount: numberAmount });
+
+    // form 에서 가져온 값은 문자열이다.
+    let numberSatisfaction = data.satisfaction;
+    if (typeof numberSatisfaction === 'string') numberSatisfaction = parseInt(numberSatisfaction);
+
+    updateMutation.mutate({ ...data, amount: numberAmount, satisfaction: numberSatisfaction });
     toggleEditMode();
   });
 
@@ -123,7 +128,7 @@ const ExpenseDetailViewPage = () => {
 
   // ExpenseSummary Components Props
   const summaryProps = {
-    articleId: Number(paramId),
+    articleId: paramId ? parseInt(paramId) : -1,
     registerType: formState.registerType,
     amount: formState.amount,
     content: formState.content,
