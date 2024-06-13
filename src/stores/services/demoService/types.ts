@@ -1,5 +1,5 @@
 import type { UserSettingDataType } from '@service/user/types';
-import type { ExpenseDetailDataType } from '@service/expense/types';
+import type { ExpenseDetailDataType, ExpenseListDataType } from '@service/expense/types';
 import type { ExpenseFilterType } from '@models/expense';
 import type { MainDataType, MainSubDataType } from '@service/main/types';
 import type { DashboardDataType } from '@service/dashboard/types';
@@ -25,7 +25,7 @@ export type DemoStoreType = DemoStoreStateType & {
   // getter
   getDemoExpensesCount: () => number;
   getDemoExpenseById: (articleId: string) => ExpenseDetailDataType | undefined;
-  getDemoExpenseByCondition: (condition: ExpenseFilterType) => ExpenseDetailDataType[] | undefined;
+  getDemoExpensesByCondition: (condition: ExpenseFilterType) => ExpenseListDataType;
 
   getDemoMainData: (selectDate: string) => MainDataType;
   getDemoMainSubData: (selectDate: string) => MainSubDataType;

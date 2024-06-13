@@ -30,8 +30,8 @@ export const useDemoStore = create<DemoStoreType>()(
           // getter
           getDemoExpensesCount: () => Service.getDemoExpensesCount(get),
           getDemoExpenseById: (articleId: string) => Service.getDemoExpenseById(get, articleId),
-          getDemoExpenseByCondition: (condition: ExpenseFilterType) =>
-            Service.getDemoExpenseByCondition(get, condition),
+          getDemoExpensesByCondition: (condition: ExpenseFilterType) =>
+            Service.getDemoExpensesByCondition(get, condition),
 
           getDemoMainData: (selectDate: string) => Service.getDemoMainData(get, selectDate),
           getDemoMainSubData: (selectDate: string) => Service.getDemoMainSubData(get, selectDate),
