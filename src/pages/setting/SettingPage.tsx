@@ -17,7 +17,7 @@ import useSaveUserData from './hooks/useSaveUserData';
 import useUserData from './hooks/useUserData';
 import useLogout from './hooks/useLogout';
 
-import { formatAmountNumber } from '@utils/index';
+import { formatAmountNumber } from '@utils/numberUtils';
 
 const SettingPage = () => {
   const isDemoMode = useIsDemoMode();

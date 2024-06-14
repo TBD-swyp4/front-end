@@ -3,7 +3,7 @@ import { flexBetween, flexCenter } from '@styles/CommonStyles';
 
 import { PrevBtn } from '@components/button';
 
-import { formatYMD } from '@utils/index';
+import { formatYMD } from '@utils/dateUtils';
 import { startOfMonth, endOfMonth } from 'date-fns';
 
 type MonthNavigatorBtnProps = {

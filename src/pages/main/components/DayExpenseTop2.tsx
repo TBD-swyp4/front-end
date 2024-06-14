@@ -16,7 +16,7 @@ import ExpenseSummary from '@components/expense/ExpenseSummary';
 
 import type { ExpenseSummaryType } from '@models/expense';
 
-import { formatMD } from '@utils/index';
+import { formatMD } from '@utils/dateUtils';
 
 type DayExpenseListTop2Props = {
   data: ExpenseSummaryType[];

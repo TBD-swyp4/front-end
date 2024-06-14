@@ -7,7 +7,8 @@ import type { Register } from '@models/index';
 import type { DailyAmountsChartData } from './types';
 
 import { format } from 'date-fns';
-import { addCommasToNumber, getThirtyDaysDateObjArray } from '@utils/index';
+import { addCommasToNumber } from '@utils/numberUtils';
+import { getThirtyDaysDateObjArray } from '@utils/dateUtils';
 
 type DailyAmountProps = {
   date: Date;

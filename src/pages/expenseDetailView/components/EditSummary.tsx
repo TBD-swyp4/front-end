@@ -16,7 +16,7 @@ import Emotion from '@components/emotion';
 import MultiText from '@components/input/MultiText';
 
 import { EmotionKey, EmotionKeys } from '@models/index';
-import { formatAmountNumber } from '@utils/index';
+import { formatAmountNumber } from '@utils/numberUtils';
 
 type EditSummaryProps = {
   isEditMode: boolean;

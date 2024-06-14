@@ -7,7 +7,7 @@ import {
   summaryArea,
 } from '@styles/CommonStyles';
 import styled, { css } from 'styled-components';
-import { getSpendSumamryText } from '@utils/index';
+import { getSpendSumamryText } from '@utils/textsUtils';
 
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';

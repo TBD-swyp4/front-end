@@ -28,7 +28,8 @@ import LoadingModal from '@components/modal/LoadingModal';
 import { VolumeBtn } from '@components/button';
 import EditSummary from './components/EditSummary';
 
-import { formatAmountNumber, getSpendSumamryText } from '@utils/index';
+import { formatAmountNumber } from '@utils/numberUtils';
+import { getSpendSumamryText } from '@utils/textsUtils';
 import Spinner from '@components/information/Spinner';
 import { PagePath } from '@models/navigation';
 

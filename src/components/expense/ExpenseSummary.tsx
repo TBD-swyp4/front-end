@@ -7,7 +7,7 @@ import type { ExpenseSummaryType } from '@models/expense';
 import { getExpenseDetailViewPath } from '@models/navigation';
 
 import Emotion from '@components/emotion';
-import { addCommasToNumber } from '@utils/index';
+import { addCommasToNumber } from '@utils/numberUtils';
 
 type ExpenseSummaryProps = ExpenseSummaryType & {
   hideHeader?: boolean;

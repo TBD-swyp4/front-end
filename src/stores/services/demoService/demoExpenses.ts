@@ -1,6 +1,6 @@
 import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 
-import { formatFromServer } from '@utils/index';
+import { formatFromServer } from '@utils/dateUtils';
 import { getFilteredExpensesByCondition } from './util';
 
 import type { ExpenseDetailDataType, ExpenseListDataType } from '@service/expense/types';

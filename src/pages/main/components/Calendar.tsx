@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react';
 import type { MainMonthSpendType } from '@service/main/types';
 
 import { PrevBtn } from '@components/button';
-import { formatYM, compareYMDString, addCommasToNumber } from '@utils/index';
+
+import { formatYM, compareYMDString } from '@utils/dateUtils';
+import { addCommasToNumber } from '@utils/numberUtils';
+
 import {
   format,
   startOfMonth,

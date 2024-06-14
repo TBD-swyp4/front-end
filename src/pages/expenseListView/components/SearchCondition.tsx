@@ -11,7 +11,7 @@ import SlideModal from '@components/modal/SlideModal';
 import FilterPopup from './FilterPopup';
 
 import { cloneDeep } from 'lodash';
-import { formatYMD } from '@utils/index';
+import { formatYMD } from '@utils/dateUtils';
 
 type SearchConditionProps = {
   inputRef: React.RefObject<HTMLInputElement>;

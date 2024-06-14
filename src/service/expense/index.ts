@@ -1,6 +1,6 @@
 import axiosInstance from './../axios';
 
-import { formatYMD } from '@utils/index';
+import { formatYMD } from '@utils/dateUtils';
 import { EmotionKeys, Registers } from '@models/index';
 import type { ExpenseFilterType } from '@models/expense';
 import type { ExpenseAICommentType, ExpenseDetailDataType, ExpenseListDataType } from './types';

@@ -7,7 +7,7 @@ import EmotionList from './EmotionList';
 import type { DashboardDataType } from '@service/dashboard/types';
 import type { Register } from '@models/index';
 
-import { formatYM } from '@utils/index';
+import { formatYM } from '@utils/dateUtils';
 import DailyChart from './DailyChart';
 
 type EmotionContentProps = {

@@ -9,7 +9,7 @@ import {
   textArea,
   textAreaWrapper,
 } from '@styles/CommonStyles';
-import { formatAmountNumber } from '@utils/index';
+import { formatAmountNumber } from '@utils/numberUtils';
 import { useEffect, useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import styled from 'styled-components';
