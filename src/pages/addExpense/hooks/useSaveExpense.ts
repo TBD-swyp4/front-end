@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { saveExpenseData } from '@service/expense';
+import { saveExpenseData } from '@service/expense/expenseService';
 
 import useToast from '@hooks/useToast';
 import { getExpenseDetailViewPath } from '@models/navigation';

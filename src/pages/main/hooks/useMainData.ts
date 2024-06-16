@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { fetchMainData } from '@service/main';
+import { fetchMainData } from '@service/main/mainService';
 import { formatYMD } from '@utils/dateUtils';
 
 import type { MainDataType, MainSubDataType } from '@service/main/types';

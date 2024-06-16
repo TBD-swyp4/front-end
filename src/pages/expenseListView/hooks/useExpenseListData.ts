@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
-import { fetchExpensesByCondition } from '@service/expense';
+import { fetchExpensesByCondition } from '@service/expense/expenseService';
 import type { ExpenseFilterType } from '@models/expense';
 import type { ExpenseListDataType } from '@service/expense/types';
 import { useDemoStore } from '@stores/demoStore';

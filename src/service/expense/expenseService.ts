@@ -1,4 +1,4 @@
-import axiosInstance from './../axios';
+import axiosInstance from '../axios';
 
 import { formatYMD } from '@utils/dateUtils';
 import { EmotionKeys, Registers } from '@models/index';

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import {
   fetchDailyAmountsByGender,
   fetchDailyAmountsByMbti,
-} from '@service/statistics/dailyAmountAPI';
+} from '@service/statistics/dailyAmountService';
 
 import type { Register } from '@models/index';
 import type { TabOption } from '../../../type';

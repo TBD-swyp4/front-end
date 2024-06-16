@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { fetchDashboardData } from '@service/dashboard';
+import { fetchDashboardData } from '@service/dashboard/dashboardService';
 import { useDemoStore } from '@stores/demoStore';
 
 import { formatYMD } from '@utils/dateUtils';

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import {
   fetchEmotionAmountsByGender,
   fetchEmotionAmountsByMbti,
-} from '@service/statistics/emotionAmountAPI';
+} from '@service/statistics/emotionAmountService';
 
 import type { Register } from '@models/index';
 import type { TabOption } from '../../../type';
