@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts';
 
 import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
+import { getRegisterTypeText } from '@models/expense';
 import type { Register } from '@models/index';
 import type { DailyAmountsChartData } from './types';
 
@@ -46,7 +47,7 @@ const DailyAmounts = ({ date, dailyAmounts, registerType }: DailyAmountProps) =>
             key={index}
             message={
               <Message>
-                {registerType === 'SPEND' ? '지출' : '절약'}을 많이 한 날은
+                {getRegisterTypeText(registerType)}을 많이 한 날은
                 <br />
                 <span className="green">
                   {dailyAmount[0].name}는 {chartLabels[maxValues[0].index]}

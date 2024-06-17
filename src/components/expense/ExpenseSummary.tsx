@@ -3,7 +3,7 @@ import { flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import { useNavigate } from 'react-router-dom';
 
-import type { ExpenseSummaryType } from '@models/expense';
+import { getRegisterTypeText, type ExpenseSummaryType } from '@models/expense';
 import { getExpenseDetailViewPath } from '@models/navigation';
 
 import Emotion from '@components/emotion';
@@ -45,7 +45,8 @@ const ExpenseSummary = ({
           </InfoDataWrapper>
         </InfoItem>
         <InfoItem>
-          <span className="info-title">{registerType === 'SPEND' ? '지출' : '절약'}</span>
+          {/* 지출 or 절약 */}
+          <span className="info-title">{getRegisterTypeText(registerType)}</span>{' '}
           <InfoDataWrapper>
             <InfoData>{addCommasToNumber(amount)}</InfoData>
           </InfoDataWrapper>

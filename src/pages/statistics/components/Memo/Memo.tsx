@@ -8,6 +8,7 @@ import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
 
 import type { Register } from '@models/index';
+import { getRegisterTypeText } from '@models/expense';
 
 type MemoProps = {
   contents: {
@@ -27,7 +28,7 @@ const Memo = ({ contents, registerType }: MemoProps) => {
             isEmpty={user === 'NONE'}
             message={
               <Message $index={index}>
-                <span>{user}</span>는 {registerType === 'SPEND' ? '지출' : '절약'} 메모 중<br />
+                <span>{user}</span>는 {getRegisterTypeText(registerType)} 메모 중<br />
                 <span>&apos;{topWord}&apos;</span> 단어를 많이 썼어요
               </Message>
             }>

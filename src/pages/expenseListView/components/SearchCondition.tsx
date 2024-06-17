@@ -38,7 +38,11 @@ const SearchCondition = ({
         <SelectList onClick={toggleModal}>
           <Select>{`${formatYMD(condition.from)}-${formatYMD(condition.to)}`}</Select>
           {condition.registerType.length > 0 && (
-            <Select>{condition.registerType.map((x) => getRegisterTypeText(x)).join(',')}</Select>
+            <Select>
+              {condition.registerType
+                .map((register) => `${getRegisterTypeText(register)}했어요`)
+                .join(',')}
+            </Select>
           )}
           {condition.emotion.length > 0 && (
             <Select>

@@ -1,4 +1,6 @@
 import VoiceMultiText from '@components/input/VoiceMultiText';
+import { getRegisterTypeText } from '@models/expense';
+import { Registers } from '@models/index';
 import {
   addPageContainer,
   addPageSubject,
@@ -34,20 +36,22 @@ const WriteExpense = () => {
     <Container>
       <Subject>기록하고 싶은 지출/절약을 작성해 주세요.</Subject>
       <RegisterTypeContainer>
-        <CustomCheckboxContainer>
-          <Label className={activeLabel === 'SPEND' ? 'selected' : ''} htmlFor="spend">
-            지출했나요?
-          </Label>
-          <HiddenRadio id="spend" value="SPEND" {...register('registerType', { required: true })} />
-          <StyledCheckmark />
-        </CustomCheckboxContainer>
-        <CustomCheckboxContainer>
-          <Label className={activeLabel === 'SAVE' ? 'selected' : ''} htmlFor="save">
-            절약했나요?
-          </Label>
-          <HiddenRadio id="save" value="SAVE" {...register('registerType', { required: true })} />
-          <StyledCheckmark />
-        </CustomCheckboxContainer>
+        {Registers.map((registerType) => (
+          <CustomCheckboxContainer key={registerType}>
+            <Label
+              className={activeLabel === registerType ? 'selected' : ''}
+              htmlFor={registerType.toLowerCase()}>
+              {/* 지출했나요? or 절약했나요? */}
+              {`${getRegisterTypeText(registerType)}했나요?`}
+            </Label>
+            <HiddenRadio
+              id={registerType.toLowerCase()}
+              value={registerType}
+              {...register('registerType', { required: true })}
+            />
+            <StyledCheckmark />
+          </CustomCheckboxContainer>
+        ))}
       </RegisterTypeContainer>
 
       <ContentContainer>

@@ -7,8 +7,9 @@ import EmotionList from './EmotionList';
 import type { DashboardDataType } from '@service/dashboard/types';
 import type { Register } from '@models/index';
 
-import { formatYM } from '@utils/dateUtils';
 import DailyChart from './DailyChart';
+import { getRegisterTypeText } from '@models/expense';
+import { formatYM } from '@utils/dateUtils';
 
 type EmotionContentProps = {
   currentDate: Date;
@@ -18,7 +19,7 @@ type EmotionContentProps = {
 
 const TabContent = ({ currentDate, registerType, data }: EmotionContentProps) => {
   const isDataExist = data.dailyAmount?.length && data.dailyAmount.length !== 0;
-  const registerText = registerType == 'SPEND' ? '소비' : '절약';
+  const registerText = getRegisterTypeText(registerType);
   return (
     <Container>
       {!isDataExist ? (
