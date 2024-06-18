@@ -6,6 +6,7 @@ import Chart from 'react-apexcharts';
 
 import SwipeLayout from '@components/layout/SwipeLayout';
 import StatisticsContentLayout from '../StatisticsContentLayout';
+import { getRegisterTypeText } from '@models/expense';
 
 type SatisfactionProps = {
   satisfactions: {
@@ -24,7 +25,7 @@ const Satisfaction = ({ satisfactions, registerType }: SatisfactionProps) => {
             key={index}
             message={
               <Message>
-                {registerType === 'SPEND' ? '지출' : '절약'} 만족도는
+                {getRegisterTypeText(registerType)} 만족도는
                 <br />
                 <span className="green">
                   {name[0]}는 {data[0]}점

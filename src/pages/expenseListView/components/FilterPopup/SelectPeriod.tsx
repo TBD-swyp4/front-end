@@ -3,7 +3,7 @@ import { flexBetween, flexCenter } from '@styles/CommonStyles';
 
 import { useFormContext } from 'react-hook-form';
 
-import { formatYMD, convertToDateObject } from '@utils/index';
+import { formatYMD, convertToDateObject } from '@utils/dateUtils';
 
 const SelectPeriod = () => {
   const { setValue, watch } = useFormContext();

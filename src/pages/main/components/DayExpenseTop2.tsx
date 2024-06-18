@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import { PrevBtn } from '@components/button';
 
-import { useState } from 'react';
+import { useReducer } from 'react';
 
 import Modal from '@components/modal';
 import TopBar from '@components/layout/TopBar';
@@ -16,7 +16,7 @@ import ExpenseSummary from '@components/expense/ExpenseSummary';
 
 import type { ExpenseSummaryType } from '@models/expense';
 
-import { formatMD } from '@utils/index';
+import { formatMD } from '@utils/dateUtils';
 
 type DayExpenseListTop2Props = {
   data: ExpenseSummaryType[];
@@ -26,10 +26,7 @@ type DayExpenseListTop2Props = {
 const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
   const dataTop2 = data.slice(0, 2);
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const toggleModal = () => {
-    setShowModal((prev) => !prev);
-  };
+  const [showModal, toggleModal] = useReducer((state) => !state, false);
 
   return (
     <>

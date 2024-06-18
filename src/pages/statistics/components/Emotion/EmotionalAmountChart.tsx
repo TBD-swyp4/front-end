@@ -6,7 +6,8 @@ import StatisticsContentLayout from '../StatisticsContentLayout';
 import type { EmotionKey, Register } from '@models/index';
 import { Emotions, getEmotionText } from '@models/emotion';
 
-import { addCommasToNumber } from '@utils/index';
+import { addCommasToNumber } from '@utils/numberUtils';
+import { getRegisterTypeText } from '@models/expense';
 
 type EmotionalChartData = { type: EmotionKey; left: number; right: number }[];
 type EmotionChartProps = {
@@ -58,7 +59,7 @@ const EmotionalAmountChart = ({ dataList, registerType }: EmotionChartProps) => 
             key={index}
             message={
               <Message>
-                {registerType === 'SPEND' ? '지출' : '절약'} 시 많이 느끼는 감정은 <br />
+                {getRegisterTypeText(registerType)} 시 많이 느끼는 감정은 <br />
                 <span className="green">
                   {leftKey}는 {getEmotionText(leftTops[0])}
                 </span>

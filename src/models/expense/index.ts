@@ -26,8 +26,8 @@ type RegisterDetail = {
 type RegisterMap = Record<Register, RegisterDetail>;
 
 const RegisterTexts: Readonly<RegisterMap> = Object.freeze({
-  SPEND: { text: '지출했어요' },
-  SAVE: { text: '절약했어요' },
+  SPEND: { text: '지출' },
+  SAVE: { text: '절약' },
 } as const);
 
 export const getRegisterTypeText = (key: Register): string => {

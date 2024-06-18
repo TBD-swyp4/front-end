@@ -1,12 +1,15 @@
 import styled, { css } from 'styled-components';
 import { flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 import type { MainMonthSpendType } from '@service/main/types';
 
 import { PrevBtn } from '@components/button';
-import { formatYM, compareYMDString, addCommasToNumber } from '@utils/index';
+
+import { formatYM, compareYMDString } from '@utils/dateUtils';
+import { addCommasToNumber } from '@utils/numberUtils';
+
 import {
   format,
   startOfMonth,
@@ -27,7 +30,7 @@ type CalendarProps = {
 
 const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
   // 현재 달력에서 보여 줄 상태들 정의
-  const [showWeekOnly, setShowWeekOnly] = useState(true); // 주/ 월 달력 상태 추가
+  const [showWeekOnly, toggleWeekView] = useReducer((state) => !state, false); // 주.월 달력 상태 추가
   const currentMonth = startOfMonth(currentDate);
 
   // 초기 렌더링 시 필요한 오늘 날짜 데이터가 있는지 찾는다.
@@ -83,10 +86,6 @@ const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
     if (!isSameMonth(day, currentMonth)) return;
 
     setCurrentDate(day);
-  };
-
-  const toggleWeekView = () => {
-    setShowWeekOnly(!showWeekOnly);
   };
 
   // 넘겨받은 데이터와 보여줄 날짜를 바인딩

@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { saveUserData } from '@service/user';
+import { saveUserData } from '@service/user/userService';
 import useToast from '@hooks/useToast';
 import type { UserFormType } from '@models/user';
 import { useDemoStore } from '@stores/demoStore';

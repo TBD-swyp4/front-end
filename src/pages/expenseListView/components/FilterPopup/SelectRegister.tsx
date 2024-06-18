@@ -2,7 +2,8 @@ import { flexBetween, flexCenter } from '@styles/CommonStyles';
 import styled from 'styled-components';
 
 import { useFormContext } from 'react-hook-form';
-import { Register } from '@models/index';
+import { Register, Registers } from '@models/index';
+import { getRegisterTypeText } from '@models/expense';
 
 const SelectRegister = () => {
   const { setValue, watch, getValues } = useFormContext();
@@ -27,20 +28,18 @@ const SelectRegister = () => {
     <Container>
       <span className="sub-title">지출.절약</span>
       <CheckBoxContainer>
-        <HiddenCheckbox
-          id="filter-spend"
-          value="SPEND"
-          onChange={handleCheckboxChange}
-          checked={selectedOptions.includes('SPEND')}
-        />
-        <Label htmlFor="filter-spend">지출했어요</Label>
-        <HiddenCheckbox
-          id="filter-save"
-          value="SAVE"
-          onChange={handleCheckboxChange}
-          checked={selectedOptions.includes('SAVE')}
-        />
-        <Label htmlFor="filter-save">절약했어요</Label>
+        {Registers.map((registerType) => (
+          <div key={registerType}>
+            <HiddenCheckbox
+              id={`filter-${registerType.toLowerCase()}`}
+              value={registerType}
+              onChange={handleCheckboxChange}
+              checked={selectedOptions.includes(registerType)}
+            />
+            <Label
+              htmlFor={`filter-${registerType.toLowerCase()}`}>{`${getRegisterTypeText(registerType)}했어요`}</Label>
+          </div>
+        ))}
       </CheckBoxContainer>
     </Container>
   );

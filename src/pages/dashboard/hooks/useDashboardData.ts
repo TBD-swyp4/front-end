@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
-import { fetchDashboardData } from '@service/dashboard';
+import { fetchDashboardData } from '@service/dashboard/dashboardService';
 import { useDemoStore } from '@stores/demoStore';
 
-import { formatYMD } from '@utils/index';
+import { formatYMD } from '@utils/dateUtils';
 import type { Register } from '@models/index';
 import type { TabOption } from './../type';
 import type { DashboardDataType } from '@service/dashboard/types';

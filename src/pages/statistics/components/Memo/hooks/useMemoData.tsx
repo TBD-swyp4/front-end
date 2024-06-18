@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import {
   fetchWordFrequencyByGender,
   fetchWordFrequencyByMbti,
-} from '@service/statistics/frequencyAPI';
+} from '@service/statistics/frequencyService';
 
 import type { Register } from '@models/index';
 import type { TabOption } from '../../../type';

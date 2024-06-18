@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { divider, flexBetween, flexCenter, flexColumnCenter } from '@styles/CommonStyles';
 
 import type { EmotionAmountTotalType } from '@service/dashboard/types';
-import { addCommasToNumber, calculatePercentages } from '@utils/index';
+import { addCommasToNumber, calculatePercentages } from '@utils/numberUtils';
 import { getEmotionIcon, getEmotionText } from '@models/emotion';
 
 type EmotionChartProps = {

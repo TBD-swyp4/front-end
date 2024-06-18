@@ -7,9 +7,9 @@ import {
   summaryArea,
 } from '@styles/CommonStyles';
 import styled, { css } from 'styled-components';
-import { getSpendSumamryText } from '@utils/index';
+import { getSpendSumamryText } from '@utils/textsUtils';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import VoiceMultiText from '@components/input/VoiceMultiText';
@@ -33,11 +33,11 @@ const WriteEmotion = () => {
   const [isSelectEmotion, setIsSelectEmotion] = useState<boolean>(false);
   const [emotionText, setEmotionText] = useState<string>('없음');
   const [EmotionSVG, setEmotionSVG] = useState<React.ComponentType | null>(null);
+  const [showModal, toggleModal] = useReducer((state) => !state, false);
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const toggleModal = () => {
-    setShowModal((prev) => !prev);
-  };
+  // 활성화된 음성 인식 필드 상태
+  const [activeListeningField, setActiveListeningField] = useState<string | null>(null);
+
   const selectEmotion = (emotion: EmotionKey) => {
     setValue('emotion', emotion, { shouldValidate: true });
     updateEmotionState(emotion);
@@ -66,6 +66,8 @@ const WriteEmotion = () => {
             hookFormFieldName="event"
             title="사건"
             placeholder="예) 부장님이 소리 지름"
+            activeListeningField={activeListeningField}
+            setActiveListeningField={setActiveListeningField}
           />
         </EventContainer>
         <ThoughtContainer>
@@ -73,6 +75,8 @@ const WriteEmotion = () => {
             hookFormFieldName="thought"
             title="생각"
             placeholder="예) 별 일도 아닌데 왜저래?.."
+            activeListeningField={activeListeningField}
+            setActiveListeningField={setActiveListeningField}
           />
         </ThoughtContainer>
         <EmotionContainer>

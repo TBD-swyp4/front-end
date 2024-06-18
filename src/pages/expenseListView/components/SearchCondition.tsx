@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexCenter, flexColumnCenter, overflowWithoutScroll } from '@styles/CommonStyles';
 import { SearchBtn, FilterBtn } from '@components/button';
 
-import { useState } from 'react';
+import { useReducer } from 'react';
 
 import { getEmotionText } from '@models/emotion';
 import { type ExpenseFilterType, getRegisterTypeText } from '@models/expense';
@@ -11,7 +11,7 @@ import SlideModal from '@components/modal/SlideModal';
 import FilterPopup from './FilterPopup';
 
 import { cloneDeep } from 'lodash';
-import { formatYMD } from '@utils/index';
+import { formatYMD } from '@utils/dateUtils';
 
 type SearchConditionProps = {
   inputRef: React.RefObject<HTMLInputElement>;
@@ -26,8 +26,7 @@ const SearchCondition = ({
   handleKeyDown,
   updateCondition,
 }: SearchConditionProps) => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const toggleModal = () => setShowModal((prev) => !prev);
+  const [showModal, toggleModal] = useReducer((state) => !state, false); // 내림차순 = 최신순
 
   return (
     <Container>
@@ -38,7 +37,11 @@ const SearchCondition = ({
         <SelectList onClick={toggleModal}>
           <Select>{`${formatYMD(condition.from)}-${formatYMD(condition.to)}`}</Select>
           {condition.registerType.length > 0 && (
-            <Select>{condition.registerType.map((x) => getRegisterTypeText(x)).join(',')}</Select>
+            <Select>
+              {condition.registerType
+                .map((register) => `${getRegisterTypeText(register)}했어요`)
+                .join(',')}
+            </Select>
           )}
           {condition.emotion.length > 0 && (
             <Select>

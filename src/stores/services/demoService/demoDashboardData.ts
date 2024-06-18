@@ -37,7 +37,7 @@ const getDemoDailyAmount = (
 ): DailyAmountType[] => {
   const groupedData = getGroupSumAmountsByDate(demoExpenses);
 
-  // 날짜별 그룹화된 데이터에서 소비, 지출 합이 둘 다 0이 아닌 데이터를 배얼로 만든다.
+  // 날짜별 그룹화된 데이터에서 소비, 지출 합이 둘 다 0이 아닌 데이터를 배열로 만든다.
   return Object.values(groupedData).map((expense) => {
     return {
       date: expense.date,
@@ -52,7 +52,7 @@ const getDemoEmotionAmountTotal = (
 ): EmotionAmountTotalType[] => {
   const groupedData = getGroupSumAmountsByEmotion(demoExpenses);
 
-  // 감정별로 그룹화된 데이터에서 소비, 지출 합이 둘 다 0이 아닌 데이터를 배얼로 만든다.
+  // 감정별로 그룹화된 데이터에서 소비, 지출 합이 둘 다 0이 아닌 데이터를 배열로 만든다.
   return Object.values(groupedData).map((expense) => {
     return {
       emotion: expense.emotion,

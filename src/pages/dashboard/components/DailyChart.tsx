@@ -4,7 +4,8 @@ import ReactApexChart from 'react-apexcharts';
 import type { DailyAmountType } from '@service/dashboard/types';
 
 import { getDate } from 'date-fns';
-import { addCommasToNumber, compareYMDString, getTargetMonthDateObjArray } from '@utils/index';
+import { compareYMDString, getTargetMonthDateObjArray } from '@utils/dateUtils';
+import { addCommasToNumber } from '@utils/numberUtils';
 
 // 차트 옵션과 시리즈 데이터 타입 정의
 type ChartOptions = {

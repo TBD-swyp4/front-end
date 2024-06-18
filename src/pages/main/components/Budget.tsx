@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import type { MainBudgetType } from '@service/main/types';
 import { PagePath } from '@models/navigation';
 
-import { addCommasToNumber } from '@utils/index';
+import { addCommasToNumber } from '@utils/numberUtils';
 
 type BudgetProps = MainBudgetType;
 

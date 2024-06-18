@@ -8,7 +8,7 @@ import {
 } from '@styles/CommonStyles';
 import { PrevBtn } from '@components/button';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import useExpenseListData from './hooks/useExpenseListData';
 import useIsDemoMode from '@hooks/useIsDemo';
 
@@ -29,8 +29,7 @@ const ExpenseListViewPage = () => {
   const inputRef = useRef<HTMLInputElement>(null); // 검색창 input Ref
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const [isDesc, setIsDesc] = useState<boolean>(true); // 내림차순 = 최신순
-  const toggleDesc = () => setIsDesc((prev) => !prev);
+  const [isDesc, toggleDesc] = useReducer((state) => !state, false); // 내림차순 = 최신순
 
   const now = new Date();
 
