@@ -35,6 +35,9 @@ const WriteEmotion = () => {
   const [EmotionSVG, setEmotionSVG] = useState<React.ComponentType | null>(null);
   const [showModal, toggleModal] = useReducer((state) => !state, false);
 
+  // 활성화된 음성 인식 필드 상태
+  const [activeListeningField, setActiveListeningField] = useState<string | null>(null);
+
   const selectEmotion = (emotion: EmotionKey) => {
     setValue('emotion', emotion, { shouldValidate: true });
     updateEmotionState(emotion);
@@ -63,6 +66,8 @@ const WriteEmotion = () => {
             hookFormFieldName="event"
             title="사건"
             placeholder="예) 부장님이 소리 지름"
+            activeListeningField={activeListeningField}
+            setActiveListeningField={setActiveListeningField}
           />
         </EventContainer>
         <ThoughtContainer>
@@ -70,6 +75,8 @@ const WriteEmotion = () => {
             hookFormFieldName="thought"
             title="생각"
             placeholder="예) 별 일도 아닌데 왜저래?.."
+            activeListeningField={activeListeningField}
+            setActiveListeningField={setActiveListeningField}
           />
         </ThoughtContainer>
         <EmotionContainer>

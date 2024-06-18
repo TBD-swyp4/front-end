@@ -16,6 +16,9 @@ import { useEffect, useState } from 'react';
 const WriteSatisfaction = () => {
   const { register, watch } = useFormContext();
 
+  // 활성화된 음성 인식 필드 상태
+  const [activeListeningField, setActiveListeningField] = useState<string | null>(null);
+
   const satisfactionLabels = [1, 2, 3, 4, 5];
   const [activeLabel, setActiveLabel] = useState<number>(3);
   const selectedSatisfaction = watch('satisfaction');
@@ -51,6 +54,8 @@ const WriteSatisfaction = () => {
           hookFormFieldName="reason"
           title="이유"
           placeholder="예) 엽떡을 사먹어 버렸다. 매운건 스트레스가 풀리니까"
+          activeListeningField={activeListeningField}
+          setActiveListeningField={setActiveListeningField}
         />
       </ReasonContainer>
       <ImproveContainer>
@@ -58,6 +63,8 @@ const WriteSatisfaction = () => {
           hookFormFieldName="improvements"
           title="개선점"
           placeholder="예) 매운건 다음날 배아픈데 .. 다음부턴 좀 참아봐야겠다."
+          activeListeningField={activeListeningField}
+          setActiveListeningField={setActiveListeningField}
         />
       </ImproveContainer>
     </Container>

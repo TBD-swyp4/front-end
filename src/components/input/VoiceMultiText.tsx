@@ -6,12 +6,15 @@ import useVoiceMultiText from '@hooks/useVoiceMutlText';
 import { useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
-// react hook form + FormProvider 전용..
+// react hook form + FormProvider 전용
+// 한 페이지 내에서 여러개의 VoiceMultiText를 사용할 경우, ActiveListeningField를 넘겨 한번에 하나만 동작하게 해야함.
 type VoiceMultiTextProps = {
   hookFormFieldName: string;
   title?: string;
   placeholder?: string;
   isRequired?: boolean;
+  activeListeningField?: string | null;
+  setActiveListeningField?: (fieldName: string | null) => void;
 };
 
 const VoiceMultiText = ({
@@ -19,6 +22,8 @@ const VoiceMultiText = ({
   title = '내용',
   placeholder = '',
   isRequired = false,
+  activeListeningField = null,
+  setActiveListeningField,
 }: VoiceMultiTextProps) => {
   const { register, watch, getValues, setValue } = useFormContext();
 
@@ -35,10 +40,18 @@ const VoiceMultiText = ({
 
   const handleVoiceClick = () => {
     try {
+      if (activeListeningField && activeListeningField !== hookFormFieldName) {
+        alert('다른 필드가 음성 인식 중입니다.');
+        return;
+      }
       if (isListening) {
         stopListen();
+        // 활성화 field 이름 초기화
+        if (setActiveListeningField) setActiveListeningField(null);
       } else {
         startListen({ lang: 'ko', interimResults: false });
+        // 활성화 field 이름 update
+        if (setActiveListeningField) setActiveListeningField(hookFormFieldName);
       }
     } catch (err) {
       console.error(`음성 인식 오류: ${err}`);
