@@ -9,7 +9,7 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { useParams, useSearchParams } from 'react-router-dom';
 
@@ -57,11 +57,7 @@ const ExpenseDetailViewPage = () => {
 
   // 감정 선택 시 렌더링 필요
   const [selectEmotion, setSelectEmotion] = useState<EmotionKey>(formState.emotion as EmotionKey);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-
-  const toggleEditMode = () => {
-    setIsEditMode((prev) => !prev);
-  };
+  const [isEditMode, toggleEditMode] = useReducer((state) => !state, false);
 
   // 입력 페이지에서 넘어온 경우, 1. 뒤로가기 시 메인 화면으로 이동, 2. 삭제 시 메인화면으로 이동
   const handleMovePrevPage = () => {

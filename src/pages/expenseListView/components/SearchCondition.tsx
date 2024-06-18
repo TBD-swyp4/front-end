@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { flexCenter, flexColumnCenter, overflowWithoutScroll } from '@styles/CommonStyles';
 import { SearchBtn, FilterBtn } from '@components/button';
 
-import { useState } from 'react';
+import { useReducer } from 'react';
 
 import { getEmotionText } from '@models/emotion';
 import { type ExpenseFilterType, getRegisterTypeText } from '@models/expense';
@@ -26,8 +26,7 @@ const SearchCondition = ({
   handleKeyDown,
   updateCondition,
 }: SearchConditionProps) => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const toggleModal = () => setShowModal((prev) => !prev);
+  const [showModal, toggleModal] = useReducer((state) => !state, false); // 내림차순 = 최신순
 
   return (
     <Container>

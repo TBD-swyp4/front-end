@@ -9,7 +9,7 @@ import {
 import styled, { css } from 'styled-components';
 import { getSpendSumamryText } from '@utils/textsUtils';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import VoiceMultiText from '@components/input/VoiceMultiText';
@@ -33,11 +33,8 @@ const WriteEmotion = () => {
   const [isSelectEmotion, setIsSelectEmotion] = useState<boolean>(false);
   const [emotionText, setEmotionText] = useState<string>('없음');
   const [EmotionSVG, setEmotionSVG] = useState<React.ComponentType | null>(null);
+  const [showModal, toggleModal] = useReducer((state) => !state, false);
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const toggleModal = () => {
-    setShowModal((prev) => !prev);
-  };
   const selectEmotion = (emotion: EmotionKey) => {
     setValue('emotion', emotion, { shouldValidate: true });
     updateEmotionState(emotion);
