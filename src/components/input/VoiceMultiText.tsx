@@ -1,8 +1,10 @@
 import styled, { keyframes } from 'styled-components';
-import { flexCenter, textArea, textAreaWrapper } from '@styles/CommonStyles';
+import { flexCenter } from '@styles/CommonStyles';
 import { MikeBtn } from '@components/button';
 
 import useVoiceMultiText from '@hooks/useVoiceMutlText';
+import MultiText from './MultiText';
+
 import { useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
@@ -25,10 +27,7 @@ const VoiceMultiText = ({
   activeListeningField = null,
   setActiveListeningField,
 }: VoiceMultiTextProps) => {
-  const { register, watch, getValues, setValue } = useFormContext();
-
-  const textValue = watch(hookFormFieldName); // 'message' 필드의 현재 값을 실시간으로 관찰
-  const maxLength = 150; // #20240508.syjang, DB 용량 문제로 150자 제한으로 변경
+  const { getValues, setValue } = useFormContext();
 
   const handleVoiceResult = (result: string) => {
     const currentValue = getValues(hookFormFieldName);
@@ -68,15 +67,13 @@ const VoiceMultiText = ({
 
   return (
     <Container>
-      <TextAreaWrapper>
-        <span className="title">{title}</span>
-        <TextArea
-          maxLength={maxLength}
-          placeholder={placeholder}
-          {...register(hookFormFieldName, { required: isRequired })}
-        />
-        <span className="count">{`${textValue?.length || 0}/${maxLength}`}</span>
-      </TextAreaWrapper>
+      <MultiText
+        hookFormFieldName={hookFormFieldName}
+        title={title}
+        placeholder={placeholder}
+        isRequired={isRequired}
+        isDisable={false}
+      />
       <VoiceButton $listening={isListening} onClick={handleVoiceClick}>
         {isListening ? (
           <>
@@ -100,14 +97,6 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   gap: 10px;
-`;
-
-const TextAreaWrapper = styled.div`
-  ${textAreaWrapper}
-`;
-
-const TextArea = styled.textarea`
-  ${textArea}
 `;
 
 const VoiceButton = styled.div<{ $listening: boolean }>`
