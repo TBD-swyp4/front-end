@@ -84,7 +84,7 @@
 
 <summary>0️⃣ 체험하기</summary>
 
-![image](https://github.com/SpinLog/frontend/assets/137787915/aafd5f38-3163-46d0-a519-6c942ed6f997)
+<img width="200" alt="gif" src="https://github.com/SpinLog/frontend/assets/137787915/c0fb2bd3-e260-4718-92ef-dd1c34e16d0f">
 
 - 로그인 없이도 둘러보기 페이지를 제외한 서비스 이용 가능
 - 최대 소비 10개까지 작성 가능하며, 체험하기 종료 전까지 브라우저의 로컬 스토리지에 저장
