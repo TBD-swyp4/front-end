@@ -85,7 +85,7 @@ export const textAreaWrapper = css`
   justify-content: flex-start;
   padding: 14.5px 16px 2px 16px;
   width: 100%;
-  height: 100px;
+  height: 100%;
   gap: 5px;
 
   & span.title {
@@ -111,7 +111,7 @@ export const textAreaWrapper = css`
 
 export const textArea = css`
   width: 100%;
-  height: 100%;
+  height: auto;
   border: none;
   resize: none;
   font-size: 14px;
