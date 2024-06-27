@@ -14,7 +14,7 @@ import Modal from '@components/modal';
 import TopBar from '@components/layout/TopBar';
 import ExpenseSummary from '@components/expense/ExpenseSummary';
 
-import type { ExpenseSummaryType } from '@models/expense';
+import { getCombineRegisterTypeText, type ExpenseSummaryType } from '@models/expense';
 
 import { formatMD } from '@utils/dateUtils';
 
@@ -60,7 +60,7 @@ const DayExpenseListTop2 = ({ data, currentDate }: DayExpenseListTop2Props) => {
             <PopupHeader>
               <TopBar
                 leftContent={<TopBar.PrevButton onClick={toggleModal} />}
-                centerContent={<div>지출/절약 내역</div>}
+                centerContent={<div>{`${getCombineRegisterTypeText('/')} 내역`}</div>}
               />
             </PopupHeader>
             <PopupContent>

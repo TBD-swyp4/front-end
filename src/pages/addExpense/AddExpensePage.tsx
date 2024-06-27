@@ -21,6 +21,8 @@ import LoadingModal from '@components/modal/LoadingModal';
 import { MAX_EXPENSE_SIZE } from '@stores/storeConfig';
 import type { ExpenseDetailDataType } from '@service/expense/types';
 
+import { getCombineRegisterTypeText } from '@models/expense';
+
 const AddExpensePage = () => {
   const isDemoMode = useIsDemoMode();
   const getDemoExpensesCount = useDemoStore((state) => state.getDemoExpensesCount);
@@ -31,7 +33,7 @@ const AddExpensePage = () => {
   const expenseSaveMutation = useSaveExpense(isDemoMode);
 
   // 페이지 별 타이틀
-  const titleArr = ['지출/절약 입력', '감정 입력', '만족도 입력'];
+  const titleArr = [`${getCombineRegisterTypeText('/')} 입력`, '감정 입력', '만족도 입력'];
   const [title, setTitle] = useState<string>(titleArr[0]);
 
   // 입력 스탭

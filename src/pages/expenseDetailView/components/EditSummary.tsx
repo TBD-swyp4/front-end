@@ -15,8 +15,9 @@ import { useFormContext, Controller } from 'react-hook-form';
 import Emotion from '@components/emotion';
 import MultiText from '@components/input/MultiText';
 
-import { EmotionKey, EmotionKeys } from '@models/index';
+import { EmotionKey, EmotionKeys, Registers } from '@models/index';
 import { formatAmountNumber } from '@utils/numberUtils';
+import { getRegisterTypeText } from '@models/expense';
 
 type EditSummaryProps = {
   isEditMode: boolean;
@@ -42,20 +43,29 @@ const EditSummary = ({
   return (
     <>
       <div style={{ display: 'flex', width: '100%', gap: '10px' }}>
-        <GroupWrapper style={{ height: '80px' }}>
-          <span className="title">지출&nbsp;&nbsp;&nbsp;&nbsp;절약</span>
-          <span style={{ display: 'flex', gap: '10px', width: '100%' }}>
-            {/* 지출 */}
-            <HiddenRadio
-              id="spend"
-              value="SPEND"
-              {...register('registerType', { required: true })}
-            />
-            <CheckLabel htmlFor="spend" />
-            {/* 절약 */}
-            <HiddenRadio id="save" value="SAVE" {...register('registerType', { required: true })} />
-            <CheckLabel htmlFor="save" />
-          </span>
+        <GroupWrapper
+          style={{
+            height: '80px',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            gap: '15px',
+            padding: '10px',
+          }}>
+          {Registers.map((registerType) => {
+            return (
+              <div key={registerType} style={{ display: 'flex', flexDirection: 'column' }}>
+                <span className="title">{getRegisterTypeText(registerType)}</span>
+                <span style={{ display: 'flex', width: '100%' }}>
+                  <HiddenRadio
+                    id={registerType.toLowerCase()}
+                    value={registerType}
+                    {...register('registerType', { required: true })}
+                  />
+                  <CheckLabel htmlFor={registerType.toLowerCase()} />
+                </span>
+              </div>
+            );
+          })}
         </GroupWrapper>
         <GroupWrapper style={{ height: '80px' }}>
           <span className="title">날짜</span>

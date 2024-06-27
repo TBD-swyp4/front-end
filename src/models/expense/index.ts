@@ -33,3 +33,10 @@ const RegisterTexts: Readonly<RegisterMap> = Object.freeze({
 export const getRegisterTypeText = (key: Register): string => {
   return RegisterTexts[key].text;
 };
+
+// 넘겨받은 구분자로 registerType Text 전체를 합쳐서 돌려주는 함수
+export const getCombineRegisterTypeText = (combineText: string): string => {
+  return Object.values(RegisterTexts)
+    .map((detail) => detail.text)
+    .join(combineText);
+};
