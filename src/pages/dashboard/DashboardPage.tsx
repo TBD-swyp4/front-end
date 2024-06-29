@@ -12,6 +12,7 @@ import Spinner from '@components/information/Spinner';
 import { TabOption } from './type';
 
 import useIsDemoMode from '@hooks/useIsDemo';
+import { getRegisterTypeText } from '@models/expense';
 
 const DashboardPage = () => {
   const isDemoMode = useIsDemoMode();
@@ -36,7 +37,7 @@ const DashboardPage = () => {
   const tabData: TabProps<TabOption>[] = [
     {
       id: 'TAB_SPEND',
-      label: '지출',
+      label: getRegisterTypeText('SPEND'),
       content:
         !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>
@@ -46,7 +47,7 @@ const DashboardPage = () => {
     },
     {
       id: 'TAB_SAVE',
-      label: '절약',
+      label: getRegisterTypeText('SAVE'),
       content:
         !data || isLoading || error ? (
           <InfoWrapper>{error ? <div>An error occurred</div> : <Spinner />}</InfoWrapper>

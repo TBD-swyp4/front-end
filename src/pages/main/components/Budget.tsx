@@ -7,6 +7,7 @@ import type { MainBudgetType } from '@service/main/types';
 import { PagePath } from '@models/navigation';
 
 import { addCommasToNumber } from '@utils/numberUtils';
+import { getRegisterTypeText } from '@models/expense';
 
 type BudgetProps = MainBudgetType;
 
@@ -64,11 +65,11 @@ const Budget = ({ monthBudget, monthSpend, monthSave }: BudgetProps) => {
           <span className="info-price">{addCommasToNumber(monthBudget)}원</span>
         </InfoItem>
         <InfoItem>
-          <span className="info-text">지출</span>
+          <span className="info-text">{getRegisterTypeText('SPEND')}</span>
           <span className="info-price">-{addCommasToNumber(monthSpend)}원</span>
         </InfoItem>
         <InfoItem>
-          <span className="info-text">절약</span>
+          <span className="info-text">{getRegisterTypeText('SAVE')}</span>
           <span className="info-price">{addCommasToNumber(monthSave)}원</span>
         </InfoItem>
       </Info>

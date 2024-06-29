@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useFormContext } from 'react-hook-form';
 import { Register, Registers } from '@models/index';
-import { getRegisterTypeText } from '@models/expense';
+import { getCombineRegisterTypeText, getRegisterTypeText } from '@models/expense';
 
 const SelectRegister = () => {
   const { setValue, watch, getValues } = useFormContext();
@@ -26,7 +26,7 @@ const SelectRegister = () => {
 
   return (
     <Container>
-      <span className="sub-title">지출.절약</span>
+      <span className="sub-title">{getCombineRegisterTypeText('.')}</span>
       <CheckBoxContainer>
         {Registers.map((registerType) => (
           <div key={registerType}>

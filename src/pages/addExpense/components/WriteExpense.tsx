@@ -1,5 +1,5 @@
 import VoiceMultiText from '@components/input/VoiceMultiText';
-import { getRegisterTypeText } from '@models/expense';
+import { getCombineRegisterTypeText, getRegisterTypeText } from '@models/expense';
 import { Registers } from '@models/index';
 import {
   addPageContainer,
@@ -34,7 +34,7 @@ const WriteExpense = () => {
 
   return (
     <Container>
-      <Subject>기록하고 싶은 지출/절약을 작성해 주세요.</Subject>
+      <Subject>{`기록하고 싶은 ${getCombineRegisterTypeText('/')}을 작성해 주세요.`}</Subject>
       <RegisterTypeContainer>
         {Registers.map((registerType) => (
           <CustomCheckboxContainer key={registerType}>

@@ -7,6 +7,7 @@ import type { MainMonthSpendType } from '@service/main/types';
 
 import { PrevBtn } from '@components/button';
 
+import { getRegisterTypeText } from '@models/expense';
 import { formatYM, compareYMDString } from '@utils/dateUtils';
 import { addCommasToNumber } from '@utils/numberUtils';
 
@@ -106,8 +107,8 @@ const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
       <TitleWrapper>
         소비 달력
         <Label>
-          <LabelItem className="minus">지출</LabelItem>
-          <LabelItem>절약</LabelItem>
+          <LabelItem className="minus">{getRegisterTypeText('SPEND')}</LabelItem>
+          <LabelItem>{getRegisterTypeText('SAVE')}</LabelItem>
         </Label>
       </TitleWrapper>
       <WeekInfo>
@@ -141,12 +142,12 @@ const Calendar = ({ currentDate, setCurrentDate, data }: CalendarProps) => {
             <ExpenseDetail>
               {daySpend > 0 && (
                 <Detail className="spend">
-                  지출:<span>{`-${addCommasToNumber(daySpend)}원`}</span>
+                  {getRegisterTypeText('SPEND')}:<span>{`-${addCommasToNumber(daySpend)}원`}</span>
                 </Detail>
               )}
               {daySave > 0 && (
                 <Detail>
-                  절약:<span>{`+${addCommasToNumber(daySave)}원`}</span>
+                  {getRegisterTypeText('SAVE')}:<span>{`+${addCommasToNumber(daySave)}원`}</span>
                 </Detail>
               )}
             </ExpenseDetail>

@@ -1,3 +1,4 @@
+import { getRegisterTypeText } from '@models/expense';
 import styled from 'styled-components';
 
 type SlideButtonProps = {
@@ -12,8 +13,8 @@ const SlideButton = ({ isChecked, onChange }: SlideButtonProps) => {
   return (
     <Slider>
       <Container>
-        <UncheckedLabel $checked={isChecked}>지출</UncheckedLabel>
-        <CheckedLabel $checked={isChecked}>절약</CheckedLabel>
+        <UncheckedLabel $checked={isChecked}>{getRegisterTypeText('SPEND')}</UncheckedLabel>
+        <CheckedLabel $checked={isChecked}>{getRegisterTypeText('SAVE')}</CheckedLabel>
       </Container>
       <HiddenCheckbox checked={isChecked} onChange={handleToggleClick} />
       <Knob $checked={isChecked} />
