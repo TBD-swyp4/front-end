@@ -5,7 +5,18 @@ import 'styled-components';
 declare module 'styled-components' {
   export type DefaultTheme = {
     bgImage: string;
+    backgroundColor: {
+      layout: string;
+      navigation: string;
+      contentBox: string;
+    };
     colors: {
+      lightGreen: string;
+      white: string;
+      black: string;
+      lightBlack: string;
+      lightRed;
+
       main: string;
       font: string;
       background: string;

@@ -51,7 +51,7 @@ const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
       />
       {children}
       <BottomNavigation location={PagePath.ExpenseListView} />
-      {showBackground && <Background height="60px" color="#47CFB0" />}
+      {showBackground && <Background height="60px" />}
     </>
   );
 };

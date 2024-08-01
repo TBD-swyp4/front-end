@@ -187,7 +187,7 @@ const ExpenseListHeader = styled.div`
   flex-shrink: 0;
 
   & span.title {
-    color: ${(props) => props.theme.font};
+    color: ${(props) => props.theme.colors.lightBlack};
     font-size: 20px;
     font-weight: 700;
   }

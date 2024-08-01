@@ -61,7 +61,7 @@ const DateInput = styled.input.attrs({ type: 'date' })`
   border: 1px solid #bcbcbc;
   border-radius: 6px;
 
-  color: ${(props) => props.theme.colors.font};
+  color: ${(props) => props.theme.colors.lightBlack};
   font-size: 14px;
   font-weight: 500;
 `;

@@ -61,5 +61,5 @@ const LoginContainer = styled.div`
   height: 100%;
 
   color: #bcbcbc;
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => props.theme.backgroundColor.layout};
 `;

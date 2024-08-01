@@ -92,7 +92,7 @@ const Header = styled.div`
   font-size: 20px;
   font-weight: 700;
 
-  color: ${(props) => props.theme.colors.font};
+  color: ${(props) => props.theme.colors.lightBlack};
 
   margin-bottom: 30px;
 `;

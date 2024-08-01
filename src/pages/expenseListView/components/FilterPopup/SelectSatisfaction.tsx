@@ -78,7 +78,7 @@ const Label = styled.label`
     background-color 0.2s ease-out;
 
   ${HiddenCheckbox}:checked + & {
-    background-color: ${(props) => props.theme.colors.main};
+    background-color: ${(props) => props.theme.colors.lightGreen};
     color: #ffffff;
   }
 `;

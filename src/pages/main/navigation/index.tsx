@@ -72,7 +72,7 @@ const NavigationLayout = ({
       />
       {children}
       <BottomNavigation location={PagePath.Main} />
-      {showBackground && <Background height="36%" color="#47CFB0" />}
+      {showBackground && <Background height="36%" />}
     </>
   );
 };

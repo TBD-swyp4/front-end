@@ -81,7 +81,7 @@ export default SearchCondition;
 const Container = styled.div`
   ${flexColumnCenter}
   justify-content: flex-start;
-  background-color: ${(props) => props.theme.colors.main};
+  background-color: ${(props) => props.theme.colors.lightGreen};
   width: 100%;
   height: 130px;
   flex-shrink: 0;

@@ -80,7 +80,7 @@ const Wrapper = styled.nav`
   width: 100%;
   height: 95px; // 하단 네비게이션 바 높이
 
-  background-color: ${(props) => props.theme.colors.navBackground};
+  background-color: ${(props) => props.theme.backgroundColor.navigation};
   box-shadow: ${(props) => props.theme.shadows.on};
   padding-left: 20px;
   padding-right: 20px;

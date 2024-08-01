@@ -154,7 +154,7 @@ const Header = styled.header`
   & span.title {
     font-size: 20px;
     font-weight: 700;
-    color: ${(props) => props.theme.colors.font};
+    color: ${(props) => props.theme.colors.lightBlack};
   }
 
   margin-bottom: 30px;
@@ -178,7 +178,7 @@ const Content = styled.section`
   & span.sub-title {
     font-size: 16px;
     font-weight: 700;
-    color: ${(props) => props.theme.colors.font};
+    color: ${(props) => props.theme.colors.lightBlack};
   }
   & > div {
     flex-shrink: 0;
@@ -192,7 +192,7 @@ const ApplyButton = styled.button`
   margin-bottom: 10px;
   flex-shrink: 0;
   border-radius: 6px;
-  background-color: ${(props) => props.theme.colors.main};
+  background-color: ${(props) => props.theme.colors.lightGreen};
 
   color: #ffffff;
   font-size: 20px;
