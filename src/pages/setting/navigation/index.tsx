@@ -8,10 +8,9 @@ import { PagePath } from '@models/navigation';
 
 type NavLayoutProps = {
   children: React.ReactNode;
-  isDemoMode: boolean;
 };
 
-const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
+const NavigationLayout = ({ children }: NavLayoutProps) => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -27,14 +26,7 @@ const NavigationLayout = ({ children, isDemoMode }: NavLayoutProps) => {
         _TopBar={
           <TopNavigation.TopBar
             leftContent={<TopBar.PrevButton onClick={handlePrev} />}
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                내 정보
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47CFB0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
+            centerContent={<TopNavigation.TopBar.Title title="내 정보" />}
           />
         }
       />

@@ -88,11 +88,7 @@ const AddExpensePage = () => {
     );
   }
   return (
-    <NavigationLayout
-      hasPrev={currStep > 0}
-      prevStep={handlePrevStep}
-      title={title}
-      isDemoMode={isDemoMode}>
+    <NavigationLayout hasPrev={currStep > 0} prevStep={handlePrevStep} title={title}>
       <AddExpenseContainer>
         <FormProvider {...methods}>
           <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>

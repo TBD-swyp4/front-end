@@ -16,17 +16,6 @@ declare module 'styled-components' {
       black: string;
       lightBlack: string;
       lightRed;
-
-      main: string;
-      font: string;
-      background: string;
-      mainBackground: string;
-      footerArea: string;
-      button: string;
-      navFont: string;
-      navBackground: string;
-      contentBox: string;
-      minus: string;
     };
     shadows: {
       on: string;

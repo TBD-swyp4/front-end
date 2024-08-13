@@ -14,17 +14,6 @@ export const lightTheme: DefaultTheme = {
     black: '#000000',
     lightBlack: '#333331',
     lightRed: '#fc4873',
-
-    main: '#47CFB0',
-    font: '#333331',
-    background: '#f4f4f4',
-    mainBackground: '#47CFB0',
-    footerArea: '#fff',
-    button: '#47CFB0',
-    navFont: '#18D19E',
-    navBackground: '#fff',
-    contentBox: '#fff',
-    minus: '#fc4873',
   },
   shadows: {
     on: '0px -5px 10px -10px gray',

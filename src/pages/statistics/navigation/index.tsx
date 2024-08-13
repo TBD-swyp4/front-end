@@ -19,9 +19,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>둘러보기</TopNavigation.TopBar.CenterTitle>
-            }
+            centerContent={<TopNavigation.TopBar.Title title="둘러보기" />}
             rightContent={
               <TopNavigation.TopBar.SettingGrayButton
                 onClick={() => {

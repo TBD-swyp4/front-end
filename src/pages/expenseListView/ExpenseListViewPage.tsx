@@ -113,7 +113,7 @@ const ExpenseListViewPage = () => {
     : [];
 
   return (
-    <NavigationLayout isDemoMode={isDemoMode}>
+    <NavigationLayout>
       <ExpenseListViewContainer>
         <SearchCondition
           inputRef={inputRef}

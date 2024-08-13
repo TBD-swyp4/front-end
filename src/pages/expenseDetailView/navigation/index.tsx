@@ -8,7 +8,6 @@ type NavLayoutProps = {
   children: React.ReactNode;
   isValid: boolean;
   isEditMode: boolean;
-  isDemoMode: boolean;
   handleUpdate: () => void;
   handleDelete: () => void;
   handleMovePrevPage: () => void;
@@ -19,7 +18,6 @@ const NavigationLayout = ({
   children,
   isValid,
   isEditMode,
-  isDemoMode,
   handleUpdate,
   handleDelete,
   handleMovePrevPage,
@@ -34,14 +32,7 @@ const NavigationLayout = ({
             leftContent={
               !isEditMode && <TopNavigation.TopBar.PrevButton onClick={handleMovePrevPage} />
             }
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                작성완료 내역
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
+            centerContent={<TopNavigation.TopBar.Title title="작성완료 내역" />}
             rightContent={
               <Toolbar>
                 {isEditMode ? (

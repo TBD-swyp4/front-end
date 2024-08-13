@@ -63,7 +63,7 @@ const SettingPage = () => {
   }, [userData, methods, isLoadingUserData]);
 
   return (
-    <NavigationLayout isDemoMode={isDemoMode}>
+    <NavigationLayout>
       <SettingContainer>
         <Form onSubmit={methods.handleSubmit(handleSaveSubmit)}>
           <Title>나의 예산</Title>

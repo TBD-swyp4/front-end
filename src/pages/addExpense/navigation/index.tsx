@@ -6,12 +6,11 @@ import MetaThemeColor from '@components/background/MetaThemeColor';
 type AddNavProps = {
   children: React.ReactNode;
   title: string;
-  isDemoMode: boolean;
   hasPrev: boolean;
   prevStep: () => void;
 };
 
-const NavigationLayout = ({ children, title, isDemoMode, hasPrev, prevStep }: AddNavProps) => {
+const NavigationLayout = ({ children, title, hasPrev, prevStep }: AddNavProps) => {
   const navigate = useNavigate();
   return (
     <>
@@ -28,14 +27,7 @@ const NavigationLayout = ({ children, title, isDemoMode, hasPrev, prevStep }: Ad
                 />
               )
             }
-            centerContent={
-              <TopNavigation.TopBar.CenterTitle>
-                {title}
-                {isDemoMode && (
-                  <span style={{ fontSize: '12px', color: '#47cfb0' }}> (체험중)</span>
-                )}
-              </TopNavigation.TopBar.CenterTitle>
-            }
+            centerContent={<TopNavigation.TopBar.Title title={title} />}
             rightContent={
               <TopNavigation.TopBar.CloseButton
                 onClick={() => {

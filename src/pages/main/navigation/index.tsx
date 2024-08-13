@@ -47,13 +47,7 @@ const NavigationLayout = ({
         _TopBar={
           <TopNavigation.TopBar
             leftContent={<TopNavigation.TopBar.LogoWhiteButton />}
-            centerContent={
-              isDemoMode && (
-                <TopNavigation.TopBar.CenterTitle style={{ color: '#ffffffb5' }}>
-                  체험중
-                </TopNavigation.TopBar.CenterTitle>
-              )
-            }
+            centerContent={isDemoMode && <TopNavigation.TopBar.Title title="" isBackgroundGreen />}
             rightContent={
               <TopNavigation.TopBar.SettingGreenButton
                 style={mainColor}
