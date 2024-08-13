@@ -8,14 +8,20 @@ export const lightTheme: DefaultTheme = {
     navigation: '#ffffff',
     contentBox: '#ffffff',
   },
+  navigation: {
+    icon: '#bcbcbc',
+    title: '#a7acaa',
+  },
   colors: {
-    lightGreen: '#47CFB0',
+    lightGreen: '#47cfb0',
     white: '#ffffff',
     black: '#000000',
     lightBlack: '#333331',
     lightRed: '#fc4873',
+    lightGray: '#dddddd',
     gray: '#cccccc',
-    darkGray: '#666666',
+    darkLightGray: '#9f9f9f',
+    darkGray: '#575755',
   },
   shadows: {
     on: '0px -5px 10px -10px gray',

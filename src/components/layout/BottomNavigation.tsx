@@ -93,11 +93,12 @@ const NavItem = styled.div`
   height: 50px;
   gap: 5px;
 
-  &.select > a {
-    color: #47cfb0;
-  }
+  &.select > a,
   &.select > div {
-    color: #47cfb0;
+    color: ${(props) => props.theme.colors.lightGreen};
+  }
+
+  &.select > div {
     font-weight: 800;
   }
 `;
@@ -105,10 +106,10 @@ const NavItem = styled.div`
 const NavIcon = styled.a`
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
+  color: ${(props) => props.theme.navigation.icon};
 `;
 const NavTitle = styled.div`
-  color: #a7acaa;
+  color: ${(props) => props.theme.navigation.title};
   font-size: 12px;
   font-weight: 500;
 `;

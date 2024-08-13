@@ -15,7 +15,7 @@ const NavigationLayout = ({ children }: NavLayoutProps) => {
 
   return (
     <>
-      <MetaThemeColor color="#F4F4F4" />
+      <MetaThemeColor />
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar

@@ -146,7 +146,7 @@ const Button = styled.button`
 
   margin-bottom: 40px;
 
-  &:hover {
+  &:hover:not(:disabled) {
     filter: brightness(105%);
   }
 

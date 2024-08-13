@@ -14,7 +14,7 @@ const NavigationLayout = ({ children, title, hasPrev, prevStep }: AddNavProps) =
   const navigate = useNavigate();
   return (
     <>
-      <MetaThemeColor color="#F4F4F4" />
+      <MetaThemeColor />
       <TopNavigation
         _TopBar={
           <TopNavigation.TopBar

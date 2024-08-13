@@ -46,7 +46,7 @@ const LoginPage = () => {
 
   return (
     <LoginContainer>
-      <MetaThemeColor color="#F4F4F4" />
+      <MetaThemeColor />
       <SwipeContainer />
       <LoginButtonContainer />
     </LoginContainer>

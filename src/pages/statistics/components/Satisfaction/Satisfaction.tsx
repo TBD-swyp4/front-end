@@ -128,9 +128,9 @@ export default Satisfaction;
 
 const Message = styled.div`
   & > span.green {
-    color: #47cfb0;
+    color: ${(props) => props.theme.colors.lightGreen};
   }
   & > span.red {
-    color: #fc4873;
+    color: ${(props) => props.theme.colors.lightRed};
   }
 `;

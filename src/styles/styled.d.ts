@@ -10,13 +10,19 @@ declare module 'styled-components' {
       navigation: string;
       contentBox: string;
     };
+    navigation: {
+      icon: string;
+      title: string;
+    };
     colors: {
       lightGreen: string;
       white: string;
       black: string;
       lightBlack: string;
       lightRed: string;
+      lightGray: string;
       gray: string;
+      darkLightGray: string;
       darkGray: string;
     };
     shadows: {
