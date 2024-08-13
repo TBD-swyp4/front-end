@@ -121,7 +121,7 @@ const AddExpenseContainer = styled.div`
   ${flexColumnCenter}
   width: 100%;
   height: 100%;
-  color: black;
+  color: ${(props) => props.theme.colors.black};
   overflow: hidden;
 `;
 
@@ -138,21 +138,21 @@ const Button = styled.button`
   height: 60px;
 
   border-radius: 6px;
-  background-color: #47cfb0;
+  background-color: ${(props) => props.theme.colors.lightGreen};
 
-  color: #fff;
+  color: ${(props) => props.theme.colors.white};
   font-size: 20px;
   font-weight: 600;
 
   margin-bottom: 40px;
 
   &:hover {
-    background-color: #6ad5bc;
+    filter: brightness(105%);
   }
 
   &:disabled {
-    background-color: #ccc;
-    color: #666;
+    background-color: ${(props) => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.darkGray};
     cursor: not-allowed;
   }
 `;
