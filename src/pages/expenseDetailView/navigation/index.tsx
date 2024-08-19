@@ -67,7 +67,7 @@ const toolbarStyle = css`
   cursor: pointer;
 
   &:hover {
-    color: #47cfb0;
+    color: ${(props) => props.theme.colors.lightGreen};
   }
 `;
 
@@ -80,7 +80,7 @@ const DeleteButton = styled(TopNavigation.TopBar.DeleteButton)`
 `;
 
 const SaveButton = styled.button`
-  color: #47cfb0;
+  color: ${(props) => props.theme.colors.lightGreen};
   font-size: 16px;
   font-weight: 700;
   &:hover {

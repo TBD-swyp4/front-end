@@ -61,7 +61,7 @@ const Button = styled.div<{ $bottom: string }>`
   width: 358px;
   height: 60px;
   border-radius: 6px;
-  background-color: #47cfb0;
+  background-color: ${(props) => props.theme.colors.lightGreen};
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;

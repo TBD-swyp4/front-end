@@ -290,7 +290,7 @@ const AICommentButton = styled.div`
   ${flexCenter}
   width: 50px;
   height: 50px;
-  background-color: #dddddd;
+  background-color: ${(props) => props.theme.colors.lightGray};
   flex-shrink: 0;
   border-radius: 6px;
   color: #9f9f9f;
@@ -300,8 +300,8 @@ const AICommentButton = styled.div`
   cursor: not-allowed;
 
   &.able:hover {
-    background-color: #47cfb0;
-    color: #ffffff;
+    background-color: ${(props) => props.theme.colors.lightGreen};
+    color: ${(props) => props.theme.colors.white};
     cursor: pointer;
   }
 `;

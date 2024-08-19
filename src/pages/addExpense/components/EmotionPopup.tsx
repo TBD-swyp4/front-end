@@ -111,7 +111,7 @@ const PopupCloseBtn = styled(CloseBtn)`
 
 const SelectBtn = styled.div`
   ${flexCenter}
-  background-color: #47cfb0;
+  background-color:${(props) => props.theme.colors.lightGreen};
   width: 100%;
   height: 60px;
   color: #ffffff;

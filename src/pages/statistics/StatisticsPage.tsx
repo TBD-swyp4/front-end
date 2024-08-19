@@ -91,7 +91,7 @@ const OptionContainer = styled.div`
 `;
 
 const Period = styled.div`
-  color: #bcbcbc;
+  color: ${(props) => props.theme.colors.gray2};
   font-size: 12px;
 `;
 const StatisticsContainer = styled.div`

@@ -20,9 +20,13 @@ declare module 'styled-components' {
       black: string;
       lightBlack: string;
       lightRed: string;
+      red: string;
       lightGray: string;
+      lightGray2: string;
       gray: string;
+      gray2: string;
       darkLightGray: string;
+      darkLightGray2: string;
       darkGray: string;
     };
     shadows: {

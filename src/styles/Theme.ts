@@ -18,9 +18,13 @@ export const lightTheme: DefaultTheme = {
     black: '#000000',
     lightBlack: '#333331',
     lightRed: '#fc4873',
+    red: '#ff0000',
     lightGray: '#dddddd',
+    lightGray2: '#e3e3e3',
     gray: '#cccccc',
+    gray2: '#bcbcbc',
     darkLightGray: '#9f9f9f',
+    darkLightGray2: '#767676',
     darkGray: '#575755',
   },
   shadows: {
