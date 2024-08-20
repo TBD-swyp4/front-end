@@ -9,18 +9,22 @@ declare module 'styled-components' {
       layout: string;
       navigation: string;
       contentBox: string;
+      overlay: string;
     };
     navigation: {
       icon: string;
       title: string;
     };
     colors: {
+      jade: string;
       lightGreen: string;
       white: string;
       black: string;
       lightBlack: string;
+      transparentBlack: string;
       lightRed: string;
       red: string;
+      orange: string;
       lightGray: string;
       lightGray2: string;
       gray: string;

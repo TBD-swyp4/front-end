@@ -48,7 +48,7 @@ const DateContainer = styled.div`
   gap: 5px;
 
   & > span.divide {
-    color: #9f9f9f;
+    color: ${(props) => props.theme.colors.darkLightGray};
   }
 `;
 
@@ -58,7 +58,7 @@ const DateInput = styled.input.attrs({ type: 'date' })`
 
   padding: 10px;
 
-  border: 1px solid #bcbcbc;
+  border: 1px solid ${(props) => props.theme.colors.gray2};
   border-radius: 6px;
 
   color: ${(props) => props.theme.colors.lightBlack};

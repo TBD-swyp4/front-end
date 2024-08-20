@@ -126,7 +126,7 @@ const Bar = styled.div<{ $delay: number }>`
   width: 5px;
   height: 9px;
   border-radius: 100px;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.colors.white};
   animation: ${pulse} 1s infinite ease-in-out;
   animation-delay: ${(props) => props.$delay}s;
 `;

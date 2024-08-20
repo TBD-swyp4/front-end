@@ -63,7 +63,7 @@ const Toolbar = styled.div`
 const toolbarStyle = css`
   width: 24px;
   height: 24px;
-  color: #bcbcbc;
+  color: ${(props) => props.theme.colors.gray2};
   cursor: pointer;
 
   &:hover {
@@ -88,7 +88,7 @@ const SaveButton = styled.button`
   }
 
   &:disabled {
-    color: #ccc;
+    color: ${(props) => props.theme.colors.gray};
     cursor: not-allowed;
     &:hover {
       filter: none;
