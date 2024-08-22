@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import SettingGreenIcon from '@assets/images/icon/settingGreen.svg?react';
-import SettingGrayIcon from '@assets/images/icon/settingGray.svg?react';
 import PrevIcon from '@assets/images/icon/prevButton.svg?react';
 import CloseIcon from '@assets/images/icon/closeButton.svg?react';
 import LogoIcon from '@assets/images/icon/logoGreen.svg?react';
@@ -46,24 +44,6 @@ export const PrevBtn = styled(PrevIcon)`
   color:${(props) => props.theme.colors.darkLightGray2};
   width: 20px;
   height: 20px;
-`;
-
-export const SettingGreenBtn = styled(SettingGreenIcon)`
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.1); // 10% 크기 증가
-  }
-`;
-
-export const SettingGrayBtn = styled(SettingGrayIcon)`
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.1); // 10% 크기 증가
-  }
 `;
 
 export const LogoBtn = styled(LogoIcon)`

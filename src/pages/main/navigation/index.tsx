@@ -1,7 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import TopNavigation from '@layout/TopNavigation';
 import BottomNavigation from '@layout/BottomNavigation';
@@ -29,7 +28,6 @@ const NavigationLayout = ({
   previousMonth,
   nextMonth,
 }: MainNavProps) => {
-  const navigate = useNavigate();
   const theme = useTheme();
   const mainColor = { color: theme.colors.white };
   const monthNavProps = { currentDate, previousMonth, nextMonth, ...mainColor };
@@ -53,12 +51,7 @@ const NavigationLayout = ({
             rightContent={
               <>
                 <DarkModeButton></DarkModeButton>
-                <TopNavigation.TopBar.SettingGreenButton
-                  style={mainColor}
-                  onClick={() => {
-                    navigate(PagePath.Setting);
-                  }}
-                />
+                <TopNavigation.TopBar.Setting isWhite />
               </>
             }
           />

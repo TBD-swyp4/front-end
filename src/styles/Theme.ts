@@ -9,7 +9,12 @@ export const lightTheme: DefaultTheme = {
     contentBox: '#ffffff',
     overlay: 'rgba(0, 0, 0, 0.6)',
   },
-  navigation: {
+  topNavigation: {
+    iconGray: '#bcbcbc',
+    iconWhite: '#ffffff',
+    title: '',
+  },
+  bottomNavigation: {
     icon: '#bcbcbc',
     title: '#a7acaa',
   },
@@ -46,7 +51,12 @@ export const darkTheme: DefaultTheme = {
     contentBox: '#ffffff',
     overlay: 'rgba(0, 0, 0, 0.6)',
   },
-  navigation: {
+  topNavigation: {
+    iconGray: '#bcbcbc',
+    iconWhite: '#ffffff',
+    title: '',
+  },
+  bottomNavigation: {
     icon: '#bcbcbc',
     title: '#a7acaa',
   },
