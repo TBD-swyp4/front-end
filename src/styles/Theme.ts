@@ -12,7 +12,8 @@ export const lightTheme: DefaultTheme = {
   topNavigation: {
     iconGray: '#bcbcbc',
     iconWhite: '#ffffff',
-    title: '',
+    titleWhite: '#ffffff',
+    titleBlack: '#333331',
   },
   bottomNavigation: {
     icon: '#bcbcbc',
@@ -54,7 +55,8 @@ export const darkTheme: DefaultTheme = {
   topNavigation: {
     iconGray: '#bcbcbc',
     iconWhite: '#ffffff',
-    title: '',
+    titleWhite: '#ffffff',
+    titleBlack: '#333331',
   },
   bottomNavigation: {
     icon: '#bcbcbc',

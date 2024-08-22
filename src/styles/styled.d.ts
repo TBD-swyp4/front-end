@@ -14,7 +14,8 @@ declare module 'styled-components' {
     topNavigation: {
       iconGray: string;
       iconWhite: string;
-      title: string;
+      titleWhite: string;
+      titleBlack: string;
     };
     bottomNavigation: {
       icon: string;
