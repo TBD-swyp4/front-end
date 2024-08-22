@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { flexBetween, flexColumnCenter } from '@styles/CommonStyles';
-import { PrevBtn, LogoBtn, LogoWhiteBtn, TrashBtn, EditBtn } from '@components/button';
+import { LogoBtn, LogoWhiteBtn, TrashBtn, EditBtn } from '@components/button';
 import DemoText from '@components/information/DemoText';
 import GoSettingButton from '@components/button/GoSettingButton';
 
-import { XIcon } from '@components/icon';
+import { PrevIcon, XIcon } from '@components/icon';
 
 // top bar은 왼/중/오 세가지를 가진다.
 type TopBarProps = {
@@ -70,10 +70,14 @@ const CloseButton = styled(XIcon)`
   height: 25px;
   color: ${(props) => props.theme.colors.darkLightGray2};
 `;
+const PrevButton = styled(PrevIcon)`
+  width: 25px;
+  height: 25px;
+  color: ${(props) => props.theme.colors.darkLightGray2};
+`;
 
 // 이것 역시 가져다 쓰는 곳에서 topnavigation->topbar->closebutton으로 접근 가능해 import 구문이 필요 없다.
-TopBar.PrevButton = PrevBtn;
-TopBar.CloseButton = CloseButton;
+TopBar.PrevButton = PrevButton;
 TopBar.LogoButton = LogoBtn;
 TopBar.LogoWhiteButton = LogoWhiteBtn;
 
@@ -83,5 +87,6 @@ TopBar.EditButton = EditBtn;
 /// #20240822 수정 후
 TopBar.Title = Title;
 TopBar.Setting = GoSettingButton;
+TopBar.CloseButton = CloseButton;
 
 export default TopBar;

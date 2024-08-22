@@ -192,14 +192,3 @@ export const radioButtonLabelStyle = css`
     font-weight: 700;
   }
 `;
-
-export const commonButtonStyle = css`
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.1); // 10% 크기 증가
-  }
-  cursor: pointer;
-  &.disable {
-    cursor: not-allowed;
-  }
-`;

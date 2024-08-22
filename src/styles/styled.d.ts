@@ -33,6 +33,7 @@ declare module 'styled-components' {
       orange: string;
       lightGray: string;
       lightGray2: string;
+      lightGray3: string;
       gray: string;
       gray2: string;
       darkLightGray: string;

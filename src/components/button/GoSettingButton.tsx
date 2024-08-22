@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import { SettingIcon } from '@components/icon';
 import { PagePath } from '@models/navigation';
-import { commonButtonStyle } from '@styles/CommonStyles';
 import { useNavigate } from 'react-router-dom';
 
 type GoSettingButtonProps = {
@@ -25,7 +24,6 @@ const GoSettingButton = ({ isWhite = false }: GoSettingButtonProps) => {
 export default GoSettingButton;
 
 const Setting = styled(SettingIcon)<{ $isWhite: boolean }>`
-  ${commonButtonStyle}
   width: 24px;
   height: 24px;
   color: ${(props) =>
