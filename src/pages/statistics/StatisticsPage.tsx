@@ -4,7 +4,7 @@ import TabLayout, { TabProps } from '@components/layout/TabLayout';
 
 import { useState } from 'react';
 
-import type { TabOption } from './type';
+import { STATISTICS_TAB, type StatisticsTabOption } from './type';
 import type { Register } from '@models/index';
 
 import NavigationLayout from './navigation';
@@ -19,7 +19,7 @@ import EmotionalAmountChartContainer from './components/Emotion/EmotionalAmountC
 
 const StatisticsPage = () => {
   const [registerType, setRegisterType] = useState<Register>('SPEND');
-  const [selectedTab, setSelectedTab] = useState<TabOption>('TAB_MBTI');
+  const [selectedTab, setSelectedTab] = useState<StatisticsTabOption>(STATISTICS_TAB.MBTI);
 
   const yesterday = subDays(new Date(), 1);
   const nintyDaysBefore = subDays(yesterday, 29);
@@ -28,7 +28,7 @@ const StatisticsPage = () => {
     setRegisterType(registerType === 'SPEND' ? 'SAVE' : 'SPEND');
   };
   const handleTabSelect = (tabId: string) => {
-    setSelectedTab(tabId as TabOption);
+    setSelectedTab(tabId as StatisticsTabOption);
   };
 
   const categories: { id: string; name: string; component: JSX.Element }[] = [
@@ -54,14 +54,14 @@ const StatisticsPage = () => {
     },
   ];
 
-  const tabData: TabProps<TabOption>[] = [
+  const tabData: TabProps<StatisticsTabOption>[] = [
     {
-      id: 'TAB_MBTI',
+      id: STATISTICS_TAB.MBTI,
       label: 'MBTI별',
       content: <CategoriesView categories={categories} />,
     },
     {
-      id: 'TAB_GENDER',
+      id: STATISTICS_TAB.GENDER,
       label: '성별',
       content: <CategoriesView categories={categories} />,
     },

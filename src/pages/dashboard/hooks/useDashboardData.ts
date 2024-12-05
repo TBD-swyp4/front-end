@@ -4,12 +4,12 @@ import { useDemoStore } from '@stores/demoStore';
 
 import { formatYMD } from '@utils/dateUtils';
 import type { Register } from '@models/index';
-import type { TabOption } from './../type';
 import type { DashboardDataType } from '@service/dashboard/types';
+import { DashboardTabOption } from '../type';
 
 const useDashboardData = (
   currentDate: Date,
-  selectedTab: TabOption,
+  selectedTab: DashboardTabOption,
   registerType: Register,
   isDemoMode: boolean,
 ) => {

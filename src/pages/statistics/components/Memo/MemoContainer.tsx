@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import type { TabOption } from '../../type';
+import { STATISTICS_TAB, type StatisticsTabOption } from '../../type';
 import type { Register } from '@models/index';
 
 import Memo from './Memo';
@@ -109,7 +109,7 @@ const getFrequencyContentsForGender = (data: any) => {
 };
 
 type MemoContainerProps = {
-  tabOption: TabOption;
+  tabOption: StatisticsTabOption;
   register: Register;
 };
 
@@ -124,7 +124,7 @@ const MemoContainer = ({ tabOption, register }: MemoContainerProps) => {
   }
 
   const contents =
-    tabOption === 'TAB_GENDER'
+    tabOption === STATISTICS_TAB.GENDER
       ? getFrequencyContentsForGender(genderData)
       : getFrequencyContentsForMbti(mbtiData);
 

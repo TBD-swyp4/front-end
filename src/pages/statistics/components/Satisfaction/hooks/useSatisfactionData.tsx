@@ -6,21 +6,21 @@ import {
 } from '@service/statistics/satisfactionService';
 
 import type { Register } from '@models/index';
-import type { TabOption } from '../../../type';
+import { STATISTICS_TAB, type StatisticsTabOption } from '../../../type';
 
-const useSatisfactionData = (tabOption: TabOption, register: Register) => {
+const useSatisfactionData = (tabOption: StatisticsTabOption, register: Register) => {
   const { data: mbtiData, isLoading: isMbtiDataLoading } = useQuery(
     ['fetchSatisfactionByMbti', register],
     () => fetchSatisfactionByMbti(register),
     {
-      enabled: tabOption === 'TAB_MBTI',
+      enabled: tabOption === STATISTICS_TAB.MBTI,
     },
   );
   const { data: genderData, isLoading: isGenderDataLoading } = useQuery(
     ['fetchSatisfactionByGender', register],
     () => fetchSatisfactionByGender(register),
     {
-      enabled: tabOption === 'TAB_GENDER',
+      enabled: tabOption === STATISTICS_TAB.GENDER,
     },
   );
 
