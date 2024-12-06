@@ -1,11 +1,11 @@
-import { useQuery } from 'react-query';
-
+import type { Register } from '@models/index';
 import {
   fetchWordFrequencyByGender,
   fetchWordFrequencyByMbti,
 } from '@service/statistics/frequencyService';
 
-import type { Register } from '@models/index';
+import { useQuery } from 'react-query';
+
 import { STATISTICS_TAB, type StatisticsTabOption } from '../../../type';
 
 const useMemoData = (tabOption: StatisticsTabOption, register: Register) => {

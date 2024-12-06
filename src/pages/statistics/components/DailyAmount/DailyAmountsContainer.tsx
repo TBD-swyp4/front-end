@@ -1,13 +1,11 @@
+import Spinner from '@components/information/Spinner';
+import type { Gender, Register } from '@models/index';
+import { subDays } from 'date-fns';
 import styled from 'styled-components';
 
-import type { Gender, Register } from '@models/index';
 import { STATISTICS_TAB, type StatisticsTabOption } from '../../type';
-
 import DailyAmounts from './DailyAmounts';
 import useDailyAmountsData from './hooks/useDailyAmountsData';
-
-import Spinner from '@components/information/Spinner';
-import { subDays } from 'date-fns';
 
 const transformMbtiData = (
   input: {

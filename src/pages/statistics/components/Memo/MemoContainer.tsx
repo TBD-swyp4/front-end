@@ -1,11 +1,9 @@
+import Spinner from '@components/information/Spinner';
+import type { Register } from '@models/index';
 import styled from 'styled-components';
 
 import { STATISTICS_TAB, type StatisticsTabOption } from '../../type';
-import type { Register } from '@models/index';
-
 import Memo from './Memo';
-import Spinner from '@components/information/Spinner';
-
 import useMemoData from './hooks/useMemoData';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

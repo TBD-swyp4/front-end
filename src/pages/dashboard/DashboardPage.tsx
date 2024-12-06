@@ -1,16 +1,15 @@
+import Spinner from '@components/information/Spinner';
+import TabLayout, { TabProps } from '@components/layout/TabLayout';
+import useIsDemoMode from '@hooks/useIsDemo';
+import useMonthNavigator from '@hooks/useMonthNavigator';
+import { getRegisterTypeText } from '@models/expense';
 import styled from 'styled-components';
 
 import { useState } from 'react';
-import useMonthNavigator from '@hooks/useMonthNavigator';
-import useDashboardData from './hooks/useDashboardData';
 
-import NavigationLayout from './navigation';
-import TabLayout, { TabProps } from '@components/layout/TabLayout';
 import TabContent from './components/TabContent';
-import Spinner from '@components/information/Spinner';
-
-import useIsDemoMode from '@hooks/useIsDemo';
-import { getRegisterTypeText } from '@models/expense';
+import useDashboardData from './hooks/useDashboardData';
+import NavigationLayout from './navigation';
 import { DASHBOARD_TAB, type DashboardTabOption } from './type';
 
 const DashboardPage = () => {

@@ -1,11 +1,11 @@
-import { useQuery } from 'react-query';
-
+import type { Register } from '@models/index';
 import {
   fetchSatisfactionByGender,
   fetchSatisfactionByMbti,
 } from '@service/statistics/satisfactionService';
 
-import type { Register } from '@models/index';
+import { useQuery } from 'react-query';
+
 import { STATISTICS_TAB, type StatisticsTabOption } from '../../../type';
 
 const useSatisfactionData = (tabOption: StatisticsTabOption, register: Register) => {

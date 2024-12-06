@@ -1,9 +1,8 @@
+import Spinner from '@components/information/Spinner';
+import type { Gender, Register } from '@models/index';
 import styled from 'styled-components';
 
 import { STATISTICS_TAB, type StatisticsTabOption } from '../../type';
-import type { Gender, Register } from '@models/index';
-
-import Spinner from '@components/information/Spinner';
 import SatisFaction from './Satisfaction';
 import useSatisfactionData from './hooks/useSatisfactionData';
 

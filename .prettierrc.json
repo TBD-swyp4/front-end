@@ -1,4 +1,5 @@
 {
+  "endOfLine": "lf",
   "printWidth": 100,
   "trailingComma": "all",
   "tabWidth": 2,
@@ -7,5 +8,20 @@
   "bracketSpacing": true,
   "bracketSameLine": true,
   "arrowParens": "always",
-  "useTabs": false
+  "useTabs": false,
+  "importOrder": [
+    "^(react)(.*)$",
+    "^@/components/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/store/(.*)$",
+    "^@/styles/(.*)$",
+    "^@/lib/(.*)$",
+    "^@/types/(.*)$",
+    "^@/constants/(.*)$",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

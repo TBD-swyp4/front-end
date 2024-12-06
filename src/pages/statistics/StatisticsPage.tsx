@@ -1,21 +1,18 @@
-import styled from 'styled-components';
-
 import TabLayout, { TabProps } from '@components/layout/TabLayout';
+import type { Register } from '@models/index';
+import { format, subDays } from 'date-fns';
+import styled from 'styled-components';
 
 import { useState } from 'react';
 
-import { STATISTICS_TAB, type StatisticsTabOption } from './type';
-import type { Register } from '@models/index';
-
-import NavigationLayout from './navigation';
-import SlideButton from './components/SlideButton';
 import CategoriesView from './components/CategoriesView';
+import DailyAmountsContainer from './components/DailyAmount/DailyAmountsContainer';
+import EmotionalAmountChartContainer from './components/Emotion/EmotionalAmountChartContainer';
 import MemoContainer from './components/Memo/MemoContainer';
 import SatisfactionContainer from './components/Satisfaction/SatisfactionContainer';
-import DailyAmountsContainer from './components/DailyAmount/DailyAmountsContainer';
-
-import { format, subDays } from 'date-fns';
-import EmotionalAmountChartContainer from './components/Emotion/EmotionalAmountChartContainer';
+import SlideButton from './components/SlideButton';
+import NavigationLayout from './navigation';
+import { STATISTICS_TAB, type StatisticsTabOption } from './type';
 
 const StatisticsPage = () => {
   const [registerType, setRegisterType] = useState<Register>('SPEND');
